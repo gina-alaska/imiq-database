@@ -1,7 +1,7 @@
 USE [IARCOD]
 GO
 
-/****** Object:  View [dbo].[HOURLY_AirTemp]    Script Date: 01/30/2014 13:21:19 ******/
+/****** Object:  View [dbo].[HOURLY_AirTemp]    Script Date: 02/07/2014 10:04:13 ******/
 SET ANSI_NULLS ON
 GO
 

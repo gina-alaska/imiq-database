@@ -1,7 +1,7 @@
 USE [IARCOD]
 GO
 
-/****** Object:  View [dbo].[DataValuesAggregate]    Script Date: 01/13/2014 12:36:46 ******/
+/****** Object:  View [dbo].[DataValuesAggregate]    Script Date: 02/07/2014 09:54:31 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -12,12 +12,13 @@ GO
 
 
 
+
 CREATE view [dbo].[DataValuesAggregate] AS 
-SELECT DatastreamID, CONVERT(varchar(100), MIN(LocalDateTime), 120) AS BeginDateTime, CONVERT(varchar(100), MAX(LocalDateTime), 120) AS EndDateTime, 
+SELECT DatastreamID, OffsetValue, OffsetTypeID,CONVERT(varchar(100), MIN(LocalDateTime), 120) AS BeginDateTime, CONVERT(varchar(100), MAX(LocalDateTime), 120) AS EndDateTime, 
                CONVERT(varchar(100), DATEADD(Hour, -UTCOffset, MIN(LocalDateTime)), 120) AS BeginDateTimeUTC, CONVERT(varchar(100), DATEADD(Hour, -UTCOffset, 
                MAX(LocalDateTime)), 120) AS EndDateTimeUTC, COUNT(*) AS TotalValues
 FROM  dbo.DataValues
-GROUP BY DatastreamID,UTCOffset;
+GROUP BY DatastreamID,offsetvalue, offsettypeid,UTCOffset;
 
 
 
