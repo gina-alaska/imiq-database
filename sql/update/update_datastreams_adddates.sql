@@ -1,7 +1,3 @@
-/* Updates the 'Datastreams' table by grabbing the min and max 'LocalDateTime' from the 'DataValues' table 
-   Inserts updates into 'BDATE' and 'EDATE' columns
-*/
-
 declare @BeginDateTime as varchar(10), @EndDateTime as varchar(10),@datastreamID as int;
 
 DECLARE loop_cursor CURSOR FOR
@@ -15,7 +11,6 @@ BEGIN
          @EndDateTime= LTRIM(STR(YEAR(MAX(v.LocalDateTime))))+'-'+ RIGHT('0' + CAST(MONTH(MAX(v.LocalDateTime)) AS VARCHAR), 2) +'-'+RIGHT('0' + CAST(DAY(MAX(v.LocalDateTime)) AS VARCHAR), 2)
   from Datastreams d
   inner join DataValues v on v.DatastreamID=d.DatastreamID
-  where d.DatastreamID=@datastreamID
   GROUP BY v.DatastreamID,UTCOffset
 
  update Datastreams
