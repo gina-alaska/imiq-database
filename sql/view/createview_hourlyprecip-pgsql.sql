@@ -1,4 +1,3 @@
-
 create view hourly_precip as
 select
         v.valueid as valueid,
