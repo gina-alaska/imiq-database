@@ -20,8 +20,9 @@ BEGIN
   where SiteID=@siteID
   
   insert into sites_summary (SiteID,GeoLocation,BeginDate,EndDate) values(@siteID,@geolocation,@BeginDateTime,@EndDateTime)
+  select @BeginDateTime=NULL, @EndDateTime=NULL
   
 FETCH NEXT FROM site_loop_cursor INTO @siteID;
 END;
-CLOSE loop_cursor;
-DEALLOCATE loop_cursor;
+CLOSE site_loop_cursor;
+DEALLOCATE site_loop_cursor;
