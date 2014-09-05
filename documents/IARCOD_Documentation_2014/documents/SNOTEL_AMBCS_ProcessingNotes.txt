@@ -1,0 +1,22 @@
+The SNOTEL data was downloaded on March 20, 2014 from http://www.ambcs.org/dbArchive.htm.  
+The timesteps are daily, since Daniel Fischer, at AMBCS, told me that the hourly data does not have QA/QC.  
+The data was also downloaded from 'ambcs.org' and not the NRCS SNOTEL site, since Daniel Fischer had told me that not all of the daily parameters are QA/QCed  at NRCS, but they were all QA/QC for AMBCS.
+
+wget -O file --post-data="WaterYear=1966" http://www.ambcs.org/cgi-bin/TKyearSelect.cgi   #to get list of years
+wget -O file --post-data="WaterYear=1967" http://www.ambcs.org/cgi-bin/ambcsNames.cgi   # to get list of sites
+wget -O file --post-data="WaterYear=1966&site=COLORADO_C_BBM" http://www.ambcs.org/cgi-bin/showWaterYear.cgi  #to retrieve a site file
+I did do additionally changes to the data:
+
+1.  Soil Moisture values of 409.0 were set to NULL and a QualifierID was added to indicated the data value was pulled because it was a 409 value.
+2.  Water temperature values of -100.0 were set to NULL and a QualifierID was added to indicated the data value was pulled because it was a -100 value.
+3.  Wind direction values of -100.0 were set to NULL and a QualifierID was added to indicated the data value was pulled because it was a -100 value.
+4.  If the variable header sequence 'fTAC fTAC fTAC fTAC' was found, it was updated to 'fTAC fTAX fTAN fTAA'
+5.  Duplicate date ranges for SiteCode '46M05S' were deleted.  Date range was 2010/10/02 to 2010/10/31.
+6.  Removed the date '2001/02/29' from the files, since it was not valid.
+7.  Removed dates with '/00/', since they were not valid.
+8.  Removed dates with '//' since they were not valid.
+9.  Deleted a duplicate date range in iSWT, '1989/10/01 to 09/30/1990' for SiteCode 1174.
+10. Deleted 2043 years in iPST
+11.  Loaded in fTSC,pSMC: 2inches.  fTSD,pSMD: 4inches  fTSE,pSME: 8inches  fTSH,pSMH: 20 inches  pSMI: 40 inches .  Confirmed with Dan Kennedy that this was correct.
+12. Replaced 80.1 in the dWDA.txt file with '-99.9'.
+
