@@ -2,11 +2,11 @@
 #
 #**************************************************************************************
 #
-# File Name:  ~dba/tools/backup_scripts/POSTGRES/pg_drop_all_tables_schema-pgsql.bash
+# File Name:  ~dba/tools/backup_scripts/POSTGRES/pg_privs_all_tables_schema-pgsql.bash
 #
 # Author:     Cheryl L. Haase
 #
-# How to run:  ~dba/tools/backup_scripts/POSTGRES/create_database_redmine_privs-pgsql.bash
+# How to run:  ~dba/tools/backup_scripts/POSTGRES/pg_privs_all_tables_schema-pgsql.bash
 #
 # Permissions: Password to the Postgres userid 'pgsql' or 'postgres'. 
 #
@@ -31,40 +31,41 @@
 #  Date        Initials    Modification/Reason
 #  =======     ========    ============================================================================
 #
+#  9/13/2010  C. Haase    Initial version v0  
 #
 #########################################################################################################
-#
 #
 #----------------------------------------------------------------------------------------------------		
 #
 
-if [ "$#" -ne 2 ]; then
-	echo "Usage: $0 file 1=PostgresSID 2=Schema Name (views tables or both)"
+if [ "$#" -eq 0 ]; then
+	echo "Usage: $0 file 1=PostgresSID 2=Schema Name 3=Postgres User"
 	exit 1
 fi
-
 export POSTGRES_SID=$1
 export SCHEMA_NAME=$2
+export POSTGRES_USER=$3
 
 
-if [ $SCHEMA_NAME == "both" ]; then
-     export SCHEMA_LIST="tables views"
-elif [ $SCHEMA_NAME == "tables" ] || [ $SCHEMA_NAME == "views" ]; then
-     export SCHEMA_LIST=$SCHEMA_NAME
-else
-	  echo "Incorrect Schema name:  tables views or both"
-	  exit 1
-fi
-
-
-#########################################################################
+##########################################################################
 #
 # Environmental variables ==> SOURCE INCLUDE FILES
 #
-EXPORT_SOURCE=$HOME/tools/backup_scripts
+EXPORT_SOURCE=$HOME/tools/backup_scripts/POSTGRES
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
-    source $EXPORT_NAME
+echo "sourcing: "  $EXPORT_NAME
 done 
+
+        
+Print_Header
+
+
+ 
+#----------------------------------------------------------------------------
+#  Let the games begin.........................
+#----------------------------------------------------------------------------
+#
+
 
 Print_Blank_Line
 Print_Blank_Line
@@ -80,21 +81,20 @@ Print_Star_Line
 Print_Blank_Line  
 Print_Blank_Line   
 
-echo "DATABASE:      " $POSTGRES_SID 
-echo "SCHEMA_LIST:   " $SCHEMA_LIST  
-echo "POSTGRES_USER: " $POSTGRES_USER
 
-for SCHEMANAME in $SCHEMA_LIST; do
-	TABLE_LIST=`psql -d $POSTGRES_SID -U $POSTGRES -At -c "select distinct tablename from pg_tables where schemaname='$SCHEMANAME' order by tablename"` >> $LOG_FILE
-	for TABLENAME in $TABLE_LIST; do  
-    		TABLE_NAME=$SCHEMANAME"."$TABLENAME
-    		# and the Lord giveth to the worthy..............
-    		echo "Dropping : "  $POSTGRES_SID " " $TABLE_NAME 
-#    		$PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "drop table $TABLE_NAME cascade;" >> $LOG_FILE     
-	done  # tables
-done # schemas
+echo "POSTGRES_SID: " $POSTGRES_SID  >> $LOG_FILE 
+echo "SCHEMA_NAME: "   $SCHEMA_NAME    >> $LOG_FILE 
+echo "POSTGRES_USER: " $POSTGRES_USER  >> $LOG_FILE 
 
-#----------------------------------------------------------------------------
+TABLE_LIST=`psql -d $POSTGRES_SID -U $POSTGRES -At -c "select distinct tablename from pg_tables where schemaname='$SCHEMA_NAME' order by tablename"` >> $LOG_FILE
+for TABLENAME in $TABLE_LIST; do  
+    TABLE_NAME=$SCHEMA_NAME"."$TABLENAME
+    # and the Lord giveth to the worthy..............
+    $PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "alter table $TABLE_NAME owner to $POSTGRES_USER;"  >> $LOG_FILE     
+    $PSQL -d $POSTGRES_SID -U $POSTGRES -Atc "grant all on table $TABLE_NAME to $POSTGRES_USER;"   >> $LOG_FILE
+done  # tables
+
+--------------------------------------------------------------------
 # housekeeping
 #----------------------------------------------------------------------------
 

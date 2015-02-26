@@ -44,13 +44,12 @@ if [ "$#" -ne 2 ]; then
 fi
 export POSTGRES_SID=$1
 export POSTGRES_USER="imiq"
-#export POSTGRES_USER=$2
-#export SCHEMA_NAME=$2
 
-if [ $POSTGRES_SID != "iarcod" ] && [ $POSTGRES_SID != "iarcod_current" ]; then
-   echo "Incorrect database name:  iarcod iarcod_current"
-   exit 1
-fi
+
+# if [ $POSTGRES_SID != "iarcod" ] && [ $POSTGRES_SID != "iarcod_current" ] && [ $POSTGRES_SID != "iarcod_staging" ] && [ $POSTGRES_SID != "imiq_current" ] && [ $POSTGRES_SID != "imiq_staging" ] && [ $POSTGRES_SID != "iarcod_final_mssql_import" ]; then
+#   echo "Incorrect database name:  iarcod iarcod_current iarcod_staging imiq_current imiq_staging iarcod_final_mssql_import"
+#   exit 1
+#fi
 
 ##########################################
 #
@@ -60,10 +59,12 @@ EXPORT_SOURCE=$HOME/tools/backup_scripts
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
      echo "sourcing: "  $EXPORT_NAME
 done 
+if [ $ON_SEASIDE == $YES ]; then
+		export POSTGRES_USER="chaase"
+fi
 
 export AMY="asjacobs"
 export CHERYL="chaase"
-export IMIQ="imiq"
 
 
 ################################
@@ -79,10 +80,7 @@ export LOG_FILE="IMIQ_after_import-pgsql.bash.log"
 echo "============================ DATABASE INFORMATION ============================" >> $LOG_FILE
 
 echo "=====> DATABASE: "  $POSTGRES_SID         >> $LOG_FILE 
-echo "SCHEMA_NAME: "   $SCHEMA_NAME    >> $LOG_FILE 
 echo "POSTGRES_USER: " $POSTGRES_USER     >> $LOG_FILE 
-
-
 
 psql -d $POSTGRES_SID -U postgres -Atc "alter database $POSTGRES_SID owner to $POSTGRES_USER;"   >> $LOG_FILE 
 psql -d $POSTGRES_SID -U postgres -Atc "grant all on database $POSTGRES_SID to $POSTGRES_USER;"   >> $LOG_FILE  
@@ -113,58 +111,48 @@ psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema information_schem
 psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema pg_catalog to $CHERYL;"           >> $LOG_FILE 
 psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema information_schema to $CHERYL;"    >> $LOG_FILE 
 
-
-
 # the corresponding tables (in the tables schema) have this upon import from sql server db.
-echo "When importing the following tables (views), make column "valueid" is set as the primary key "  >> $LOG_FILE 
-# NOTE:  this is just for documentation purposes...the views are automatically selected out into 
-#        VIEW_LIST below  1) in the schema of "views" and 2) with prefixes of "daily_" or "hourly_"
-export VALUEID_TABLE_LIST="views.daily_airtemp 
-                           views.daily_airtempmax 
-                           views.daily_airtempmin 
-                           views.daily_discharge 
-                           views.daily_precip 
-                           views.daily_rh
-                           views.daily_snowdepth 
-                           views.daily_swe 
-                           views.dialy_watertemp
-                           views.daily_watertempstations     
-                           views.daily_winddirection 
-                           views.daily_windspeed 
-                           views.hourly_airtemp 
-                           views.hourly_precip
-                           views.hourly_rh 
-                           views.hourly_snowdepth 
-                           views.hourly_snowdepth 
-                           views.hourly_swe 
-                           views.hourly_winddirection  
-                           views.hourly_windspeed"   
+# ==> echo "When importing the following tables in schema views, make column valueid is set as the primary key "  >> $LOG_FILE 
+# commented out this because prefixes were being added all of the time...this needed to be more dynamic.
+
 VIEW_LIST=`psql -d $POSTGRES_SID -U postgres -Atc "select distinct tablename from pg_tables 
                                                    where schemaname='views' 
-                                                   and tablename LIKE 'daily_%' 
-    																or tablename LIKE 'hourly_%' 
-    																order by tablename"` >> $LOG_FILE	                                               		                                               
+                                                   and (tablename LIKE 'annual_%' 
+                                                   or tablename LIKE 'daily_%' 
+    	         				   or tablename LIKE 'hourly_%' 
+    	         				   or tablename LIKE 'monthly_%'
+    	         				   or tablename LIKE 'multiyear_%'
+    	         				   or tablename LIKE 'odmdatavalues%' )
+    						   order by tablename"` >> $LOG_FILE	                                               		                                               
+
 for VALUEID_TABLE_NAME in $VIEW_LIST; do
     psql  -d $POSTGRES_SID -U postgres -Atc "alter table views.$VALUEID_TABLE_NAME add primary key (valueid);"  >> $LOG_FILE 
 done
 
 
-echo "If prefix is daily, hourly, monthly, yearly or nasa make sure index set on column 'siteid' " >> $LOG_FILE
+#exit
+
+
+# ===> echo "if prefix is daily, hourly, monthly, yearly make sure index set on column 'siteid' " >> $LOG_FILE
 SCHEMA_LIST_USER="tables views"
+#SCHEMA_LIST_USER="views"
 for SCHEMANAME in $SCHEMA_LIST_USER; do
     TABLE_LIST=`psql -d $POSTGRES_SID -U postgres -Atc "select distinct tablename from pg_tables 
                                                         where schemaname='$SCHEMANAME' 
-                                                        and (tablename LIKE 'daily_%' 
-    																	  or tablename LIKE 'monthly_%' 
-    																	  or tablename LIKE 'hourly_%' 
-    		                                               or tablename LIKE 'yearly_%' 
-    		                                               or tablename LIKE 'nasa_%'
-    		                                               or  tablename = 'datastreams') order by tablename"` >> $LOG_FILE	                                               		                                               
+                                                        and (tablename LIKE 'annual_%' 
+                                                        or tablename LIKE 'daily_%'
+    						        or tablename LIKE 'monthly_%' 
+    						        or tablename LIKE 'multiyear_%' 
+    						        or tablename LIKE 'hourly_%' 
+    		                                        or tablename LIKE 'yearly_%' 
+    		                                        or tablename LIKE 'nasa_%'
+    		                                        or tablename LIKE 'odmdatavalues%' 
+    		                                        or  tablename = 'datastreams') order by tablename"` >> $LOG_FILE                                                  
     for TABLENAME in $TABLE_LIST; do  
         TABLE_NAME=$SCHEMANAME"."$TABLENAME
         INDEX_NAME=$TABLENAME"_siteid_idx"
         psql  -d $POSTGRES_SID -U postgres -Atc "drop index IF EXISTS $SCHEMANAME"."$INDEX_NAME cascade;"  >> $LOG_FILE 
-        psql  -d $POSTGRES_SID -U postgres -Atc "create index $INDEX_NAME on $TABLE_NAME (siteid);"  >> $LOG_FILE                   
+        psql  -d $POSTGRES_SID -U postgres -Atc "create index $INDEX_NAME on $TABLE_NAME (siteid);"  >> $LOG_FILE          
     done  # tables
 done  # schemas
 
