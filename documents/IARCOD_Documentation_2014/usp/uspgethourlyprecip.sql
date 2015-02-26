@@ -1,14 +1,12 @@
 USE [IARCOD]
 GO
 
-/****** Object:  StoredProcedure [dbo].[uspGetHourlyPrecip]    Script Date: 01/09/2015 13:48:40 ******/
+/****** Object:  StoredProcedure [dbo].[uspGetHourlyPrecip]    Script Date: 09/04/2014 10:35:51 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
-
 
 
 
@@ -130,54 +128,6 @@ BEGIN
 		DEALLOCATE max_cursor;
 	END
   
-    -- ARC LTER /hourly/mm, AST
-    -- VariableID = 823, SourceID = 144
-    
-    ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID= @SiteID AND @VarID=823)
-    BEGIN
-	    DECLARE max_cursor CURSOR FOR 
-		SELECT DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0)) as DateTimeUTC,MAX(dv.DataValue)
-		FROM ODMDataValues_metric AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID
-		GROUP BY DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0));
-        
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	        INSERT INTO HOURLY_PrecipDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeUTC, @SiteID, @VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-        END
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-	END
-	
-    -- AON /hourly/mm, AST
-    -- VariableID = 811, SourceID = 222
-    
-    ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID= @SiteID AND @VarID=811)
-    BEGIN
-	    DECLARE max_cursor CURSOR FOR 
-		SELECT DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0)) as DateTimeUTC,SUM(dv.DataValue)
-		FROM ODMDataValues_metric AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID
-		GROUP BY DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0));
-        
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	        INSERT INTO HOURLY_PrecipDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeUTC, @SiteID, @VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-        END
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-	END	
-	
     -- BLM/Kemenitz. Precip/mm/Hourly  SourceID = 199
     -- VariableID = 496 
     ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID= @SiteID AND @VarID=496)
@@ -371,8 +321,6 @@ BEGIN
 		DEALLOCATE max_cursor;
 	END     
 END
-
-
 
 
 

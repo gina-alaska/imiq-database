@@ -1,0 +1,17 @@
+raw = load '/Users/asjacobs/Documents/AWS/data/toolik_at_rh_2014.csv' using PigStorage(',') as (siteid:chararray,timestamp:chararray,at1:float,at3:float,rh1:float,rh3:float);
+has_at1 = FILTER raw by (at1 is not null and rh1 is not null and rh1 > 0  and (at3 is null or rh3 is null));
+both_at = FILTER raw by (at1 is not null and rh1 is not null and at3 is not null and rh3 is not null and rh3 > 0);
+both_dp = foreach both_at generate siteid,CONCAT(SUBSTRING(timestamp,0,11),'00:00:00') as timestamp,at1,(LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)+0.4926)/(0.0708-0.00421*LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)) as dew1,at3,(LOG((0.611*(EXP((17.3*at3)/(at3+237.3))))*rh3/100)+0.4926)/(0.0708-0.00421*LOG((0.611*(EXP((17.3*at3)/(at3+237.3))))*rh3/100)) as dew3; 
+both_avg = foreach both_dp generate ..timestamp, ((at3-at1)/2+at1) as avg_airtemp,((dew3-dew1)/2+dew1) as avg_dew;
+group_both = group both_avg by (siteid,timestamp);
+both_daily_avg = foreach group_both generate group,AVG(both_avg.avg_airtemp) as avg_airtemp,AVG(both_avg.avg_dew) as avg_dew;
+only_at_dp = foreach has_at1 generate siteid,CONCAT(SUBSTRING(timestamp,0,11),'00:00:00') as timestamp,at1,(LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)+0.4926)/(0.0708-0.00421*LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)) as dew1;
+group_only_at = group only_at_dp by (siteid,timestamp);
+only_at_avg = foreach group_only_at generate group.siteid,group.timestamp,AVG(only_at_dp.at1) as avg_airtemp,AVG(only_at_dp.dew1) as avg_dew;
+filter_both_avg = FILTER both_daily_avg by (avg_dew <= avg_airtemp);
+filter_only_at = FILTER only_at_avg by (avg_dew <= avg_airtemp);
+both_rh = foreach filter_both_avg generate group.siteid,group.timestamp, (0.611 * EXP((17.3 * avg_dew)/(avg_dew + 237.3))) / (0.611 * EXP((17.3 * avg_airtemp)/(avg_airtemp + 237.3))) * 100.0 as rel;
+only_at1_rh = foreach filter_only_at generate siteid,timestamp, (0.611 * EXP((17.3 * avg_dew)/(avg_dew + 237.3))) / (0.611 * EXP((17.3 * avg_airtemp)/(avg_airtemp + 237.3))) * 100.0 as rel; 
+union_rh = UNION only_at1_rh, both_rh;
+ordered_rh = ORDER union_rh BY siteid ASC,timestamp ASC;
+store ordered_rh into 'tookik_processed_daily_2014';

@@ -1,0 +1,11 @@
+raw = load '/Users/asjacobs/Documents/AWS/data/toolik_at_rh_2014.csv' using PigStorage(',') as (siteid:chararray,timestamp:chararray,at1:float,at3:float,rh1:float,rh3:float);
+has_at1 = FILTER raw by (at1 is not null and rh1 is not null and rh1 > 0  and (at3 is null or rh3 is null));
+both_at = FILTER raw by (at1 is not null and rh1 is not null and at3 is not null and rh3 is not null and rh3 > 0);
+both_dp = foreach both_at generate ..timestamp,at1,(LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)+0.4926)/(0.0708-0.00421*LOG((0.611*(EXP((17.3*at1)/(at1+237.3))))*rh1/100)) as dew1,at3,(LOG((0.611*(EXP((17.3*at3)/(at3+237.3))))*rh3/100)+0.4926)/(0.0708-0.00421*LOG((0.611*(EXP((17.3*at3)/(at3+237.3))))*rh3/100)) as dew3; 
+both_avg = foreach both_dp generate ..timestamp, ((at3-at1)/2+at1) as avg_airtemp,((dew3-dew1)/2+dew1) as avg_dew;
+filter_both_avg = FILTER both_avg by (avg_dew <= avg_airtemp);
+both_rh = foreach filter_both_avg generate ..timestamp, (0.611 * EXP((17.3 * avg_dew)/(avg_dew + 237.3))) / (0.611 * EXP((17.3 * avg_airtemp)/(avg_airtemp + 237.3))) * 100.0 as rel;
+only_at1_rh = foreach has_at1 generate ..timestamp, rh1 as rel; 
+union_rh = UNION only_at1_rh, both_rh;
+ordered_rh = ORDER union_rh BY siteid ASC,timestamp ASC;
+store ordered_rh into 'tookik_processed_hourly_2014';

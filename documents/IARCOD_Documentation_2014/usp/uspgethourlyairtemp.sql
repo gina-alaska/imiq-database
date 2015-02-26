@@ -1,15 +1,12 @@
 USE [IARCOD]
 GO
 
-/****** Object:  StoredProcedure [dbo].[uspGetHourlyAirTemp]    Script Date: 01/09/2015 13:48:27 ******/
+/****** Object:  StoredProcedure [dbo].[uspGetHourlyAirTemp]    Script Date: 09/04/2014 10:35:28 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
-
-
 
 
 
@@ -63,7 +60,7 @@ BEGIN
 		DEALLOCATE max_cursor;
     END
     -- UAF/WERC:  Temp/hourly/C, AST
-    -- VariableID = 81. SourceID = 29, 30, 31, 34,223
+    -- VariableID = 81. SourceID = 29, 30, 31, 34
     -- Need to make sure offset is 2m or 1.5m
     ELSE IF EXISTS (SELECT * FROM ODMDataValues_metric WHERE SiteID= @SiteID AND OriginalVariableID=81 AND (OffsetValue = 2 or OffsetValue = 1.5))
     BEGIN
@@ -402,64 +399,9 @@ BEGIN
                CLOSE max_cursor;
               DEALLOCATE max_cursor;
           END
- 
-     -- ARC LTER Temp/hourly/C, AST
-    -- VariableID = 819, SourceID = 144
-    -- 
-      ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID = @SiteID AND @VarID=819)
-      BEGIN
-	    DECLARE max_cursor CURSOR FOR 
-		SELECT DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0)) as DateTimeUTC,AVG(dv.DataValue)
-        FROM ODMDataValues_metric AS dv
-        WHERE dv.SiteID = @SiteID and dv.OriginalVariableID=@VarID 
-		GROUP BY DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0));
-        
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
+   
 
-	    WHILE @@FETCH_STATUS = 0
-
-	    BEGIN
-	        INSERT INTO HOURLY_AirTempDataValues (DataValue,UTCDateTime, SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeUTC,@SiteID,@VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-    END  
-
-     -- AON Temp/hourly/C, AST
-    -- VariableID = 786, SourceID = 222
-    -- 
-      ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID = @SiteID AND @VarID=786)
-      BEGIN
-	    DECLARE max_cursor CURSOR FOR 
-		SELECT DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0)) as DateTimeUTC,AVG(dv.DataValue)
-        FROM ODMDataValues_metric AS dv
-        WHERE dv.SiteID = @SiteID and dv.OriginalVariableID=@VarID 
-		GROUP BY DateAdd(hh, DATEPART(hh, DateTimeUTC), DateAdd(d, DateDiff(d, 0, DateTimeUTC), 0));
-        
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-
-	    BEGIN
-	        INSERT INTO HOURLY_AirTempDataValues (DataValue,UTCDateTime, SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeUTC,@SiteID,@VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeUTC, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-    END  
-  
-      
    END       
-
-
-
 
 
 

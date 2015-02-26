@@ -1,13 +1,12 @@
 USE [IARCOD]
 GO
 
-/****** Object:  StoredProcedure [dbo].[uspGetDailyAirTemp]    Script Date: 01/09/2015 13:43:54 ******/
+/****** Object:  StoredProcedure [dbo].[uspGetDailyAirTemp]    Script Date: 09/02/2014 13:50:52 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 
 
@@ -438,8 +437,8 @@ BEGIN
 		DEALLOCATE max_cursor;
 
     END 
-    -- UAF WERC  SourceID = 29,30,31,34,223
-    -- VariableID = 677, summary hourly air temp
+    -- UAF WERC  SourceID = 29,30,31,34
+    -- VariableID = 81
     -- Need to compute daily average from hourly
    ELSE IF EXISTS (SELECT * FROM ODMDataValues_metric WHERE SiteID= @SiteID AND @VarID=81)
     BEGIN
@@ -455,7 +454,7 @@ BEGIN
 	    WHILE @@FETCH_STATUS = 0
 	    BEGIN
 	       	INSERT INTO DAILY_AirTempDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeLocal,@SiteID,677,GETDATE());
+	        VALUES(@avgValue, @DateTimeLocal,@SiteID,@VarID,GETDATE());
 			FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
         END
 
@@ -761,108 +760,7 @@ BEGIN
               DEALLOCATE max_cursor;
 
 END
-
-	-- ARC LTER SourceID=144
-    -- VariableID = 819, summary hourly air temp (677)
-    -- Need to compute daily average from hourly
-   ELSE IF EXISTS (SELECT * FROM ODMDataValues_metric WHERE SiteID= @SiteID AND @VarID=819)
-    BEGIN
-	   	DECLARE max_cursor CURSOR FOR 
-		SELECT CONVERT(Date,dv.UTCDateTime), avg(dv.DataValue)
-		FROM HOURLY_AirTemp AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID
-		group by CONVERT(Date,dv.UTCDateTime)
-
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	       	INSERT INTO DAILY_AirTempDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeLocal,@SiteID,677,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-
-    END 
-  
- 	-- AON SourceID=222
-    -- VariableID = 786, summary hourly air temp (677)
-    -- Need to compute daily average from hourly
-   ELSE IF EXISTS (SELECT * FROM ODMDataValues_metric WHERE SiteID= @SiteID AND @VarID=786)
-    BEGIN
-	   	DECLARE max_cursor CURSOR FOR 
-		SELECT CONVERT(Date,dv.UTCDateTime), avg(dv.DataValue)
-		FROM HOURLY_AirTemp AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID
-		group by CONVERT(Date,dv.UTCDateTime)
-
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	       	INSERT INTO DAILY_AirTempDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeLocal,@SiteID,677,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-
-    END 
-      
-    -- Permafrost GI:  Temp/daily/C
-    -- VariableID = 550, SourceID =  224
-    ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID= @SiteID AND @VarID=550)
-    BEGIN
-	   	DECLARE max_cursor CURSOR FOR 
-		SELECT dv.LocalDateTime, dv.DataValue
-		FROM ODMDataValues_metric AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID;
-
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	       	INSERT INTO DAILY_AirTempDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeLocal,@SiteID,@VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-
-    END   
-    
-    -- GHCN Original Observation Scans:  Temp/daily/F
-    -- VariableID = 838, SourceID =  225
-    ELSE IF EXISTS (SELECT * FROM seriesCatalog WHERE SiteID= @SiteID AND @VarID=838)
-    BEGIN
-	   	DECLARE max_cursor CURSOR FOR 
-		SELECT dv.LocalDateTime, dv.DataValue
-		FROM ODMDataValues_metric AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableid=@VarID;
-
-	    OPEN max_cursor;
-		FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-
-	    WHILE @@FETCH_STATUS = 0
-	    BEGIN
-	       	INSERT INTO DAILY_AirTempDataValues (DataValue,UTCDateTime,SiteID,OriginalVariableID,InsertDate)
-	        VALUES(@avgValue, @DateTimeLocal,@SiteID,@VarID,GETDATE());
-			FETCH NEXT FROM max_cursor INTO @DateTimeLocal, @avgValue;
-        END
-
-	    CLOSE max_cursor;
-		DEALLOCATE max_cursor;
-
-    END   
 END
-
 
 
 
