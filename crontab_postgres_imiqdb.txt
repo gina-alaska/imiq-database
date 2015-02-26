@@ -1,0 +1,64 @@
+#  all emails go to me...duh.
+MAILTO="cheryl@gina.alaska.edu"
+#
+###########################################################################################
+#
+# NOTE: ==========> crontab cheat sheet:      
+# minute hour UNK UNK days_of_week   program(s)_to_run parameters_to_scripts
+# 0      18    *   *  0,1,2,3,4,5,6 /bin/bash  /home/dba/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE_AUTO_SYNC.bash  atn_dev  N Y Y yin.gina.alaska.edu
+#
+#  times:          0=MIDNIGHT, 13=1pm, 14=2pm, 15=3pm, 16=4pm, 17=5pm, 18=6pm, 19=7pm, 20=8pm, 21=9pm, 22=10pm, 23=11pm
+#  days_of_week:   0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+#
+#########################################################################################
+#
+# ===> BEFORE Backups do: 
+#  1)   Vaccummdb 
+#
+#0 15 * * 5 /usr/pgsql-9.1/bin/vacuumdb -a -z -f -e -U postgres
+0 15 * * 0 /usr/pgsql-9.1/bin/vacuumdb -d imiq_staging -z -e -U postgres
+#0 16 * * 0 /usr/pgsql-9.1/bin/vacuumdb -d imiq_production -z -e -U postgres
+#
+# 2) reindexdb
+#
+###########################################################################################################################################################################
+#
+#0 17 * * 0  /usr/pgsql-9.1/bin/reindexdb -a -U postgres
+0 18 * * 1,2,3,4,5,6  /usr/pgsql-9.1/bin/reindexdb -s -d imiq_staging -U postgres
+#0 19 * * 1,2,3,4,5,6 /usr/pgsql-9.1/bin/reindexdb -s -d imiq_production -U postgres
+#
+#########################################################################################################################################################################
+#
+# NOW Run the backups.....................
+#
+# Database Backups: db_name vacumming_db(Y/N) export_tables (Y/N)  export_schemas(Y/N) to_which_host_is_the_bup_to_be_ingested????
+#  gina_dba N Y Y yin.gina.alaska.edu ----> pg_dump gina_dba, No vacumming, Export_tables, Export_schemas, Ingest into gina_dba database on yin.gina.alaska.edu
+#
+#######################################################################################################################################################################
+#
+#   6 PM 
+#
+# 7 PM 
+#0 19 * * 0 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE_AUTO_SYNC.bash iarcod N Y Y seaside.gina.alaska.edu
+#10 16 * * 5 /bin/bash/ /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE.bash iarcod_current N Y Y 
+#10 19 * * 6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE.bash iarcod_staging N Y Y 
+# ========> NEW ONES ADDED BELOW TO GZIP EACH TABLE PG_DUMP FILE <========================================================
+#10 19 * * 6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE-IMIQDB.bash imiq_staging N N Y D imiqdb.gina.alaska.edu blah ALL
+#10 20 * * 6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE-IMIQDB.bash imiq_map_production N N Y D imiqdb.gina.alaska.edu blah ALL
+#10 20 * * 6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE_COMPRESS.bash <database_name> N N Y Y 
+#====>this one CLONES one database to another NEW database and does NOT put the dumps to a file:  clones what is in imiq_staging to imiq_current
+#10 19 * * 6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE-IMIQ.bash imiq_staging N N Y C imiqdb.gina.alaska.edu imiq_current ALL
+#===> above is CLONE example  
+#20 19 * * 0 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE_AUTO_SYNC.bash imiq_map_production N Y Y  yin.gina.alaska.edu
+# 8 pm
+# 9 pm
+#
+#
+# 3 AM and 3 PM
+0 03,15 * * 0,1,2,3,4,5,6 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/dba_checks_PARMS-pgsql.bash
+#
+#############################################################################################################################################################
+#
+# ===========================> CLUSTER DUMPS
+##  1=vacummdb/reindex 2=globals 3=roles 4=schemas 5=tablespaces 6=data 7=all 8=debug
+0 23 * * 0 /bin/bash /home/postgres/tools/backup_scripts/POSTGRES/pg_dumpall_PARMS.bash N Y Y Y Y N N N
