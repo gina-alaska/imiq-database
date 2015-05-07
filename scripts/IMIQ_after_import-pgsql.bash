@@ -59,9 +59,9 @@ EXPORT_SOURCE=$HOME/tools/backup_scripts
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
      echo "sourcing: "  $EXPORT_NAME
 done 
-if [ $ON_SEASIDE == $YES ]; then
-		export POSTGRES_USER="chaase"
-fi
+#if [ $ON_SEASIDE == $YES ]; then
+#		export POSTGRES_USER="chaase"
+#fi
 
 export AMY="asjacobs"
 export CHERYL="chaase"
@@ -77,17 +77,18 @@ export CHERYL="chaase"
 export LOG_FILE="IMIQ_after_import-pgsql.bash.log"
 
 
-echo "============================ DATABASE INFORMATION ============================" >> $LOG_FILE
+echo "============================ DATABASE INFORMATION ============================" > $LOG_FILE
 
 echo "=====> DATABASE: "  $POSTGRES_SID         >> $LOG_FILE 
 echo "POSTGRES_USER: " $POSTGRES_USER     >> $LOG_FILE 
 
 psql -d $POSTGRES_SID -U postgres -Atc "alter database $POSTGRES_SID owner to $POSTGRES_USER;"   >> $LOG_FILE 
 psql -d $POSTGRES_SID -U postgres -Atc "grant all on database $POSTGRES_SID to $POSTGRES_USER;"   >> $LOG_FILE  
-psql -d $POSTGRES_SID -U postgres -Atc "grant usage on database $POSTGRES_SID to $AMY;"   >> $LOG_FILE  
+psql -d $POSTGRES_SID -U postgres -Atc "grant all on database $POSTGRES_SID to $AMY;"   >> $LOG_FILE  
 psql -d $POSTGRES_SID -U postgres -Atc "grant all on database $POSTGRES_SID to $CHERYL;"   >> $LOG_FILE  
                                    
 SCHEMA_LIST_USER=`psql -d $POSTGRES_SID -Atc "select distinct schema_name from information_schema.schemata where schema_name != 'pg_catalog' and schema_name != 'information_schema' and schema_name NOT LIKE 'pg_%';"`  >> $LOG_FILE 
+
 
 for SCHEMANAME in $SCHEMA_LIST_USER; do
     psql -d $POSTGRES_SID -U postgres -Atc "alter schema $SCHEMANAME owner to $POSTGRES_USER;"      >> $LOG_FILE 
@@ -110,6 +111,8 @@ psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema pg_catalog to $AM
 psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema information_schema to $AMY;"    >> $LOG_FILE 
 psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema pg_catalog to $CHERYL;"           >> $LOG_FILE 
 psql  -d $POSTGRES_SID -U postgres -Atc "grant usage on schema information_schema to $CHERYL;"    >> $LOG_FILE 
+
+
 
 # the corresponding tables (in the tables schema) have this upon import from sql server db.
 # ==> echo "When importing the following tables in schema views, make column valueid is set as the primary key "  >> $LOG_FILE 

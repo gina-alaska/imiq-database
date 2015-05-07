@@ -45,15 +45,17 @@
 
 #
 # owner is assumed to be postgres; this will be overwritten later on if host is seaside 
-if [ "$#" -ne 5 ]; then
-      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)Export Schemas (Y/N):  4=Export Tables(Y/N): 5=Compress Individually(Y/N):"
+if [ "$#" -ne 7 ]; then
+      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)=Export Tables(Y/N): 4=Compare Clone?(Y/N) 5=To Host 6=To DB 7=Table List=(ALL/schema.tablename)"
       exit 1
 else  
       export POSTGRES_SID=$1
       export DO_MAINT=$2   
-      export EXPORT_SCHEMAS=$3
-      export EXPORT_TABLES=$4  
-      export COMPRESS_TABLES=$5
+      export EXPORT_TABLES=$3 
+      export COMPARE_CLONE=$4
+      export TO_HOST=$5
+      export TO_DB=$6
+      export TABLELIST=$7	 
 fi	
 
 #########################################################################
@@ -61,35 +63,38 @@ fi
 # Environmental variables ==> SOURCE INCLUDE FILES
 #
 
-#if [ $DEBUG == $YES ]; then
-#     EXPORT_SOURCE=$HOME/tools/backup_scripts
-#else 
-     EXPORT_SOURCE=$HOME/tools/backup_scripts
-#fi
+
+EXPORT_SOURCE=$HOME/tools/backup_scripts
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
     echo "sourcing: "  $EXPORT_NAME
     source $EXPORT_NAME
 done
 
+if [ $COMPARE_CLONE == "N" ]; then 
+      export TO_HOST = $HOST
+      export TO_DB = $POSTGRES_SID
+fi
+
+
 export LOG_FILE_BASENAME="`basename $0 .bash`"
 export LOG_FILE=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".log"
+export LOG_FILE_SQL=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".sql_log"
 
 export OPTION_STRING_FILE="cOn"
+
 
 
 ######################################################################### 
         
 Print_Header
 
-echo "PGDumping: " $POSTGRES_SID "  Exporting Schemas: " $EXPORT_SCHEMAS  "  Exporting Tables: " $EXPORT_TABLES "  Vacummdb/Reindexdb: " $DO_MAINT  " Compress Tables: "  $COMPRESS_TABLES >> $LOG_FILE
 
 List_PG_Databases
 
+
+
 #Set_PG_DB_Type
 
-# ====>
-# ====> SKIP FOR NOW !!!!     Check_PG_Privs
-# ====>
 
 #----------------------------------------------------------------------------
 #  Let the games begin.........................
@@ -98,11 +103,15 @@ List_PG_Databases
 
 Print_Blank_Line  
 Print_Blank_Line   
-echo "************************************* "   >> $LOG_FILE 
+echo "************************************* "   > $LOG_FILE 
 echo "=====> DATABASE: "  $POSTGRES_SID         >> $LOG_FILE 
 echo "************************************* "   >> $LOG_FILE 
 Print_Blank_Line  
 Print_Blank_Line   
+
+
+echo "Comparing DBs/CLONES for SOURCE_HOST/DB: " $HOST   $POSTGRES_SID " TARGET_HOST/DB: "   $TO_HOST   $TO_DB  >> $LOG_FILE_SQL
+
 
 Get_Current_TimeStamp
 Get_NOW_TimeStamp
@@ -110,30 +119,12 @@ Get_NOW_TimeStamp
 Verify_Backup_Directory_Exists
 cd $PG_DUMP_DIR
 
-Print_Blank_Line        
-Print_Star_Line           
-echo "** PG_CONTROLDATA  "	 >>  $LOG_FILE  	
-$PG_CONTROLDATA
-Print_Star_Line   
-Print_Blank_Line 
-
-Print_Blank_Line        
-Print_Star_Line           
-echo "** PG_CONFIG  "	 >>  $LOG_FILE  	
-$PG_CONFIG
-Print_Star_Line   
-Print_Blank_Line 
-
-#List_PG_Databases
-
-#export PSQL=$PGBIN/psql
-#echo "PSQL: " $PSQL
-
+export DB_LIST=$POSTGRES_SID
 for POSTGRES_SID in $DB_LIST ; do
 
     Print_Blank_Line    
     echo "***** Database size: pg_database_size *****"     >> $LOG_FILE 
-    $PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "select pg_size_pretty(pg_database_size('$POSTGRES_SID'))" >> $LOG_FILE
+   $PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "select pg_size_pretty(pg_database_size('$POSTGRES_SID'))" >> $LOG_FILE
     
  #   Check_PGSQL_Status
 
@@ -157,54 +148,55 @@ for POSTGRES_SID in $DB_LIST ; do
          fi	
          echo "** Successful REINDEXDB of DB: " $POSTGRES_SID  " Owner: " $FROM_OWNER           >> $LOG_FILE	
     fi 
-    SCHEMA_LIST_USER_PUBLIC=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema';"`                  >> $LOG_FILE
-    for SCHEMA_NAME in $SCHEMA_LIST_USER_PUBLIC; do
+    SCHEMA_LIST_USER=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema' and table_schema != 'public' order by table_schema"`  >> $LOG_FILE_SQL
+    for SCHEMA_NAME in $SCHEMA_LIST_USER; do
         if [ $EXPORT_TABLES == $YES ]; then
-             TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE
-             Print_Blank_Line  
+             if [ $TABLELIST == "ALL" ]; then
+                TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE_SQL
+              else
+              	  TABLE_LIST=$TABLELIST
+              fi 
+              Print_Blank_Line 
+             #  CLONE ==>  each table(s) to a corresponding table in target database (TO_HOST:TO_DB) 
+             #            First find out how many source tables then verify when done number of target tables
+             SOURCE_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select count(tablename) from pg_tables where schemaname='$SCHEMA_NAME'"`  >> $LOG_FILE_SQL
              for TABLENAME in $TABLE_LIST; do   
                  TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME
-                 LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
-                 echo "LOG_FILE_PGDUMP_TABLE: " $LOG_FILE_PGDUMP_TABLE
-                 $PG_DUMP $POSTGRES_SID -U $POSTGRES -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
-                 if [ $COMPRESS_TABLES == $YES ]; then
-                       gzip $LOG_FILE_PGDUMP_TABLE
-                       rm $LOG_FILE_PGDUMP_TABLE >> $LOG_FILE
-                 fi          
-             done 
-             if [ $COMPRESS_TABLES == $NO ]; then
-		          TAR_FILE=$POSTGRES_SID.$SCHEMA_NAME".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
-		          tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump         
-             	 rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
-             	 gzip  $TAR_FILE
-            fi
-        fi
-        if [ $EXPORT_SCHEMAS == $YES ] ; then
-              LOG_FILE_PGDUMP_SCHEMA=$POSTGRES_SID.$SCHEMA_NAME".SCHEMA."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
-              echo " LOG_FILE_PGDUMP_SCHEMA: " $LOG_FILE_PGDUMP_SCHEMA  >> $LOG_FILE
-              Print_Blank_Line      
-              $PG_DUMP $POSTGRES_SID -U $FROM_OWNER -c -O -n $SCHEMA_NAME > $LOG_FILE_PGDUMP_SCHEMA
-#             TAR_FILE=$POSTGRES_SID".DATABASE.SCHEMA."$SCHEMA_NAME.$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
-#             tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME.*$HOST.$POSTGRES.*.$LOGDATE.pg_dump
-              gzip  $LOG_FILE_PGDUMP_SCHEMA 
-              rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE 
-         fi           
-    done     
-done       
+                 SOURCE_ROW_COUNT=0
+                 TARGET_ROW_COUNT=0
+                 SOURCE_ROW_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select count(*) from $TABLE_NAME_FULL"` >> $LOG_FILE_SQL
+                 if [ $COMPARE_CLONE == "Y" ] ; then
+                    TARGET_ROW_COUNT=`$PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES $PSQL_Atc "select count(*) from $TABLE_NAME_FULL"` >> $LOG_FILE_SQL
+                    if [ $SOURCE_ROW_COUNT -ne $TARGET_ROW_COUNT ]; then
+                         echo "***ERROR: SOURCE_ROW_COUNT != TARGET_ROW_COUNT "   $TABLE_NAME_FULL $SOURCE_ROW_COUNT  $TARGET_ROW_COUNT  >> $LOG_FILE_SQL
+                         exit 1 
+                     else
+                         echo "***SOURCE_ROW_COUNT = TARGET_ROW_COUNT "   $TABLE_NAME_FULL  $SOURCE_ROW_COUNT  $TARGET_ROW_COUNT >> $LOG_FILE_SQL
+                    fi # row counts                
+                 else
+                     echo "***SOURCE_ROW_COUNT  "   $TABLE_NAME_FULL  $SOURCE_ROW_COUNT   >> $LOG_FILE_SQL
+                 fi    # clone is yes
+             done  #tablename list 
+             if [ $COMPARE_CLONE == "Y" ] ; then
+                  # Now find out how many tables actually got loaded into the clone
+                  TARGET_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select count(tablename) from pg_tables where schemaname='$SCHEMA_NAME'"`  >> $LOG_FILE_SQL
+                  if [ $SOURCE_TABLE_COUNT -ne $TARGET_TABLE_COUNT ]; then
+                       echo "***ERROR: SOURCE_TABLE_COUNT != TARGET_TABLE_COUNT  " $POSTGRES_SID $SOURCE_TABLE_COUNT $TO_DB $TARGET_TABLE_COUNT  >> $LOG_FILE_SQL
+                       exit 1
+                  else
+                      echo "***SOURCE_TABLE_COUNT = TARGET_TABLE_COUNT "  $POSTGRES_SID $SOURCE_TABLE_COUNT $TO_DB $TARGET_TABLE_COUNT >> $LOG_FILE_SQL
+                  fi  # target and source table counts 
+             fi  # compare clones is yes for target and source table counts         
+        fi # export tables is yes 
+    done     # schemaname list
+done   # DB_LIST
     
-
+    
 #----------------------------------------------------------------------------
 # housekeeping
 #----------------------------------------------------------------------------
 
 
-# Set the san local env var for dev, test and prods...
-
-cd $PG_DUMP_DIR
-
-REMOTE_SCP_PGDUMP
-
-Check_SCP_Status
 	
 Print_Footer 
 

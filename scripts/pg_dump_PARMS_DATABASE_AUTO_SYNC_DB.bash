@@ -174,12 +174,8 @@ for POSTGRES_SID in $DB_LIST ; do
                  TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME
                  LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
                  echo "LOG_FILE_PGDUMP_TABLE: " $LOG_FILE_PGDUMP_TABLE
-                 if [ $POSTGRES_VERSION == $POSTGRES_VERSION_8111 ]; then      
-                      $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -n $SCHEMA_NAME -c -t $TABLENAME > $LOG_FILE_PGDUMP_TABLE                                
-                 else
-                      $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
-                 fi          
-             done 
+                 $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
+              done 
 
              if [ $HOST == $SVPROD ]; then
                   ls -1 $SOURCE_DIR/*TABLE.$HOST*$LOGDATE*.pg_dump > $PGDUMPFILES_TABLES

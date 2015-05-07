@@ -9,9 +9,6 @@
 #
 # Permissions: Password to the Postgres userid 'pgsql' or 'postgres'. 
 #
-# TO RESTORE: pg_restore-d  <target db name> <restore file name>
-#             Example: pg_restore -d ion_restore pg_dump.chaase.ion.backup.seaside-2005-11-14_130828.sql 
-#
 #
 # Processing:  
 #
@@ -45,8 +42,8 @@
 
 #
 # owner is assumed to be postgres; this will be overwritten later on if host is seaside 
-if [ "$#" -ne 8 ]; then
-      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)Export Schemas (Y/N):  4=Export Tables(Y/N): 5=Dump or Clone?(D/C) 6=To Host 7=To DB 8=Table List=(ALL/schema.tablename)"
+if [ "$#" -ne 9 ]; then
+      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)Export Schemas (Y/N):  4=Export Tables(Y/N): 5=Dump or Clone?(D/C) 6=To Host 7=To DB 8=Table List=(ALL/schema.tablename) 9=From Host"
       exit 1
 else  
       export POSTGRES_SID=$1
@@ -56,19 +53,15 @@ else
       export DUMP_CLONE=$5
       export TO_HOST=$6
       export TO_DB=$7
-      export TABLELIST=$8	 
+      export TABLELIST=$8	
+      export SOURCE_HOST=$9
 fi	
 
 #########################################################################
 #
 # Environmental variables ==> SOURCE INCLUDE FILES
 #
-
-if [ $DEBUG == $YES ]; then
-     EXPORT_SOURCE=$HOME/tools/backup_scripts
-else 
-     EXPORT_SOURCE=$HOME/tools/backup_scripts
-fi
+EXPORT_SOURCE=$HOME/tools/backup_scripts
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
     echo "sourcing: "  $EXPORT_NAME
     source $EXPORT_NAME
@@ -78,7 +71,7 @@ done
 
 export LOG_FILE_BASENAME="`basename $0 .bash`"
 export LOG_FILE=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".log"
-
+export LOG_FILE_SQL=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".sql_log"
 
 
 export OPTION_STRING_FILE="cOn"
@@ -139,10 +132,6 @@ Print_Star_Line
 Print_Blank_Line 
 
 
-#source $HOME/tools/backup_scripts/EXPORT_GINA_HOSTS.bash
-#export PSQL=$PGBIN/psql
-echo "PSQL: " $PSQL
-
 for POSTGRES_SID in $DB_LIST ; do
 
     Print_Blank_Line    
@@ -156,7 +145,7 @@ for POSTGRES_SID in $DB_LIST ; do
     $PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "\dn+"            >> $LOG_FILE
 
     if [ $DO_MAINT == $YES ]; then                     
-         $VACUUMDB -d $POSTGRES_SID -z -e -U $FROM_OWNER    >> $LOG_FILE
+         $VACUUMDB -d $POSTGRES_SID -h $SOURCE_HOST -z -e -U $FROM_OWNER    >> $LOG_FILE
          VACUUMDB_STATUS=$?
          if [ $VACUUMDB_STATUS -ne $SE_SUCCESS ]; then
               echo "** ERROR: VACUMMDB  DIED ==> "  $VACUUMDB_STATUS " db: " $POSTGRES_SID      >> $LOG_FILE 
@@ -171,43 +160,51 @@ for POSTGRES_SID in $DB_LIST ; do
          fi	
          echo "** Successful REINDEXDB of DB: " $POSTGRES_SID  " Owner: " $FROM_OWNER           >> $LOG_FILE	
     fi 
-    SCHEMA_LIST_USER_PUBLIC=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema';"`                  >> $LOG_FILE
+    SCHEMA_LIST_USER_PUBLIC=`$PSQL -d $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema';"`                  >> $LOG_FILE
     for SCHEMA_NAME in $SCHEMA_LIST_USER_PUBLIC; do
         if [ $EXPORT_TABLES == $YES ]; then
-             if [ $TABLELIST = "ALL" ]; then
-                TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE
+             if [ $TABLELIST == "ALL" ]; then
+                TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE
               else
               	  TABLE_LIST=$TABLELIST
               fi 
               Print_Blank_Line  
+              SOURCE_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST $PSQL_Atc "select count(tablename) from pg_tables where schemaname='$SCHEMA_NAME'"`
              for TABLENAME in $TABLE_LIST; do   
                  TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME
                  #  DUMP  ==>  each table to a file
                  if [ $DUMP_CLONE == "D" ] ; then
                     LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
                     echo "LOG_FILE_PGDUMP_TABLE: " $LOG_FILE_PGDUMP_TABLE  >> $LOG_FILE
-                    SOURCE_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select n_tup_ins from pg_catalog.pg_stat_user_tables where schemaname = '$SCHEMA_NAME' and relname = '$TABLE_NAME'"` >> $LOG_FILE
-                    SOURCE_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select n_tup_ins from pg_catalog.pg_stat_user_tables where schemaname = '$SCHEMA_NAME' and relname = '$TABLE_NAME'"` >> $LOG_FILE
-                    $PG_DUMP $POSTGRES_SID -U $POSTGRES -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
+                    $PG_DUMP $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
                     gzip *.pg_dump
+                    rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
                  #  CLONE ==>  each table(s) to a corresponding table in target database (TO_DB)
                  else
-                    TARGET_TABLE_COUNT=`$PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES $PSQL_Atc "select n_tup_ins from pg_catalog.pg_stat_user_tables where schemaname = '$SCHEMA_NAME' and relname = '$TABLE_NAME'"` >> $LOG_FILE
-		    $PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES  -a -c "drop table IF EXISTS $TABLE_NAME_FULL cascade;"
-                    $PG_DUMP $POSTGRES_SID -U $POSTGRES -t $TABLE_NAME_FULL | $PSQL -d $TO_DB -h $TO_HOST
-                    TARGET_TABLE_COUNT=`$PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES $PSQL_Atc "select count(*) from $TABLE_NAME_FULL"` >> $LOG_FILE
+                    SOURCE_ROW_COUNT=0
+                    TARGET_ROW_COUNT=0
+                    SOURCE_ROW_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST $PSQL_Atc "select count(*) from $TABLE_NAME_FULL"` >> $LOG_FILE
+		              $PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES  -a -c "drop table IF EXISTS $TABLE_NAME_FULL cascade;"
+                    $PG_DUMP $POSTGRES_SID -U $POSTGRES -h $SOURCE_HOST -t $TABLE_NAME_FULL | $PSQL -d $TO_DB -h $TO_HOST
+                    TARGET_ROW_COUNT=`$PSQL -d $TO_DB -h $TO_HOST -U $POSTGRES $PSQL_Atc "select count(*) from $TABLE_NAME_FULL"` >> $LOG_FILE
                  fi     
-                 if [ $SOURCE_TABLE_COUNT -ne $TARGET_TABLE_NAME ]; then
-                    echo "***ERROR: SOURCE_TABLE_COUNT != TARGET_TABLE_NAME "   $SOURCE_TABLE_COUNT  $TARGET_TABLE_NAME  >> $LOG_FILE
+                 if [ $SOURCE_ROW_COUNT -ne $TARGET_ROW_COUNT ]; then
+                    echo "***ERROR: SOURCE_ROW_COUNT != TARGET_ROW_COUNT "   $TABLE_NAME_FULL $SOURCE_ROW_COUNT  $TARGET_ROW_COUNT  >> $LOG_FILE_SQL
                     exit 1
                  else
-                    echo "***SOURCE_TABLE_COUNT = TARGET_TABLE_NAME "   $SOURCE_TABLE_COUNT  $TARGET_TABLE_NAME >> $LOG_FILE
+                    echo "***SOURCE_ROW_COUNT = TARGET_ROW_COUNT "   $TABLE_NAME_FULL  $SOURCE_ROW_COUNT  $TARGET_ROW_COUNT >> $LOG_FILE_SQL
                  fi 
-             done            
+             done     
+             TARGET_TABLE_COUNT=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "select count(tablename) from pg_tables where schemaname='$SCHEMA_NAME'"`
+             if [ $SOURCE_TABLE_COUNT -ne $TARGET_TABLE_COUNT ]; then
+                  echo "***ERROR: SOURCE_TABLE_COUNT != TARGET_TABLE_COUNT  " $POSTGRES_SID $SOURCE_TABLE_COUNT $TO_DB $TARGET_TABLE_COUNT  >> $LOG_FILE_SQL
+                  exit 1
+             else
+                   echo "***SOURCE_TABLE_COUNT = TARGET_TABLE_COUNT "  $POSTGRES_SID $SOURCE_TABLE_COUNT $TO_DB $TARGET_TABLE_COUNT >> $LOG_FILE_SQL
+             fi  # table counts         
 # ORIG       TAR_FILE=$POSTGRES_SID.$SCHEMA_NAME".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
-# ORIG       tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump         
-             rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
-             gzip  $TAR_FILE
+# ORIG       tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump                    
+# ORIG       gzip  $TAR_FILE
         fi
         if [ $EXPORT_SCHEMAS == $YES ] ; then
               LOG_FILE_PGDUMP_SCHEMA=$POSTGRES_SID.$SCHEMA_NAME".SCHEMA."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump

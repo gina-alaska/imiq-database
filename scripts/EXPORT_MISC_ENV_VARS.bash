@@ -32,6 +32,8 @@ export NO=$N
 
 export ALL="all"
 export all="all"
+export both="both"
+export BOTH="both"
 export ONESPACE=" "
 export SPACE=" "
 export NONE="None."

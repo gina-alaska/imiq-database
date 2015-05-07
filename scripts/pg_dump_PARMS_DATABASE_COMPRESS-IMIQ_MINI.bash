@@ -1,7 +1,7 @@
 #! /bin/bash -x
 # *************************************************************************************
 #
-# File Name:  ~dba/tools/pg_dump_PARMS_DATABASE-pgsql.bash
+# File Name:  ~dba/tools/pg_dump_PARMS_DATABASE-IMIQDB.bash
 #
 # Author:     Cheryl L. Haase
 #
@@ -36,20 +36,24 @@
 #
 #  3/22/11     C. Haase    Initial version v0   
 #                          ==> COPIED FROM pg_dump_PARMS_DATABASE.bash
+#  12/8/2014   C. Haase    Split this one out so that each table pg_dump file is gizipped alone instead
+#                          of tarring all and then gzipping into one uber big file.....done for space
+#                          considerations.
 #
 #     
 #----------------------------------------------------------------------------------------------------		
 
 #
 # owner is assumed to be postgres; this will be overwritten later on if host is seaside 
-if [ "$#" -ne 4 ]; then
-      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)Export Schemas (Y/N):  4=Export Tables(Y/N): "
+if [ "$#" -ne 5 ]; then
+      echo "Usage: $0 file 1=PostgresSID(cluster for all): 2=Do Vaccumdb/Reindexdb (Y/N): 3)Export Schemas (Y/N):  4=Export Tables(Y/N): 5=Compress Individually(Y/N):"
       exit 1
 else  
       export POSTGRES_SID=$1
       export DO_MAINT=$2   
       export EXPORT_SCHEMAS=$3
       export EXPORT_TABLES=$4  
+      export COMPRESS_TABLES=$5
 fi	
 
 #########################################################################
@@ -57,46 +61,35 @@ fi
 # Environmental variables ==> SOURCE INCLUDE FILES
 #
 
-if [ $DEBUG == $YES ]; then
+#if [ $DEBUG == $YES ]; then
+#     EXPORT_SOURCE=$HOME/tools/backup_scripts
+#else 
      EXPORT_SOURCE=$HOME/tools/backup_scripts
-else 
-     EXPORT_SOURCE=$HOME/tools/backup_scripts
-fi
+#fi
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
     echo "sourcing: "  $EXPORT_NAME
     source $EXPORT_NAME
 done
 
-
-
 export LOG_FILE_BASENAME="`basename $0 .bash`"
 export LOG_FILE=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".log"
 
-
-
 export OPTION_STRING_FILE="cOn"
-
 
 
 ######################################################################### 
         
 Print_Header
 
-
-echo "PGDumping: " $POSTGRES_SID "  Exporting Schemas: " $EXPORT_SCHEMAS  "  Exporting Tables: " $EXPORT_TABLES "  Vacummdb/Reindexdb: " $DO_MAINT   >> $LOG_FILE
-
-
-
+echo "PGDumping: " $POSTGRES_SID "  Exporting Schemas: " $EXPORT_SCHEMAS  "  Exporting Tables: " $EXPORT_TABLES "  Vacummdb/Reindexdb: " $DO_MAINT  " Compress Tables: "  $COMPRESS_TABLES >> $LOG_FILE
 
 List_PG_Databases
 
 #Set_PG_DB_Type
 
-
 # ====>
 # ====> SKIP FOR NOW !!!!     Check_PG_Privs
 # ====>
-
 
 #----------------------------------------------------------------------------
 #  Let the games begin.........................
@@ -111,13 +104,11 @@ echo "************************************* "   >> $LOG_FILE
 Print_Blank_Line  
 Print_Blank_Line   
 
-
 Get_Current_TimeStamp
 Get_NOW_TimeStamp
 
 Verify_Backup_Directory_Exists
 cd $PG_DUMP_DIR
-
 
 Print_Blank_Line        
 Print_Star_Line           
@@ -133,12 +124,10 @@ $PG_CONFIG
 Print_Star_Line   
 Print_Blank_Line 
 
-
 #List_PG_Databases
 
-#source $HOME/tools/backup_scripts/EXPORT_GINA_HOSTS.bash
 #export PSQL=$PGBIN/psql
-echo "PSQL: " $PSQL
+#echo "PSQL: " $PSQL
 
 for POSTGRES_SID in $DB_LIST ; do
 
@@ -168,7 +157,10 @@ for POSTGRES_SID in $DB_LIST ; do
          fi	
          echo "** Successful REINDEXDB of DB: " $POSTGRES_SID  " Owner: " $FROM_OWNER           >> $LOG_FILE	
     fi 
-    SCHEMA_LIST_USER_PUBLIC=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema';"`                  >> $LOG_FILE
+#    SCHEMA_LIST_USER_PUBLIC=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_schema from information_schema.tables where table_schema not similar to 'pg_*' and table_schema != 'information_schema';"`                  >> $LOG_FILE
+## ====================> CHANGE THIS TO WHICHEVER SCHEMA YOU WANT <===============================================
+#    SCHEMA_LIST_USER_PUBLIC="views"
+     SCHEMA_LIST_USER_PUBLIC="tables"
     for SCHEMA_NAME in $SCHEMA_LIST_USER_PUBLIC; do
         if [ $EXPORT_TABLES == $YES ]; then
              TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE
@@ -177,23 +169,22 @@ for POSTGRES_SID in $DB_LIST ; do
                  TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME
                  LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
                  echo "LOG_FILE_PGDUMP_TABLE: " $LOG_FILE_PGDUMP_TABLE
-                 $PG_DUMP $POSTGRES_SID -U $POSTGRES -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE        
+                 $PG_DUMP $POSTGRES_SID -U $POSTGRES -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
+                 if [ $COMPRESS_TABLES == $YES ]; then
+                      gzip *.pg_dump
+                      rm *$HOST*$LOGDATE.pg_dump >> $LOG_FILE
+                 fi          
              done 
-             # because this db is huge it takes forever the untar them if you bundle
-             # all of the tables dumps into one file.....so each table is one dump.gz file
-             if [ $HOSTNAME == $IMIQDB_FULL ]; then
-                 gzip  *$HOST*$LOGDATE.pg_dump
-                 rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE
-             else 
-                 TAR_FILE=$POSTGRES_SID.$SCHEMA_NAME".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
-                 tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump         
-                 rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
-                 gzip  $TAR_FILE
-            fi 
+             if [ $COMPRESS_TABLES == $NO ]; then
+		TAR_FILE=$POSTGRES_SID.$SCHEMA_NAME".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
+		tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump         
+             	rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
+             	gzip  $TAR_FILE
+             fi
         fi
         if [ $EXPORT_SCHEMAS == $YES ] ; then
               LOG_FILE_PGDUMP_SCHEMA=$POSTGRES_SID.$SCHEMA_NAME".SCHEMA."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
-              echo " LOG_FILE_PGDUMP_SCHEMA: " $LOG_FILE_PGDUMP_SCHEMA  >> $LOG_FILE
+ :             echo " LOG_FILE_PGDUMP_SCHEMA: " $LOG_FILE_PGDUMP_SCHEMA  >> $LOG_FILE
               Print_Blank_Line      
               $PG_DUMP $POSTGRES_SID -U $FROM_OWNER -c -O -n $SCHEMA_NAME > $LOG_FILE_PGDUMP_SCHEMA
 #             TAR_FILE=$POSTGRES_SID".DATABASE.SCHEMA."$SCHEMA_NAME.$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"

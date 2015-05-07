@@ -9,44 +9,46 @@
 All_Metadata_Files_Exist()
 {	
           # ==> Assume they are there and if one is NOT found then regenerate ALL of them !!
-#           ALL_METADATA_FILES_EXIST=$YES	
-#           $OUTPUT_METADATA_FILE_SGML
+#           ALL_METADATA_FILES_EXIST=$YES	       
            
 #          if [ ! -f $PROD_METADATA_FILE_SGML ] ; then 
 #             export ALL_METADATA_FILES_EXIST=$NO
 #	  fi
 
-#if [ $DEBUG == $YES ]; then 
-#     export ALL_METADATA_FILES_EXIST=$NO 
-#else
-    if [ ! -f $PROD_METADATA_FILE_XML ] ; then 
+        # FGDC xml ==>  AVHRR.N16.2002.06.16.1443.Jun.FGDC.detail.xml
+    	if [ ! -f $PROD_METADATA_FILE_XML ] ; then 
 	     export ALL_METADATA_FILES_EXIST=$NO 
-	  fi
-
-     if [ ! -f $PROD_METADATA_FILE_JSON ] ; then 
+	fi
+	 # FGDC json ==> AVHRR.N16.2002.06.16.1443.Jun.FGDC.detail.json
+     	if [ ! -f $PROD_METADATA_FILE_JSON ] ; then 
 	     export ALL_METADATA_FILES_EXIST=$NO 
-	  fi
-
-     if [ ! -f $PROD_METADATA_FILE_TXT ] ; then 
+	fi
+        # FGDC txt ==> AVHRR.N16.2002.06.16.1443.Jun.FGDC.detail.txt
+     	if [ ! -f $PROD_METADATA_FILE_TXT ] ; then 
             export ALL_METADATA_FILES_EXIST=$NO
-	  fi 
-	  
-	  if [ ! -f $OUTPUTFILE_ISO_XML ] ; then 
+	fi 
+	  	  
+        filename=`basename $PROD_METADATA_FILE_XML`
+        filepath=`dirname $PROD_METADATA_FILE_XML`
+            
+        OUTPUTFILE_ISO_XML="$filepath/${filename/FGDC/ISO19115}"
+        OUTPUTFILE_ISO_XML_FILENAME=`basename $OUTPUTFILE_ISO_XML`
+        OUTPUTFILE_ISO_JSON="${OUTPUTFILE_ISO_XML/.xml/.json}"
+	  	  
+	 # ISO xml ==> AVHRR.N15.2015.03.31.1813.Mar.ISO19115.detail.xml
+	 if [ ! -f $OUTPUTFILE_ISO_XML ] ; then 
             export ALL_METADATA_FILES_EXIST=$NO
-	  fi 
-	  if [ ! -f $OUTPUTFILE_ISO_JSON ] ; then 
+	 fi 	  	  
+	 # ISO json ==> AVHRR.N16.2002.06.16.1443.Jun.ISO19115.detail.json
+	 if [ ! -f $OUTPUTFILE_ISO_JSON ] ; then 
             export ALL_METADATA_FILES_EXIST=$NO
-	  fi 
-	  if [ ! -f $OUTPUT_METADATA_HEADER".json" ] ; then 
+	 fi 
+	  	  
+	  # Header json file   ==> AVHRR.N16.2002.06.16.1443.Jun.HEADER.detail.json
+	 if [ ! -f $PROD_METADATA_HEADER_JSON ] ; then 
             export ALL_METADATA_FILES_EXIST=$NO
-	  fi 
-	  
-	  
-	  
-	  
-
-
-#fi
+	 fi 
+    
 }
 
 
@@ -56,7 +58,6 @@ Build_DOCUUID()
 
 #2012-01-17 13:58:32.239338-09
 PSQL_NOW=`psql -d $POSTGRES_SID -U $CHAASE -At -c "select * from now()"`       
-
 
 now1=`echo $PSQL_NOW | cut -d. -f1`                      
 now2=`echo $PSQL_NOW | cut -d. -f2`
@@ -87,12 +88,14 @@ Build_DOCUUID_NEW()
 {       
 
 # OS method
-export UUID_OS=`uuid -v3 ns:URL http:/www.ossp.org`
+#export UUID_OS=`uuid -v3 ns:URL http:/www.ossp.org`
+export DOCUUID=`uuid -v3 ns:URL http:/www.ossp.org`
 
 #2012-01-17 13:58:32.239338-09
 PSQL_NOW=`psql -d $POSTGRES_SID -U $CHAASE -At -c "select * from now()"`       
 
-DOCUUID_MD5=`$PSQL -d gina_dba -At -U $CHAASE -c "select md5('$DOCUUID')";`
+# this step not necessary...but if choose to add this to db insert field name
+#DOCUUID_MD5=`$PSQL -d gina_dba -At -U $CHAASE -c "select md5('$DOCUUID')";`
 
 }
 
@@ -171,6 +174,9 @@ else
      PROVIDER_GCMD="FOOBAR"
 fi
 
+
+if [ $DEBUG == $YES ]; then 
+
 echo "SENSOR: "      $SENSOR
 #echo "AGENCY_ID:"    $AGENCY_ID
 echo "ID: "          $ID
@@ -180,6 +186,7 @@ echo "PLATFORM_GCMD:   " $PLATFORM_GCMD
 echo "INSTRUMENT_GCMD: " $INSTRUMENT_GCMD
 
 #exit
+fi
 
 }
 
@@ -237,40 +244,6 @@ exit 1
 #grep  Error .$PROD_METADATA_FILE_ERR  > GOS_2011_updates_AVHRR_errors.lst  
 
 #  cat $TEMP_METADATA_FILE_ERR               
-}
-
-
-
-
-Check_for_MB_DBA_Table()
-{
-
-# cheesey but it works
-SENSORS_SV=`psql  gina_dba -U $CHAASE -AtF, -c  "SELECT DISTINCT sensor_id from public.metadata_basic"`
-SENSOR_THERE=$BLANK
-SENSOR_THERE=`psql  gina_dba -U $CHAASE -AtF, -c  "SELECT DISTINCT sensor_id from public.metadata_basic WHERE sensor_id IN ('$SENSOR')"`
-if [ "$SENSOR_THERE" == "$BLANK" ]; then	
-     Print_Blank_Line  
-     echo "** ERROR: SENSOR_ID: " $SENSOR " NOT FOUND IN SWATHVIEWER "  >> $LOG_FILE  
-     echo "** VALID SENSORS ARE:  " $SENSORS_SV
-     exit 1 ;
-fi 
-
-TABLE_NAME="public.metadata_basic_dba"  
-CURRENT_RECORD_COUNT=0
-
-     echo "** Getting current copy of the table:  " $TABLE_NAME 
-     $PSQL $POSTGRES_SID -U $CHAASE -c "DROP TABLE IF EXISTS $TABLE_NAME;"
-     $PSQL $POSTGRES_SID -U $CHAASE -c "$CREATE_TABLE $TABLE_NAME as $SELECT_STAR from public.metadata_basic where start_time IS NOT NULL and sensor_id NOT IN ('NULL','MODIS_BARROW','QB')";
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN flags;"
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN tagged;"
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN tainted;"
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN has_serial_data;"
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN source_res;"
-     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN celestial_body;"
-     CURRENT_RECORD_COUNT=`psql -d $POSTGRES_SID -U $CHAASE -At -c "select count(*) from $TABLE_NAME"`
-
-echo "** CURRENT_RECORD_COUNT for table:  " $TABLE_NAME " is " $CURRENT_RECORD_COUNT 
 }
 
 
@@ -356,8 +329,8 @@ export LOCAL_EXPORT_METADATA=$SAN_DIR_METADATA/local/htdocs/ION
       PROD_METADATA_FILE_DIF=$PROD_EXPORT_METADATA/Content_Theme/imageryBaseMapsEarthCover/$SENSOR/$YEAR_YYYY/$OUTPUT_METADATA_FILE".dif"        
       PROD_METADATA_FILE_JSON=$PROD_EXPORT_METADATA/Content_Theme/imageryBaseMapsEarthCover/$SENSOR/$YEAR_YYYY/$OUTPUT_METADATA_FILE".json"
      
+      PROD_METADATA_HEADER_JSON=$PROD_EXPORT_METADATA/Content_Theme/imageryBaseMapsEarthCover/$SENSOR/$YEAR_YYYY/$OUTPUT_METADATA_HEADER".json"
       
-     
 }
 
 
@@ -388,7 +361,10 @@ echo "HOSTNAME: " $HOSTNAME
 echo "HOST: " $HOST
 echo "SOURCE_DIR: " $SOURCE_DIR
 
-$PSQL $POSTGRES_SID -U $CHAASE -AtF, -c "$SELECT_STRING $FROM_WHERE_CLAUSE and substr(relative_path,1,5) NOT IN ('misc/', 'realt/') and $DATE_STRING; " > $IONMETADATAGRANULES
+$PSQL $POSTGRES_SID -U $CHAASE -AtF, -c "$SELECT_STRING $FROM_WHERE_CLAUSE and substr(relative_path,1,5) NOT IN ('misc/', 'realt/') and $DATE_STRING order by relative_path; " > $IONMETADATAGRANULES
+
+# cat $IONMETADATAGRANULES
+# exit
 
 }
 
@@ -400,7 +376,7 @@ Get_TemplateName()
               
 METADATA_CATEGORY=$TEMPLATE_TYPE"_"$METADATA_LEVEL
 
-# =====> GINA_DIR, TEMPLATE_DIR set in EXPORT_GINA_HOSTS
+# =====> GINA_DIR, TEMPLATE_DIR set in EXPORT_GINA_HOSTS.bash
 
 # IONMETADATAGRANULES=$SOURCE_DIR/"IONMETADATAGRANULES_"$SENSOR"_"$METADATA_CATEGORY"."$LOGDATE".txt" 
         
@@ -429,215 +405,13 @@ TEMPLATE_FILES_TXT=$GINA_DIR/$TEMPLATE_FILE_NAME_TXT
 }
 
 
-Insert_GPT_Records()
-{
-
-GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
-# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
-$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
-PGSQL_STATUS=$?
-if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
-  Print_Blank_Line  
-  echo "** ERROR: PGSQL FAILED for Database: " $POSTGRES_SID  " for table  " $GPT_RESOURCE_DATA  >> $LOG_FILE  
-
-  export COPY_TO_PROD=$NO
-  export COPY_TO_ARCHIVE=$NO
-
-  GPT_HARVESTING_JOBS_PENDING="gina_metadata.gpt_harvesting_jobs_pending"
-   # values docuuid, harvest_id,input_date, harvest_date, job_status, job_type,criteria, service_id
-  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_PENDING values ('$DOCUUID','$DOCUUID','$PUBDATE','$PUBDATE','FAILED','GOS','FAILED ON DOCUUID TABLE INSERT','999'); "
-  PGSQL_STATUS=$?
-  if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
-        Print_Blank_Line  
-       echo "** ERROR: PGSQL FAILED Database: " $POSTGRES_SID  " for table  " $GPT_HARVESTING_JOBS_PENDING  >> $LOG_FILE  
-        Print_Blank_Line    
-##        exit 1
-  fi
-else
-   GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
-   # values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
-  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
-fi 
-
-
-
-#GPT_RESOURCE="gina_metadata.gpt_resource"
-# values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
-
-# Check_PGSQL_Status
-
-#GPT_HARVESTING_HISTORY="gina_metadata.gpt_harvesting_history"$GPT_RESOURCE_DATA
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_HISTORY values (id,$HARVEST_ID,$HARVEST_DATE,$HARVESTED_COUNT,'$DOCUUID',$VALIDATED_COUNT,$PUBLISHED_COUNT,$HARVEST_REPORT);"
-
-#GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values (id,$HARVEST_ID,$INPUT_DATE,$HARVEST_DATE,'$DOCUUID',$JOB_TYPE,$SERVICE_ID);"
-
-# Check_PGSQL_Status
-
-} 
-
-Insert_GPT_Records()
-{
-
-GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
-# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
-$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
-PGSQL_STATUS=$?
-if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
-  Print_Blank_Line  
-  echo "** ERROR: PGSQL FAILED for Database: " $POSTGRES_SID  " for table  " $GPT_RESOURCE_DATA  >> $LOG_FILE  
-
-  export COPY_TO_PROD=$NO
-  export COPY_TO_ARCHIVE=$NO
-
-  GPT_HARVESTING_JOBS_PENDING="gina_metadata.gpt_harvesting_jobs_pending"
-   # values docuuid, harvest_id,input_date, harvest_date, job_status, job_type,criteria, service_id
-  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_PENDING values ('$DOCUUID','$DOCUUID','$PUBDATE','$PUBDATE','FAILED','GOS','FAILED ON DOCUUID TABLE INSERT','999'); "
-  PGSQL_STATUS=$?
-  if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
-        Print_Blank_Line  
-       echo "** ERROR: PGSQL FAILED Database: " $POSTGRES_SID  " for table  " $GPT_HARVESTING_JOBS_PENDING  >> $LOG_FILE  
-        Print_Blank_Line    
-##        exit 1
-  fi
-else
-   GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
-   # values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
-  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
-fi 
-
-
-
-#GPT_RESOURCE="gina_metadata.gpt_resource"
-# values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
-
-# Check_PGSQL_Status
-
-#GPT_HARVESTING_HISTORY="gina_metadata.gpt_harvesting_history"$GPT_RESOURCE_DATA
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_HISTORY values (id,$HARVEST_ID,$HARVEST_DATE,$HARVESTED_COUNT,'$DOCUUID',$VALIDATED_COUNT,$PUBLISHED_COUNT,$HARVEST_REPORT);"
-
-#GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
-#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values (id,$HARVEST_ID,$INPUT_DATE,$HARVEST_DATE,'$DOCUUID',$JOB_TYPE,$SERVICE_ID);"
-
-# Check_PGSQL_Status
-
-} 
-
-Insert_GPT_Resources()
-{
-
-$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$PUBDATE,$PUBDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
-
-
-GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
-# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
-$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
-
-GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
-# values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
-$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
-
-}
-
-
-############################ NOT USED ANYMORE ############################################################
-MP_Files()
-{
-        
-cd $TEMP_ION      
-
-echo "TEMP_ION:  "  $TEMP_ION
-echo "PROD_ION:   "  $PROD_ION
-
-      TAR_METADATA_FILE=$PLATFORM"."$SENSOR"."$YEAR_YYYY"."$MONTH_NN"."$TIME_FILEDATE"."$MONTH_ALPHA"."$TEMPLATE_TYPE"."$METADATA_LEVEL	
-      METADATAFILENAME_TEMP_JSON=$OUTPUT_METADATA_FILE".tmp"
-
-##################### XML files ####################################
-
-      TAR_METADATA_FILE=$PLATFORM"."$SENSOR"."$YEAR_YYYY"."$MONTH_NN"."$TIME_FILEDATE"."$MONTH_ALPHA"."$TEMPLATE_TYPE"."$METADATA_LEVEL	
-      METADATAFILENAME_TEMP=$OUTPUT_METADATA_FILE".tmp"
-
-      cp $METADATATEMPLATE  $TEMP_ION/$METADATAFILENAME_TEMP           
-             
-      perl -pi -e  "s/$PUBDATE_HEADER/$PUBDATE/g"                	$METADATAFILENAME_TEMP     
-      perl -pi -e  "s/$METADATADATE_HEADER/$METADATADATE/g"  		$METADATAFILENAME_TEMP
-      perl -pi -e  "s/$FORMATVERSIONDATE_HEADER/$FORMATVERSIONDATE/g"   $METADATAFILENAME_TEMP
-      perl -pi -e  "s/$PROCESSDATE_HEADER/$PUBDATE/g"        		$METADATAFILENAME_TEMP
-      perl -pi -e  "s/$TITLE_HEADER/$TITLE/g"                		$METADATAFILENAME_TEMP
-      perl -pi -e  "s/$BEGINDATE_HEADER/$BEGINDATE/g"        		$METADATAFILENAME_TEMP
-      perl -pi -e  "s/$ENDDATE_HEADER/$ENDDATE/g"            		$METADATAFILENAME_TEMP
-      perl -pi -e  "s/$BEGINTIME_HEADER/$TIME_HHMM/g"              $METADATAFILENAME_TEMP
-      perl -pi -e  "s/$ENDTIME_HEADER/$TIME_HHMM/g"        		   $METADATAFILENAME_TEMP
-               
-      mv  $METADATAFILENAME_TEMP   $PROD_METADATA_FILE_TXT
- 
-# ORIG $MP -x $PROD_METADATA_FILE_XML -e $PROD_METADATA_FILE_ERR $PROD_METADATA_FILE_TXT  -c $METADATA_CONFIG_FILE >> $LOG_FILE; 
-      $MP -x $PROD_METADATA_FILE_XML -e $PROD_METADATA_FILE_ERR $PROD_METADATA_FILE_TXT  >> $LOG_FILE; 
-
-
-# =========> NEED TO SED HERE for correct URL online linkage
-     cp $PROD_METADATA_FILE_XML $PROD_METADATA_FILE_XML.1
-     cp $PROD_METADATA_FILE_TXT $PROD_METADATA_FILE_TXT.1
-
-
-          # fixing xml   
-           perl -pi -e "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $PROD_METADATA_FILE_XML.1      
-           perl -pi -e "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $PROD_METADATA_FILE_XML.1
-           cp   $PROD_METADATA_FILE_XML.1  $PROD_METADATA_FILE_XML
-          
-          # fixing txt
-          perl -pi -e "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $PROD_METADATA_FILE_TXT.1     
-          perl -pi -e "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $PROD_METADATA_FILE_TXT.1
-          cp   $PROD_METADATA_FILE_TXT.1  $PROD_METADATA_FILE_TXT
-
-
-#################  JSON FILES #########################################################
-
-
-   cp $METADATATEMPLATE_JSON  $TEMP_ION/$METADATAFILENAME_TEMP_JSON  
-   
-    
-      perl -pi -e "s/SV_SENSOR_ID_goes_here/$SENSOR/g"                 $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/SV_ID_goes_here/$SV_ID/g"                         $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/FILENAME_goes_here/$OUTPUT_METADATA_FILE/g"       $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/TEMPLATE_goes_here/$TEMPLATE_FILE_NAME_JSON/g"    $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/DOCUUID_goes_here/$DOCUUID_MD5/g"                   $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/RELATIVE_PATH_SV_goes_here/\/$sensor_id\/$YEAR_YYYY\/$SV_ID\//g" $METADATAFILENAME_TEMP_JSON
-      perl -pi -e "s/RUNTYPE_goes_here/$RUN_TYPE/g"             $METADATAFILENAME_TEMP_JSON    
-      perl -pi -e "s/COMMENT_goes_here/$COMMENT/g"             $METADATAFILENAME_TEMP_JSON 
-      perl -pi -e "s/CREATEDATETIME_goes_here/$PSQL_NOW/g"    $METADATAFILENAME_TEMP_JSON 
-
-      perl -pi -e  "s/$PUBDATE_HEADER/$PUBDATE/g"                	$METADATAFILENAME_TEMP_JSON     
-      perl -pi -e  "s/$TITLE_HEADER/$TITLE/g"                		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $METADATAFILENAME_TEMP_JSON  
-      perl -pi -e  "s/$BEGINDATE_HEADER/$BEGINDATE/g"        		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$METADATADATE_HEADER/$METADATADATE/g"  		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$FORMATVERSIONDATE_HEADER/$FORMATVERSIONDATE/g"   $METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$PROCESSDATE_HEADER/$PUBDATE/g"        		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$ENDDATE_HEADER/$ENDDATE/g"            		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$BEGINTIME_HEADER/$TIME_HHMM/g"                   $METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/$ENDTIME_HEADER/$TIME_HHMM/g"        		$METADATAFILENAME_TEMP_JSON 
-      perl -pi -e  "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $METADATAFILENAME_TEMP_JSON 
-
-          cp   $METADATAFILENAME_TEMP_JSON   $PROD_EXPORT_METADATA/Content_Theme/imageryBaseMapsEarthCover/$SENSOR/$YEAR_YYYY/$OUTPUT_METADATA_HEADER
-
-          # zap temp files
-         rm $PROD_METADATA_FILE_XML.*
-         rm $PROD_METADATA_FILE_TXT.*
-    
-}
-############################ NOT USED ANYMORE ############################################################
-
-
 
 MP_Files_GEONET()
 {
         
 cd $TEMP_ION      
-echo "TEMP_ION:  "  $TEMP_ION
-echo "PROD_ION:   "  $PROD_ION
+#echo "TEMP_ION:  "  $TEMP_ION
+#echo "PROD_ION:   "  $PROD_ION
 
       TAR_METADATA_FILE=$PLATFORM"."$SENSOR"."$YEAR_YYYY"."$MONTH_NN"."$TIME_FILEDATE"."$MONTH_ALPHA"."$TEMPLATE_TYPE"."$METADATA_LEVEL	
 
@@ -746,12 +520,12 @@ fi
        
 if [ $DEBUG == $YES ]; then       
       GREP_STATUS=$SE_SUCCESS
-           grep "goes_here" $METADATAFILENAME_TEMP_XML     >> $LOG_FILE;
-           GREP_STATUS=$?		  
-           if [ $GREP_STATUS -ne $SE_SUCCESS ]; then      >> $LOG_FILE;  
-                METADATAFILENAME_TEMP_XML=$TEMP_METADATA_FILE_ERR
-                Blurb_Error_in_MP_File                                        
-           fi      
+       grep "goes_here" $METADATAFILENAME_TEMP_XML     >> $LOG_FILE;
+       GREP_STATUS=$?		  
+       if [ $GREP_STATUS -ne $SE_SUCCESS ]; then      >> $LOG_FILE;  
+            METADATAFILENAME_TEMP_XML=$TEMP_METADATA_FILE_ERR
+            Blurb_Error_in_MP_File                                        
+       fi      
 fi    
 
     
@@ -795,10 +569,257 @@ else
      DAY_YYJULIAN=`echo $RELATIVE_PATH | cut -d. -f2`           
      # stuff from START_DATE..month/day/year is the SAME for Start and End times.
      YEAR_YYYY=`echo $START_DATE | cut -d- -f1`          
-     DAY_NN=`echo $START_DATE | cut -d- -f3`              
+     DAY_NN=`echo $START_DATE | cut -d- -f3`  
+     
+     if [ $FIRST_TIME == $YES ]; then
+         YEAR_YYYY_PREVIOUS=$YEAR_YYYY
+         FIRST_TIME=$NO
+     fi
+                 
 fi
 
 }
+
+
+############################ NOT USED ANYMORE ############################################################
+MP_Files()
+{
+        
+cd $TEMP_ION      
+
+#echo "TEMP_ION:  "  $TEMP_ION
+#echo "PROD_ION:   "  $PROD_ION
+
+      TAR_METADATA_FILE=$PLATFORM"."$SENSOR"."$YEAR_YYYY"."$MONTH_NN"."$TIME_FILEDATE"."$MONTH_ALPHA"."$TEMPLATE_TYPE"."$METADATA_LEVEL	
+      METADATAFILENAME_TEMP_JSON=$OUTPUT_METADATA_FILE".tmp"
+
+##################### XML files ####################################
+
+      TAR_METADATA_FILE=$PLATFORM"."$SENSOR"."$YEAR_YYYY"."$MONTH_NN"."$TIME_FILEDATE"."$MONTH_ALPHA"."$TEMPLATE_TYPE"."$METADATA_LEVEL	
+      METADATAFILENAME_TEMP=$OUTPUT_METADATA_FILE".tmp"
+
+      cp $METADATATEMPLATE  $TEMP_ION/$METADATAFILENAME_TEMP           
+             
+      perl -pi -e  "s/$PUBDATE_HEADER/$PUBDATE/g"                	$METADATAFILENAME_TEMP     
+      perl -pi -e  "s/$METADATADATE_HEADER/$METADATADATE/g"  		$METADATAFILENAME_TEMP
+      perl -pi -e  "s/$FORMATVERSIONDATE_HEADER/$FORMATVERSIONDATE/g"   $METADATAFILENAME_TEMP
+      perl -pi -e  "s/$PROCESSDATE_HEADER/$PUBDATE/g"        		$METADATAFILENAME_TEMP
+      perl -pi -e  "s/$TITLE_HEADER/$TITLE/g"                		$METADATAFILENAME_TEMP
+      perl -pi -e  "s/$BEGINDATE_HEADER/$BEGINDATE/g"        		$METADATAFILENAME_TEMP
+      perl -pi -e  "s/$ENDDATE_HEADER/$ENDDATE/g"            		$METADATAFILENAME_TEMP
+      perl -pi -e  "s/$BEGINTIME_HEADER/$TIME_HHMM/g"              $METADATAFILENAME_TEMP
+      perl -pi -e  "s/$ENDTIME_HEADER/$TIME_HHMM/g"        		   $METADATAFILENAME_TEMP
+               
+      mv  $METADATAFILENAME_TEMP   $PROD_METADATA_FILE_TXT
+ 
+# ORIG $MP -x $PROD_METADATA_FILE_XML -e $PROD_METADATA_FILE_ERR $PROD_METADATA_FILE_TXT  -c $METADATA_CONFIG_FILE >> $LOG_FILE; 
+      $MP -x $PROD_METADATA_FILE_XML -e $PROD_METADATA_FILE_ERR $PROD_METADATA_FILE_TXT  >> $LOG_FILE; 
+
+
+# =========> NEED TO SED HERE for correct URL online linkage
+     cp $PROD_METADATA_FILE_XML $PROD_METADATA_FILE_XML.1
+     cp $PROD_METADATA_FILE_TXT $PROD_METADATA_FILE_TXT.1
+
+
+          # fixing xml   
+           perl -pi -e "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $PROD_METADATA_FILE_XML.1      
+           perl -pi -e "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $PROD_METADATA_FILE_XML.1
+           cp   $PROD_METADATA_FILE_XML.1  $PROD_METADATA_FILE_XML
+          
+          # fixing txt
+          perl -pi -e "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $PROD_METADATA_FILE_TXT.1     
+          perl -pi -e "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $PROD_METADATA_FILE_TXT.1
+          cp   $PROD_METADATA_FILE_TXT.1  $PROD_METADATA_FILE_TXT
+
+
+#################  JSON FILES #########################################################
+
+
+   cp $METADATATEMPLATE_JSON  $TEMP_ION/$METADATAFILENAME_TEMP_JSON  
+   
+    
+      perl -pi -e "s/SV_SENSOR_ID_goes_here/$SENSOR/g"                 $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/SV_ID_goes_here/$SV_ID/g"                         $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/FILENAME_goes_here/$OUTPUT_METADATA_FILE/g"       $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/TEMPLATE_goes_here/$TEMPLATE_FILE_NAME_JSON/g"    $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/DOCUUID_goes_here/$DOCUUID_MD5/g"                   $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/RELATIVE_PATH_SV_goes_here/\/$sensor_id\/$YEAR_YYYY\/$SV_ID\//g" $METADATAFILENAME_TEMP_JSON
+      perl -pi -e "s/RUNTYPE_goes_here/$RUN_TYPE/g"             $METADATAFILENAME_TEMP_JSON    
+      perl -pi -e "s/COMMENT_goes_here/$COMMENT/g"             $METADATAFILENAME_TEMP_JSON 
+      perl -pi -e "s/CREATEDATETIME_goes_here/$PSQL_NOW/g"    $METADATAFILENAME_TEMP_JSON 
+
+      perl -pi -e  "s/$PUBDATE_HEADER/$PUBDATE/g"                	$METADATAFILENAME_TEMP_JSON     
+      perl -pi -e  "s/$TITLE_HEADER/$TITLE/g"                		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/SV_VIEW_SCENE_SID_goes_here/http:\/\/sv.gina.alaska.edu\/view_scene.pl?sid=$SV_ID/g"  $METADATAFILENAME_TEMP_JSON  
+      perl -pi -e  "s/$BEGINDATE_HEADER/$BEGINDATE/g"        		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$METADATADATE_HEADER/$METADATADATE/g"  		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$FORMATVERSIONDATE_HEADER/$FORMATVERSIONDATE/g"   $METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$PROCESSDATE_HEADER/$PUBDATE/g"        		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$ENDDATE_HEADER/$ENDDATE/g"            		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$BEGINTIME_HEADER/$TIME_HHMM/g"                   $METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/$ENDTIME_HEADER/$TIME_HHMM/g"        		$METADATAFILENAME_TEMP_JSON 
+      perl -pi -e  "s/BROWSE_goes_here/http:\/\/sv.gina.alaska.edu\/metadata\/$sensor_id\/$YEAR_YYYY\/$SV_ID\/browse.jpg/g"  $METADATAFILENAME_TEMP_JSON 
+
+          cp   $METADATAFILENAME_TEMP_JSON   $PROD_EXPORT_METADATA/Content_Theme/imageryBaseMapsEarthCover/$SENSOR/$YEAR_YYYY/$OUTPUT_METADATA_HEADER
+
+          # zap temp files
+         rm $PROD_METADATA_FILE_XML.*
+         rm $PROD_METADATA_FILE_TXT.*
+    
+}
+############################ NOT USED ANYMORE ############################################################
+
+
+############################ NEVER USED OR IN DEVELOPMENT  ############################################################
+
+Insert_GPT_Resources()
+{
+
+$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$PUBDATE,$PUBDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
+
+
+GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
+# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
+$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
+
+GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
+# values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
+$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
+
+}
+
+
+Insert_GPT_Records()
+{
+
+GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
+# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
+$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
+PGSQL_STATUS=$?
+if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
+  Print_Blank_Line  
+  echo "** ERROR: PGSQL FAILED for Database: " $POSTGRES_SID  " for table  " $GPT_RESOURCE_DATA  >> $LOG_FILE  
+
+  export COPY_TO_PROD=$NO
+  export COPY_TO_ARCHIVE=$NO
+
+  GPT_HARVESTING_JOBS_PENDING="gina_metadata.gpt_harvesting_jobs_pending"
+   # values docuuid, harvest_id,input_date, harvest_date, job_status, job_type,criteria, service_id
+  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_PENDING values ('$DOCUUID','$DOCUUID','$PUBDATE','$PUBDATE','FAILED','GOS','FAILED ON DOCUUID TABLE INSERT','999'); "
+  PGSQL_STATUS=$?
+  if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
+        Print_Blank_Line  
+       echo "** ERROR: PGSQL FAILED Database: " $POSTGRES_SID  " for table  " $GPT_HARVESTING_JOBS_PENDING  >> $LOG_FILE  
+        Print_Blank_Line    
+##        exit 1
+  fi
+else
+   GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
+   # values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
+  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
+fi 
+
+
+
+#GPT_RESOURCE="gina_metadata.gpt_resource"
+# values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
+
+# Check_PGSQL_Status
+
+#GPT_HARVESTING_HISTORY="gina_metadata.gpt_harvesting_history"$GPT_RESOURCE_DATA
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_HISTORY values (id,$HARVEST_ID,$HARVEST_DATE,$HARVESTED_COUNT,'$DOCUUID',$VALIDATED_COUNT,$PUBLISHED_COUNT,$HARVEST_REPORT);"
+
+#GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values (id,$HARVEST_ID,$INPUT_DATE,$HARVEST_DATE,'$DOCUUID',$JOB_TYPE,$SERVICE_ID);"
+
+# Check_PGSQL_Status
+
+} 
+
+Insert_GPT_Records()
+{
+
+GPT_RESOURCE_DATA="gina_metadata.gpt_resource_data"
+# values docuuid_text, docuuid, id. xml, xml_text,thumbnail
+$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE_DATA values ('$SV_ID','$DOCUUID',666,'$OUTPUT_METADATA_FILE',NULL,NULL); "
+PGSQL_STATUS=$?
+if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
+  Print_Blank_Line  
+  echo "** ERROR: PGSQL FAILED for Database: " $POSTGRES_SID  " for table  " $GPT_RESOURCE_DATA  >> $LOG_FILE  
+
+  export COPY_TO_PROD=$NO
+  export COPY_TO_ARCHIVE=$NO
+
+  GPT_HARVESTING_JOBS_PENDING="gina_metadata.gpt_harvesting_jobs_pending"
+   # values docuuid, harvest_id,input_date, harvest_date, job_status, job_type,criteria, service_id
+  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_PENDING values ('$DOCUUID','$DOCUUID','$PUBDATE','$PUBDATE','FAILED','GOS','FAILED ON DOCUUID TABLE INSERT','999'); "
+  PGSQL_STATUS=$?
+  if [ $PGSQL_STATUS -ne $SE_SUCCESS ]; then
+        Print_Blank_Line  
+       echo "** ERROR: PGSQL FAILED Database: " $POSTGRES_SID  " for table  " $GPT_HARVESTING_JOBS_PENDING  >> $LOG_FILE  
+        Print_Blank_Line    
+##        exit 1
+  fi
+else
+   GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
+   # values id, harvest_id,input_date, harvest_date, docuuid, job_type, job_type, service_id
+  $PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values ('$DOCUUID','$PUBDATE','$PUBDATE','$DOCUUID','GOS','999'); "
+fi 
+
+
+
+#GPT_RESOURCE="gina_metadata.gpt_resource"
+# values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_RESOURCE values ('$DOCUUID',id,$TITLE,$OWNER,$INPUTDATE,$UPDATEDATE,$APPROVALSTATUS,$PUBMETHOD,$SITEUUID,$SOURCEURI,$FILEIDENTIFIER,$ACL,$HOST_URL,$HOST_URL,$PROTOCOL_TYPE,$PROTOCOL,$FREQUENCY,$SEND_NOTIFICATION,$FINDABLE,$SEARCHABLE,$SYNCHRONIZABLE,$LASTSYNCDATE);"
+
+# Check_PGSQL_Status
+
+#GPT_HARVESTING_HISTORY="gina_metadata.gpt_harvesting_history"$GPT_RESOURCE_DATA
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_HISTORY values (id,$HARVEST_ID,$HARVEST_DATE,$HARVESTED_COUNT,'$DOCUUID',$VALIDATED_COUNT,$PUBLISHED_COUNT,$HARVEST_REPORT);"
+
+#GPT_HARVESTING_JOBS_COMPLETED="gina_metadata.gpt_harvesting_jobs_completed"
+#$PSQL -d $POSTGRES_SID -U $CHAASE -c "INSERT into $GPT_HARVESTING_JOBS_COMPLETED values (id,$HARVEST_ID,$INPUT_DATE,$HARVEST_DATE,'$DOCUUID',$JOB_TYPE,$SERVICE_ID);"
+
+# Check_PGSQL_Status
+
+} 
+
+
+
+
+
+Check_for_MB_DBA_Table()
+{
+
+# cheesey but it works
+SENSORS_SV=`psql  gina_dba -U $CHAASE -AtF, -c  "SELECT DISTINCT sensor_id from public.metadata_basic"`
+SENSOR_THERE=$BLANK
+SENSOR_THERE=`psql  gina_dba -U $CHAASE -AtF, -c  "SELECT DISTINCT sensor_id from public.metadata_basic WHERE sensor_id IN ('$SENSOR')"`
+if [ "$SENSOR_THERE" == "$BLANK" ]; then	
+     Print_Blank_Line  
+     echo "** ERROR: SENSOR_ID: " $SENSOR " NOT FOUND IN SWATHVIEWER "  >> $LOG_FILE  
+     echo "** VALID SENSORS ARE:  " $SENSORS_SV
+     exit 1 ;
+fi 
+
+TABLE_NAME="public.metadata_basic_dba"  
+CURRENT_RECORD_COUNT=0
+
+     echo "** Getting current copy of the table:  " $TABLE_NAME 
+     $PSQL $POSTGRES_SID -U $CHAASE -c "DROP TABLE IF EXISTS $TABLE_NAME;"
+     $PSQL $POSTGRES_SID -U $CHAASE -c "$CREATE_TABLE $TABLE_NAME as $SELECT_STAR from public.metadata_basic where start_time IS NOT NULL and sensor_id NOT IN ('NULL','MODIS_BARROW','QB')";
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN flags;"
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN tagged;"
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN tainted;"
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN has_serial_data;"
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN source_res;"
+     $PSQL -d $POSTGRES_SID -U $CHAASE -c "$ALTER_TABLE $TABLE_NAME $DROP_COLUMN celestial_body;"
+     CURRENT_RECORD_COUNT=`psql -d $POSTGRES_SID -U $CHAASE -At -c "select count(*) from $TABLE_NAME"`
+
+echo "** CURRENT_RECORD_COUNT for table:  " $TABLE_NAME " is " $CURRENT_RECORD_COUNT 
+}
+
 
 
 Zap_Local_Metadata_Files()
@@ -815,5 +836,4 @@ exit
 
 			            
 }
-
 

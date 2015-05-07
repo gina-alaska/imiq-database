@@ -160,17 +160,7 @@ POSTGRES_VERSION=`$PSQL -d $POSTGRES  -U $POSTGRES  -V | grep psql | awk '{print
 
 
 case "$POSTGRES_VERSION" in   
-# ====> NOTE:   > 8.4 is EOL !!!!!  
-#     $POSTGRES_VERSION_8111) 
-#          export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_8111_FILE 
-#           export PG_LOG_DIR=$PGDATA
-#          ;;
-#       $POSTGRES_VERSION_833) 
-#            export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_833_FILE  
-#            ;;
-#       $POSTGRES_VERSION_8311)
-#            export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_8311_FILE   
-#           ;;
+# ====> NOTE:   < 8.4 is EOL !!!!!  
        $POSTGRES_VERSION_844)
            export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_844_FILE   
           ;;  
@@ -238,9 +228,17 @@ case "$POSTGRES_VERSION" in
            export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_935_FILE
            export PGBIN=$PGBIN_935
            ;;
+         $POSTGRES_VERSION_936)
+           export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_936_FILE
+           export PGBIN=$PGBIN_936
+           ;;
          $POSTGRES_VERSION_940)
            export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_940_FILE
            export PGBIN=$PGBIN_940
+           ;;
+         $POSTGRES_VERSION_942)
+           export POSTGRES_VERSION_FILE=$POSTGRES_VERSION_942_FILE
+           export PGBIN=$PGBIN_942
            ;;
 
       *)  echo "What POSTGRES version are you on???" >> $LOG_FILE  ;; 
@@ -253,13 +251,6 @@ case "$POSTGRES_VERSION" in
 
 }
 
-List_PG_Databases_POD()
-{
-
-## POD LIST=$(psql -l | awk '{ print $1}' | grep -vE '^-|^List|^Name|^\(|^:|template[0|1]')
- 
-
-}
 
 List_PG_Roles()
 {

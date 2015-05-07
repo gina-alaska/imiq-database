@@ -90,7 +90,7 @@ for SCHEMANAME in $SCHEMA_LIST; do
     		TABLE_NAME=$SCHEMANAME"."$TABLENAME
     		# and the Lord giveth to the worthy..............
     		echo "Dropping : "  $POSTGRES_SID " " $TABLE_NAME 
-#    		$PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "drop table $TABLE_NAME cascade;" >> $LOG_FILE     
+    		$PSQL -d $POSTGRES_SID -U $POSTGRES -a -c "drop table $TABLE_NAME cascade;" >> $LOG_FILE     
 	done  # tables
 done # schemas
 

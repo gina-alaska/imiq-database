@@ -169,7 +169,7 @@ else
      Print_Blank_Line 
      echo "***** BUP DIR Exists... "/home/dba/tools/backup_scripts/POSTGRES/pg_dump_PARMS_DATABASE.bash "gina" "N" "Y" "Y"         >> $LOG_FILE
      Print_Blank_Line 
-     echo "PB_DUMP_DIR = " $PG_DUMP_DIR  >> $LOG_FILE
+     echo "PG_DUMP_DIR = " $PG_DUMP_DIR  >> $LOG_FILE
 fi
 }
 

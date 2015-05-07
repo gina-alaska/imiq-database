@@ -59,9 +59,9 @@ export MONTH_NN=$MONTH
 
 
 
-export DATENAME=`$ date --date="now"`    # Thu Jan 1 08:20:05 PST 2009
+export DATENAME=`date --date="now"`    # Thu Jan 1 08:20:05 PST 2009
 export DATETODAY=`date --date="today"`   # Thu Jan 1 08:20:12 PST 2009
-export DATECURRENTDATETIME=`$ date '+Current Date: %m/%d/%y%nCurrent Time:%H:%M:%S'` # Current Date: 01/01/09 Current Time:08:21:41
+export DATECURRENTDATETIME=`date '+Current Date: %m/%d/%y%nCurrent Time:%H:%M:%S'` # Current Date: 01/01/09 Current Time:08:21:41
 
 
 export DOW=`date +%A` # Day of the week e.g. Monday
@@ -78,9 +78,9 @@ export FILEDATETIME=`date +%y%m%d_%H%M`
 export THEDATE=`date +%y%m%d_%H:%M`
 export THEDATE_YYMMDD=`date +%y%m%d`
 export THEDATE_YYYYMMDD=`date +%Y%m%d`
-export THEDATE_YYMMDD_TIME=`date +%y%m%d_%H%M`
-export THEDATE_YYMMDD_TIME_HHMMSS=`date +%Y-%m-%d %H%M%s`
-export THEDATE_YYMMDD_TIMESTAMP=`date +%Y-%m-%d %H:%M:%S`
+#export THEDATE_YYMMDD_TIME=`date +%y%m%d_%H%M`
+#export THEDATE_YYMMDD_TIME_HHMMSS=`date +%Y-%m-%d %H%M%s`
+#export THEDATE_YYMMDD_TIMESTAMP=`date +%Y-%m-%d %H:%M:%S`
 export THEDATE_DATE=`date +%F`
 export THEDATE_TIME=`date +%T`
 export ONESPACE=" "

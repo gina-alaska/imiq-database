@@ -67,7 +67,6 @@ for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
   source $EXPORT_NAME
 done 
 
-
 export LOG_FILE_BASENAME="`basename $0 .bash`"
 export LOG_FILE=$LOG_FILE_BASENAME".bash_"$HOST"_"$POSTGRES_SID"_"$LOGDATE".log"
 
@@ -84,11 +83,7 @@ echo "PGDumping: " $POSTGRES_SID "  Exporting Schemas: " $EXPORT_SCHEMAS  "  Exp
 
 List_PG_Databases
 
-
-
 #Set_PG_DB_Type
-
-
 # BUSTED subroutine =====> Check_PG_Privs
 
 
@@ -130,7 +125,7 @@ Print_Blank_Line
 
 PGDUMPFILES_SCHEMAS=PGDUMPFILES.SCHEMAS.$HOST.$LOGDATE.lst
 PGDUMPFILES_TABLES=PGDUMPFILES.TABLES.$HOST.$LOGDATE.lst
-PGDUMPFILES_TABLES_TAR=PGDUMPFILES.TABLES.HOST.TAR.$LOGDATE.lst
+PGDUMPFILES_TABLES_TAR=PGDUMPFILES.TABLES.$HOST.TAR.$LOGDATE.lst
 
 
 for POSTGRES_SID in $DB_LIST ; do
@@ -166,30 +161,26 @@ for POSTGRES_SID in $DB_LIST ; do
              TABLE_LIST=`$PSQL -d $POSTGRES_SID -U $POSTGRES $PSQL_Atc "$SELECT_DISTINCT table_name from information_schema.tables where table_schema='$SCHEMA_NAME' order by table_name"` >> $LOG_FILE
              Print_Blank_Line  
              for TABLENAME in $TABLE_LIST; do   
-                 TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME
-                 LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
+                 TABLE_NAME_FULL=$SCHEMA_NAME"."$TABLENAME     
+                 LOG_FILE_PGDUMP_TABLE=$POSTGRES_SID.$TABLE_NAME_FULL.TABLE.$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
                  echo "LOG_FILE_PGDUMP_TABLE: " $LOG_FILE_PGDUMP_TABLE
-#                 if [ $POSTGRES_VERSION == $POSTGRES_VERSION_8111 ]; then      
-#                     $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -n $SCHEMA_NAME -c -t $TABLENAME > $LOG_FILE_PGDUMP_TABLE                                
-#                else
-                      $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
-#                fi          
+                 $PG_DUMP $POSTGRES_SID -U $POSTGRES -c -t $TABLE_NAME_FULL > $LOG_FILE_PGDUMP_TABLE
              done 
 
              ls -1 $PG_DUMP_DIR/*TABLE.$HOST*$LOGDATE*.pg_dump > $PGDUMPFILES_TABLES
-
-            for PGDUMP_FILE_TABLE in $(cat $PGDUMPFILES_TABLES); do  
-               echo "Ingesting: " $PGDUMP_FILE_TABLE " TO: " $POSTGRES_SID " @ " $TO_HOST    >> $LOG_FILE                
-               $PSQL -d $POSTGRES_SID -h $TO_HOST -f $PGDUMP_FILE_TABLE
-            done
+             for PGDUMP_FILE_TABLE in $(cat $PGDUMPFILES_TABLES); do  
+                 echo "Ingesting: " $PGDUMP_FILE_TABLE " TO: " $POSTGRES_SID " @ " $TO_HOST    >> $LOG_FILE                   
+                $PSQL -d $POSTGRES_SID -h $TO_HOST -f $PGDUMP_FILE_TABLE
+             done
            
              TAR_FILE=$POSTGRES_SID.$SCHEMA_NAME".TABLE."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE".tar"
-             tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump         
+             tar -cvf   $TAR_FILE  $POSTGRES_SID.$SCHEMA_NAME*".TABLE."$HOST*$LOGDATE.pg_dump 
+      
              rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE  
+
              gzip  $TAR_FILE
 
-           REMOTE_SCP_PGDUMP
-
+             REMOTE_SCP_PGDUMP
         fi
         if [ $EXPORT_SCHEMAS == $YES ] ; then
               LOG_FILE_PGDUMP_SCHEMA=$POSTGRES_SID.$SCHEMA_NAME".SCHEMA."$HOST.$POSTGRES.$OPTION_STRING_FILE-$POSTGRES_VERSION_FILE.$LOGDATE.pg_dump
@@ -204,12 +195,10 @@ for POSTGRES_SID in $DB_LIST ; do
 #                 perl -pi -e $LOG_FILE_PGDUMP_SCHEMA
  #             fi 
  #             echo "Ingesting: " $PGDUMP_FILE_TABLE " TO: " $POSTGRES_SID " @ " $TO_HOST  " : " $TO_DB " . " $TO_SCHEMA  >> $LOG_FILE                
- #             $PSQL -d $POSTGRES_SID -h $TO_HOST -f $LOG_FILE_PGDUMP_SCHEMA
+#               $PSQL -d $POSTGRES_SID -h $TO_HOST -f $LOG_FILE_PGDUMP_SCHEMA
 
               REMOTE_SCP_PGDUMP
-
-
-              gzip  *$HOST*$LOGDATE.pg_dump   
+              gzip  *$HOST*$LOGDATE.pg_dump  
               rm *$HOST*$LOGDATE.pg_dump    >> $LOG_FILE 
          fi           
     done     
