@@ -10,14 +10,6 @@ GO
 
 
 
-
-
-
-
-
-
-
-
 -- =============================================
 -- Author:		Amy Jacobs
 -- Create date: July 16, 2013
@@ -187,15 +179,15 @@ BEGIN
     BEGIN
 	    DECLARE max_cursor CURSOR FOR 
 		SELECT dv3.LocalDateTime,
-               CurrentDataValue = CASE WHEN dv3.DataValue >= dv3.PrevDataValue THEN dv3.DataValue - dv3.PrevDataValue
-                       WHEN PrevDataValue > dv3.DataValue THEN 0
-                       ELSE dv3.DataValue END
+          CASE WHEN dv3.DataValue >= dv3.PrevDataValue THEN dv3.DataValue - dv3.PrevDataValue
+           WHEN PrevDataValue > dv3.DataValue THEN 0
+           ELSE dv3.DataValue END as CurrentDataValue 
         FROM
-       (SELECT  dv.LocalDateTime, dv.DataValue,(SELECT TOP 1 dv2.DataValue as PrevDataValue
-		    FROM ODMDataValues_metric dv2
-		    WHERE dv2.SiteID = @SiteID and dv2.OriginalVariableID=@VarID and dv2.LocalDateTime < dv.LocalDateTime and dv2.DataValue >= 0 order by dv2.LocalDateTime DESC) as PrevDataValue
-		FROM ODMDataValues_metric AS dv
-		WHERE dv.SiteID = @SiteID and dv.OriginalVariableID=@VarID and dv.DataValue >= 0) AS dv3
+       (SELECT  dv.LocalDateTime, dv.DataValue,(SELECT dv2.DataValue as PrevDataValue
+		    FROM tables.ODMDataValues_metric dv2
+		    WHERE dv2.SiteID = @site_id and dv2.OriginalVariableID=@var_id and dv2.LocalDateTime < dv.LocalDateTime and dv2.DataValue >= 0 order by dv2.LocalDateTime DESC LIMIT 1) as PrevDataValue
+		FROM tables.ODMDataValues_metric AS dv
+		WHERE dv.SiteID = @site_id and dv.OriginalVariableID=@var_id and dv.DataValue >= 0) AS dv3
 		where dv3.DataValue >= 0
 		order by dv3.LocalDateTime;
         
@@ -616,29 +608,6 @@ BEGIN
 		DEALLOCATE max_cursor;
 	END	  
 END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 GO
 
