@@ -1,0 +1,1 @@
+﻿select * from tables.seriescatalog where variableID in (select distinct ON(variableid) variableID from tables.datastreams where downloaddate >= '2014-12-31' order by variableid) and sourceid in (139,199) and variableid = 56
