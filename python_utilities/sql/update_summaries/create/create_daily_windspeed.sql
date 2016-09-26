@@ -12,9 +12,9 @@ CREATE TABLE tables.daily_windspeed_2 AS
   GROUP BY v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, s.sourceid;
 
 ALTER TABLE tables.daily_windspeed_2
-  ADD CONSTRAINT daily_windspeed_valueid PRIMARY KEY (valueid);
+  ADD CONSTRAINT daily_windspeed_valueid_2 PRIMARY KEY (valueid);
 
-CREATE INDEX daily_windspeed_siteid_idx
+CREATE INDEX daily_windspeed_siteid_idx_2
   ON tables.daily_windspeed_2
   USING btree
   (siteid);

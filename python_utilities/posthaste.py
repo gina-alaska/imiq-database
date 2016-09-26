@@ -32,7 +32,7 @@ class PostHaste (object):
     def run (self):
         """ Function doc """
         conn = Connection(self.db, self.host, self.user, self.passwd)
-        conn.execute(self.sql, ())
+        conn.execute(self.sql)
         self.table = conn.fetch()
         conn.commit()
         

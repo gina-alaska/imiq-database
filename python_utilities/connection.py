@@ -41,7 +41,7 @@ class Connection(object):
         self.conn.close()
         #~ print "connection closed"
 
-    def execute (self, sql, args):
+    def execute (self, sql, args = None):
         """
         executes a sql command on the server
         
@@ -54,7 +54,10 @@ class Connection(object):
         Post:
             The results of the query will be in self.cur.
         """
-        self.cur.execute(sql,args)
+        if args is None:
+            self.cur.execute(sql)
+        else:
+            self.cur.execute(sql,args)
         gc.collect()
         
     def fetch (self):
@@ -66,8 +69,10 @@ class Connection(object):
         Post:
             a list is returned & self.cur will be free of results.
         """
-
-        return self.cur.fetchall()
+        try:
+            return self.cur.fetchall()
+        except psycopg2.ProgrammingError:
+            return []
         
     def commit (self):
         """
