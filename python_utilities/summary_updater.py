@@ -13,20 +13,20 @@ class updateSummaries (object):
     
     ## information on tables and functions for each variable
     metadata = {
-        "wind speed":{
-            'daily': {
-                'table': 'daily_windspeeddatavalues',
-                'fn': 'uspgetdailywindspeed2',
-                'sql': os.path.join(sql_rt, 'insert', 'daily_windspeed.sql'),
-                     },
-            "hourly": {
-                'table': 'hourly_windspeeddatavalues',
-                'fn': 'uspgethourlywindspeed2',
-                'sql': os.path.join(sql_rt, 'insert', 'hourly_windspeed.sql'),
-                      },
-            "summaries": 
-                [os.path.join(sql_rt, 'create', 'create_daily_windspeed.sql'),
-                 os.path.join(sql_rt, 'create', 'create_hourly_windspeed.sql')]
+    "wind speed":{
+        'daily': {
+            'table': 'daily_windspeeddatavalues',
+            'fn': 'uspgetdailywindspeed2',
+            'sql': os.path.join(sql_rt, 'wind_speed', 'daily_windspeed.sql'),
+                 },
+        "hourly": {
+            'table': 'hourly_windspeeddatavalues',
+            'fn': 'uspgethourlywindspeed2',
+            'sql': os.path.join(sql_rt, 'wind_speed', 'hourly_windspeed.sql'),
+                  },
+        "summaries": 
+            [os.path.join(sql_rt, 'wind_speed', 'uspgethourlywindspeed2.sql'),
+             os.path.join(sql_rt, 'wind_speed', 'uspgetdailywindspeed2.sql')]
            },
                 
     }
