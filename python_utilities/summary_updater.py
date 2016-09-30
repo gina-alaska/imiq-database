@@ -1,7 +1,7 @@
 from posthaste import PostHaste
 import os, sys
 from check_activity import load_login
-
+import summary_updater_metadata
 
 class updateSummaries (object):
     """
@@ -9,27 +9,10 @@ class updateSummaries (object):
     """
     
     ## location of local sql scripts
-    sql_rt = os.path.join('sql','update_summaries')
+    sql_rt = summary_updater_metadata.sql_rt
     
     ## information on tables and functions for each variable
-    metadata = {
-    "wind speed":{
-        'daily': {
-            'table': 'daily_windspeeddatavalues',
-            'fn': 'uspgetdailywindspeed2',
-            'sql': os.path.join(sql_rt, 'wind_speed', 'daily_windspeed.sql'),
-                 },
-        "hourly": {
-            'table': 'hourly_windspeeddatavalues',
-            'fn': 'uspgethourlywindspeed2',
-            'sql': os.path.join(sql_rt, 'wind_speed', 'hourly_windspeed.sql'),
-                  },
-        "summaries": 
-            [os.path.join(sql_rt, 'wind_speed', 'uspgethourlywindspeed2.sql'),
-             os.path.join(sql_rt, 'wind_speed', 'uspgetdailywindspeed2.sql')]
-           },
-                
-    }
+    metadata = summary_updater_metadata.metadata
     
     
     def __init__ (self, login, var, sources):
