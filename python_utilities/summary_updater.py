@@ -47,6 +47,9 @@ class updateSummaries (object):
         self.sources = sources
         self.errors = []
         self.varids = {}
+        self.ignore_sites = []
+        
+        
         
     def set_varid (self, src, var):
         """
@@ -96,14 +99,14 @@ class updateSummaries (object):
         """
         
         sql = """
-        SELECT siteid from tables.sites where sourceid = SRCID
+        SELECT distinct siteid from tables.seriescatalog where sourceid =  SRCID
               """
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('SRCID', str(source))
         s.run()
         return s.as_DataFrame()[0].tolist()
               
-    def get_count_from_datavalues_table (self, time, srcid, varid):
+    def get_source_count_from_datavalues_table (self, time, srcid, varid):
         """
             get the number of values in a "datavalues" table on imiq for a 
         given source
@@ -116,19 +119,48 @@ class updateSummaries (object):
         outputs:
             returns count >= 0 <int>
         """
+        c = 0
+        for site in self.get_siteids(srcid):
+            c += self.get_site_count_from_datavalues_table(time, site, varid)
+        return c
+        #~ sql = """
+        #~ select count(*) from tables.TABLE
+        #~ where siteid in (select siteid from tables.sites where sourceid = SRCID)
+            #~ and originalvariableid=VARID
+        #~ """
+        #~ s = PostHaste(self.host,self.db,self.user,self.pswd)
+        #~ s.sql = sql.replace('TABLE', self.metadata[self.var][time]['table'])\
+                   #~ .replace('SRCID', str(srcid))\
+                   #~ .replace('VARID', str(varid))
+
+        #~ s.run()
+        #~ return int(s.as_DataFrame()[0])
         
+    def get_site_count_from_datavalues_table (self, time, siteid, varid):
+        """
+            get the number of values in a "datavalues" table on imiq for a 
+        given source
+        
+        inputs:
+            time: 'daily' or 'hourly' <string>
+            siteid: a site id <int>
+            varid: a variable id <int>
+            
+        outputs:
+            returns count >= 0 <int>
+        """
         sql = """
         select count(*) from tables.TABLE
-        where siteid in (select siteid from tables.sites where sourceid = SRCID)
-            and originalvariableid=VARID
+        where siteid = SITEID and originalvariableid=VARID
         """
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('TABLE', self.metadata[self.var][time]['table'])\
-                   .replace('SRCID', str(srcid))\
+                   .replace('SITEID', str(siteid))\
                    .replace('VARID', str(varid))
 
         s.run()
         return int(s.as_DataFrame()[0])
+        
         
     def delete_source_from_datavalues_table (self, time, srcid, varid):
         """
@@ -139,15 +171,26 @@ class updateSummaries (object):
             srcid: a source id <int>
             varid: a variable id <int>
         """
+        for site in self.get_siteids(srcid):
+            self.delete_site_from_datavalues_table(time, site, varid)
+        
+    def delete_site_from_datavalues_table (self, time, siteid, varid):
+        """
+        delete values in a "datavalues" table on imiq, for a given source
+        
+        inputs:
+            time: 'daily' or 'hourly' <string>
+            siteid: a site id <int>
+            varid: a variable id <int>
+        """
         
         sql = """
-        delete from tables.TABLE
-        where siteid in (select siteid from tables.sites where sourceid = SRCID)
-            and originalvariableid=VARID
+        delete from tables.TABLE where siteid = SITEID 
+                                       and originalvariableid=VARID
         """
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('TABLE', self.metadata[self.var][time]['table'])\
-                   .replace('SRCID', str(srcid))\
+                   .replace('SITEID', str(siteid))\
                    .replace('VARID', str(varid))
 
         s.run()
@@ -174,6 +217,9 @@ class updateSummaries (object):
         sql = """
         select tables.FUNCTION(SITE, VAR);
               """
+        if siteid in self.ignore_sites:
+            print "ignoring site:", siteid, "var:", varid
+            return 
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
@@ -194,23 +240,33 @@ class updateSummaries (object):
                 continue
             for time in ['daily','hourly']:
                 
-                init_count = self.get_count_from_datavalues_table(time, source,
-                                                                    varid)
+                init_count = self.get_source_count_from_datavalues_table(time, 
+                                                                        source,
+                                                                        varid)
                 print source, varid
                 print '--', time,' init count:',  init_count
                 
-                self.delete_source_from_datavalues_table(time, source, varid)
+                #~ self.delete_source_from_datavalues_table(time, source, varid)
                 
-                for site in self.get_siteids(source):
-                    self.excute_db_function(time, site, varid)
+                #~ for site in self.get_siteids(source):
+                    #~ self.excute_db_function(time, site, varid)
+                self.update_dv_table(time, self.get_siteids(source), varid)
                 
-                post_count = self.get_count_from_datavalues_table(time, source,
-                                                                    varid)
+                post_count = self.get_source_count_from_datavalues_table(time, 
+                                                                         source,
+                                                                         varid)
                 print '--', time,' post count:',  post_count
                 if post_count < init_count:
                     print " -- ERR: LESS"
                     self.errors.append('Source ' +str(source) + "failure")
-                    
+    
+    def update_dv_table (self, time, sites, varid):
+        """
+        """
+        for site in sites:
+            print '----',site, varid
+            self.delete_site_from_datavalues_table(time, site, varid)
+            self.excute_db_function(time, site, varid)
                     
     def create_new_summary_tables (self):
         """
@@ -227,12 +283,19 @@ class updateSummaries (object):
 
 def main ():
     from clite import CLIte
-    flags = CLIte(['--login','--variable','--sourceids'])
+    flags = CLIte(['--login'],['--variable','--sourceids',
+                                                        '--varid','--siteids','--ignore'])
+    
+    
+    
+         
+    
     
     srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
     update = updateSummaries(flags['--login'], flags['--variable'], srcids)
     #range(248,258+1) + [29,30,31,34,223, 145, 144] + [ 209, 202, 1, 203, 182, 182, 35, 213]) 
-    
+    if not flags['--ignore'] is None:
+        update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
     update.initilize_varids()
     update.update_db_functions()
     update.update_datavalues_tables()
