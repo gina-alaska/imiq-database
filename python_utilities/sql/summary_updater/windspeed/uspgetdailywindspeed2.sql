@@ -102,7 +102,7 @@ BEGIN
                               where siteid = $1 AND OriginalVariableID = $2 
                               GROUP by siteid, dateTimeUTC, offsetTypeID) AS MAX_Offset 
                            ON MAX_Offset.siteid=WS.SiteID AND MAX_Offset.DateTimeUTC=WS.DateTimeUTC  
-                             WHERE WS.SiteID = %1 AND OriginalVariableid = $2 AND WS.OffsetValue = MAX_Offset.max_OffsetValue 
+                             WHERE WS.SiteID = $1 AND OriginalVariableid = $2 AND WS.OffsetValue = MAX_Offset.max_OffsetValue 
                              GROUP by date_trunc(''day'',ws.datetimeutc), MAX_Offset.max_OffsetValue, MAX_Offset.max_OffsetTypeID;') USING site_id,var_id; -- end of format
         loop
 	fetch maxCursor into dateTimeUTC, avgValue, offsetValue, offsetTypeID;

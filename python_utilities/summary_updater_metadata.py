@@ -6,7 +6,7 @@ info on .sql files/ imiq tables for summary updater
 """
 import os
 
-sql_rt = os.path.join('sql','update_summaries')
+sql_rt = os.path.join('sql','summary_updater')
 metadata = {
 "airtemp":{
     'daily': {

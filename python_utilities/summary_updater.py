@@ -2,6 +2,9 @@ from posthaste import PostHaste
 import os, sys
 from check_activity import load_login
 import summary_updater_metadata
+import psycopg2
+from datetime import datetime
+from email_alert import send_alert
 
 class updateSummaries (object):
     """
@@ -203,11 +206,16 @@ class updateSummaries (object):
         if siteid in self.ignore_sites:
             print "ignoring site:", siteid, "var:", varid
             return 
-        s = PostHaste(self.host,self.db,self.user,self.pswd)
-        s.sql = sql.replace('FUNCTION', self.metadata[self.var][time]['fn'])\
+        try:
+            s = PostHaste(self.host,self.db,self.user,self.pswd)
+            s.sql = sql\
+                   .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
                    .replace('VAR', str(varid))
-        s.run()
+            s.run()
+        except psycopg2.DataError:
+            print "cannot execute:", siteid, "var:", varid
+            return
     
     def update_datavalues_tables (self):
         """
@@ -267,25 +275,46 @@ class updateSummaries (object):
 def main ():
     from clite import CLIte
     flags = CLIte(['--login'],['--variable','--sourceids',
-                                                        '--varid','--siteids','--ignore'])
+                                                        '--varid','--siteids','--ignore', '--email'])
+    
+    
+    start = datetime.now()
+    
+    ERROR = None
+    
+    try:
+        srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
+        update = updateSummaries(flags['--login'], flags['--variable'], srcids)
+        #range(248,258+1) + [29,30,31,34,223, 145, 144] + [ 209, 202, 1, 203, 182, 182, 35, 213]) 
+        if not flags['--ignore'] is None:
+            update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
+        
+        
+        
+        
+        update.initilize_varids()
+        update.update_db_functions()
+        update.update_datavalues_tables()
+        #~ print update.errors
+        update.create_new_summary_tables()
+        print update.errors 
+    except StandardError as e:
+        ERROR = e
     
     
     
-         
     
-    
-    srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
-    update = updateSummaries(flags['--login'], flags['--variable'], srcids)
-    #range(248,258+1) + [29,30,31,34,223, 145, 144] + [ 209, 202, 1, 203, 182, 182, 35, 213]) 
-    if not flags['--ignore'] is None:
-        update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
-    update.initilize_varids()
-    update.update_db_functions()
-    update.update_datavalues_tables()
-    #~ print update.errors
-    update.create_new_summary_tables()
-    print update.errors             
-                
+    time =  datetime.now() - start
+    print 'elapsed time:', str(time)
+    if not flags['--email'] is None :
+        if not ERROR is none:
+            sub = "Imiq Summary Update, crashed"
+            msg = ERROR + '\n\nelapsed time:' + str(time)
+        else:
+            sub =  'Imiq Summary Update, complete'
+            msg = flags['--variable'] + ' summaries updated for sources: ' + str(srcids) + '\n\nelapsed time:' + str(time) + '\n\n' + str(update.errors)
+        send_alert(flags['--email'],flags['--email'], sub , msg)
+                 
 
 if __name__ == "__main__":
     main()
