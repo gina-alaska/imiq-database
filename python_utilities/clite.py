@@ -14,7 +14,7 @@ class CLIte (object):
                 self.args[flag] = value
             except ValueError:
                 flag = item.split('=')[0]
-                self.args[flag] = None
+                self.args[flag] = True
         if not set(mandatory) <= set(self.args.keys()) or not set(self.args.keys()) <= set(self.flags):
             raise StandardError, "Invalid flags"
             
