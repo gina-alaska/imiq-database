@@ -1,0 +1,50 @@
+QualifierID,QualifierCode,QualifierDescription
+1,PIR1,Passed sanity check; see incident report IR_1
+2,U,Unchecked value - no sanity check
+3,P,Passed sanity check - value is within the valid range
+4,V,Validated - value has been manually reviewed and confirmed
+5,NV,No Value was recorded
+6,VB,Value is Below the device`s minimum range
+7,VE,Value Exceeds the device`s maximum range
+8,VF,Value is based on another Failed variable
+9,CB,Changed value: original value was Below range
+10,CE,Changed value: original value Exceeded rangeCE
+11,GF,Gap Filled: original value was missing
+12,IRn,Incident Report n for this value
+13,T,Trace amounts of Variable
+14,6999,6999 DENOTES MISSING DATA OR INVALID DATA
+15,7777,7777 DENOTES DATA NOT COLLECTED
+17,9,missing data value
+18,0,"Passed gross limits check marker, NCDC ISH air temperature quality code"
+19,1,"Passed all quality control checks marker, NCDC ISH air temperature quality code"
+20,2,"Suspect marker, NCDC ISH air temperature quality code"
+21,3,"Erroneous, NCDC ISH air temperature quality code"
+22,4,"Passed gross limits check, data originate from an NCDC data source, NCDC ISH air temperature quality code"
+23,5,"Passed all quality control checks, data originate from an NCDC data source, NCDC ISH air temperature quality code"
+24,6,"Suspect, data originate from an NCDC data source, NCDC ISH air temperature quality code"
+25,7,"Erroneous, data originate from an NCDC data source, NCDC ISH air temperature quality code"
+26,9,"Passed gross limits check if element is present, NCDC ISH air temperature quality code"
+27,C,"Temperature and dew point received from Automated Weather Observing Systems (AWOS) are reported in whole degrees Celsius. Automated QC flags these values, but they are accepted as valid."
+29,e,values is estimated - for more information see methods
+30,A,Approved for publication -- Processing and review completed.
+31,A:e,Approved for publication. Estimated value. 
+73,3,"Failed all quality control checks, NCDC ISH"
+116,E,"Estimated date.  If card is 1, then date was estimated to MM/01.  If card was 2, then date estimated to MM/15.  (Snow Course)"
+117,Blank,did not fail any quality assurance check
+118,W,temperature too warm for snow
+119,9,"missing, failed a quality control check"
+120,W,"Working: Data can be computed, edited, and deleted "
+121,A,Approved: Data are considered final and locked against any modifications
+122,P,Provisional data subject to revision.
+123,9,"Discharge/gage height due to Snowmelt, Hurricane, Ice-Jam or Debris Dam breakup"
+124,P:e,Provisional data subject to revision. Estimated value.
+125,1,Discharge is a Maximum Daily Average
+127,1:2:9,"1:Discharge is a Maximum Daily Average 2: Gage height not the maximum for the year. 9: Discharge due to Snowmelt, Hurricane,Ice-Jam or Debris Dam breakup"
+128,R,In review: reviewed and accepted
+129,1:2,1:Discharge is a Maximum Daily Average 2: Gage height not the maximum for the year.
+130,2,Gage height not the maximum for the year.
+131,0,Value is within the specified range.
+132,1,Value is equal to the missing value marker
+133,2,Value is less than the valid minimum data value
+134,3,Value is greater than the valid maximum data value
+135,4,Value failed the valid delta check.

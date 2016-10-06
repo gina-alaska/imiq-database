@@ -1,0 +1,67 @@
+1	Unknown	Unknown			Unknown				
+2	FoxTPS	80905	2009-07-01		Yankee Environmental Systems TPS-3100, also called the Hot Plate				
+3	BarrowTPS		2010-07-01						
+4	BarrowCurrent		2010-07-01						
+5	BarrowDepth		2010-07-01						
+6	T-handle 								
+7	Fathometer calibrated with weighted line								
+8	RM Young 05103				WS:Accuracy: 60.6 mph;Operating Range: 0 to 60 m/s (0 to 134 mph);Starting Threshold: 1 m/s (2.2 mph);Height: 3 meters (9.8 feet)/WD:Accuracy: 63°,Operating Range: 0° to 360° mechanical; (0° to 355° electrical (5° open);Installation: Align true north;Height: 3 meters (9.8 feet)				
+9	Vaisalla HMP45C				RH Accuracy @20°C: 62% RH ( 0-90%), 63% RH (90-100%),Temperature Accuracy: 60.2°C at 20°C; 60.4°C at -40°C,Temperature Range: -40 to +60°C,RH Range: 0 to 100%,Installation: In 10-plate gill radiation shield, non-aspirated,Height: 2 meters (6.6 feet)				
+11	Texas Electronics 525WS (Tipping Bucket Gauge) 				Resolution: 0.01 in,Accuracy: 61% up to 1 in./hr; +0 to -2.5% for 1 to 2 in./hr rainfall rates,Installation: Surrounded by ETI Alter (wind) shield,Height: 0.4-0.7 meters (1.3 - 2.3 feet)				
+12	Campbell Scientific SR50 (Ultrasonice distance sensor) 				Operating Range: 0.5 to 10 meters,Resolution: 0.1 mm,Accuracy: 61 cm or 0.4% of distance to target, whichever is greater ,Installation: Point straight down on a flat surface,Height: 1.34 meters (4.4 feet)				
+13	Kipp and Zonen NR-Lite				Installation: Orient to south to minimize shadow effect from pole,Accuracy: Varies with temperature, wind speed and sensor symmetry,Height: 1.24 meters (4.1 feet)				
+14	GWS YSI Series 44033 (Thermistors)/Soil Surface Temp/Backup Temp Sensor				(ST1,ST2,ST3) Depths: ~1cm (surface), at top of soil interface, 3 thermistors::For Backup Temp Operating Range: -80°C to +75°C,Installation: In 6-plate gill radiation shield, non-aspirated,Height: 2 meters (6.6 feet) 				
+15	GWS YSI Series 44033 (Thermistors)/Soil Temp Profile				(STP1,STPn,..,STP12) Installation: In back-filled bored hole,Depths: 0-150 cm; 1-12 thermistors (based on actual depth of bored drill hole)				
+16	Campbell Scientific CS616 Soil-Moisture Probe				(SM1,SM2,SM3),     * Installation: horizontal orientation in back-filled hole,Depths: 10, 20, 40 cm				
+17	Texas Electronics TE525MM 				"Resolution (1 Tip) : 0.1 mm (0.004 in);Accuracy: ±1% at rates up to 1""/hr;Installation: wind shield;Height: 1 m"				
+18	RM Young 05103-L 				WS:Accuracy: +/- 0.3 m/s (+/- 0.6 mph);Operating Range: 0 to 60 m/s (0 to 134 mph);Starting Threshold: 1 m/s (2.2 mph);Height: 3 m;Output Units: meters per second;Scan Interval: 5 seconds/WD:Operating Range: 0 to 360 deg (mechanical) true north (0 to 355 electrical, 5 deg open);Starting Threshold: 1.1 m/s (2.2 mph) 10 deg displacement;Installation: Align true north;Height: 3 m;Output Units: degrees true north;Scan Interval: 5 seconds 				
+19	HMP45C Vaisala AT/RH sensor				RH Accuracy @20°C: 62% RH ( 0-90%), 63% RH (90-100%) ;Temperature Accuracy: 60.2°C at 20°C; 60.4°C at -40°C ;RH Range: 0 to 100%;Installation: In 12-gill radiation shield, non-aspirated;Height: 2 meters (6.6 feet);Output Units: °C;Scan Interval: 60 seconds				
+20	Campbell Scientific SR50 (sonic ranging sensor)				Operating Range: 0.5 to 10 meters	Resolution: 0.1 mm	Accuracy: to 1 cm or 0.4 percent of distance to target 	Installation: Point straight down on a flat surface	Height: 1.5 m
+21	Kipp and Zonen NR-Lite				Installation: Orient to south to minimize shadow effect from pole;Accuracy: Varies with temperature, wind speed and sensor symmetry;Height: 1.2 m				
+22	(SM1,SM2,SM3,SM4) Campbell Scientific CS616 Soil-Moisture Probe				Installation: horizontal orientation in back-filled hole;Depths: 10cm, 20cm, 30cm, 40cm				
+23	Aquistar SDI12 Water Level Sensor (pressure + temperature) 				Resolution: 16 bit 	Accuracy: ± 0.06% FSO (typical)	Operating Range: -5° C to 70° C		
+24	CSI Mdl. 207 T/Rh				1.5m Air Temp/RH; activated in 1986; 10m AT/RH activated 1995; CSI,to be replaced by CSI 500				
+25	HMP 45C,CSI				3m Air Temp/RH,CSI,to be replaced by CSI 500				
+26	Met One mdl. 014A Anemometer				1m and 3m Wind Speed,Met One,Installed 1986; 10m WS activated 1995				
+27	Met One mdl. 024A Wind Dir.				Wind Direction, Met One, Installed 1986				
+28	Tipping Bucket Raingage,TX. Electronics				Precip				
+29	ALPHA, 12-Thermistor String				"T1= +30, +20, +10cm a.g.s. (snow temps) & Surface,- 5, -10, -20, -30, -40, -50, -65 & -85 cm b.g.s.; T2=Surface,- 5, -10, -20, -50, -90, -150, -250, -450, -650, -850 & -1050 cm b.g.s	"				
+30	PYR Pyrgeometer, longwave radiation				terresrial and atmospheric longwave radiation				
+31	PSP Pyranometer				reflected and incident shortwave radiation				
+32	Q7.1 Net radiometer				net radiation				
+33	Tipping Bucket Raingage				Tipping Bucket Raingage				
+34	TDR Unit,Tektronix				TDR probes at different depths (5 to 40cm) in 4 plotsTDR probes at different depths (5 to 40cm) in 4 plots				
+35	Aerovane/anemometer (noted in instrumentation),024a Met One Wind Direction sensor (noted in metadata documentation)				10m Wind Direction.  For 024a Met One:  Accuracy, as reported by manufacturer, is to within +/- 5 degrees				
+36	Tipping Bucket Raingage				Gen. Inst. 				
+37	Wyoming snow gage				Snow				
+38	CSI Mdl. 207 T/Rh, height of 2 meters				2m air temp and relative humidity				
+39	Weathertronics anemometer, height 2 meters				2m wind speed				
+40	Eppley model PSP Precision Spectral Pyranometer				This instrument has a reported spectral range of 0.285 to 2.800 microns and a reported accuracy of plus/minus 1 percent in the range of values encountered				
+41	Weathertronics Albedometer				The spectral range of this sensor is 0.3 to 3 microns, which excludes the longwave component.  The accuracy of this sensor is reported to be plus/minus 1 percent and the cosine response is less than 1 percent when the sun angle is within 0 to 70 degrees of the perpendicular of the sensor plane.				
+42	Swissteco model S-1 Net Radiometer				The operating range of the Swissteco instrument is 0.3 to 60 M	 the accuracy is reported as plus/minus 2.5 percent.  			
+43	Eppley model PIR Precision Infrared Pyrgeometer				Eppley model PIR Precision Infrared Pyrgeometers were used to measure longwave radiation, both terrestrial and atmospheric.  The spectral range of this type of instrument is 4 to 50M and the accuracy is reported as plus/minus 1 percent between 0 and 700 W/m2				
+44	Eppley Spectral Precision Pyranometer fitted with RG8 dark red filter				Eppley Spectral Precision Pyranometer fitted with RG8 dark red filter was used to measure photosynthetically active radiation between 0.700 and 2.800 microns at the Imnavait A site.  This instrument has a reported spectral range of 0.285 to 2.800 microns and a reported accuracy of plus/minus 1 percent in the range of values encountered				
+45	Weathertronics Pyradiometer				This sensor produces two outputs, the total incoming radiation and total emitted or reflected radiation, the difference being the net absorbed radiation.  The accuracy of this instrument was reported to be within 2 percent				
+46	Leupold Steven's F1 water level recorders within an H type flume				Stream discharge was estimated from stage data recorded by Leupold Steven's F1 water level recorders within an H typle flume.  A stage discharge relationship was developed from discharge measurements made with Price AA (Gurley) and Pygmy cup type current meters, Montedoro Whitney electromagnetic current meters and Sontek Accoutic Dopler current meters using standard USGS stream cross section techniques to estimate stream discharge from the recorded stage data.				
+47	Onset HOBO U20 Water Level Data Logger - U20-001-01 				Water level accuracy*: Typical error - 0.05% FS, 0.5 cm (0.015 ft) water; Maximum error: - 0.1% FS, 1.0 cm (0.03 ft) water; Resolution: < 0.02 kPa (0.003 psi), 0.21 cm (0.007 ft) water; Thermal response time (90%)†: Approximately 10 minutes in water to achieve full temperature compensation of the pressure sensor; Accuracy: 0.37°C at 20°C (0.67°F at 68°F); Resolution: 0.1°C at 20°C (0.18°F at 68°F) (10-bit); Stability (drift): 0.1°C (0.18°F) per year   				
+48	Kipp en Zonen solarimeter		1958-01-01	1958-01-01					
+49	Beckman and Whitley net radiometer		1958-01-01	1958-01-01					
+50	Beckman and Whitley total hemispheric radiometer		1958-01-01	1958-01-01					
+51	thermocoupler recording continuously on a Leeds and Northrup Speedomax Recorder		1958-01-01	1958-01-01	Data reduction (punching cards and checking data) was performed by many persons.				
+52	U.S.W.B. thermometer mounted in a cotton-region shelter		1957-06-01	1958-10-30	note thermometers were used to record maximum and minimum temperature and were mounted in a cotton-region shelter. 				
+53	Assman type spring driven psychrometer and wet and dry bulb thermometer		1957-06-01	1958-10-30	The table used for relative humidity values: Relative Humidity from Wet and Dry Bulb Thermometer, Bulletin of U.S.W.B. No. 1071. Depression (td-t'w) were read to the nearest 0.1 degree. 				
+54	PYR Pyrgeometer				Eppley, incoming and outgoing longwave radiation				
+55	Kip & Zonen Pyranometer				Kip & Zonen, incoming and outgoing shortwave radiation				
+56	In-Situ Troll 9000 submersible meter				NSL Water Chem, UAF				
+57	Hatch LDO meter				NSLWater Chem, UAF				
+58	CSI Mdl. 107 Temp probe				CSI Mdl. 107 Temp probe 				
+59	v-notch weir: not applicable, pressure transducer: HOBO u20-001-040Ti; flow meter: Flo-MateTM Model 2000, Marsh-McBirney		2007-06-01	2009-08-18	(HOBO U20-001-04-Ti in 2009, and diurnal site visits in 2008 and 2007, summer only				
+60	YSI submersible meter				NSL Water Chem, UAF				
+61	Barometer				Atmospheric Pressure, WERC				
+62	PSP Pyranometer				Eppley				
+63	CSI				CSI Air Temp/Relative Humidity				
+64	RM YOUNG				RM YOUNG 3m wind speed and wind direction				
+65	Texas				Texas, rainfall				
+66	REBS,Q95174				CF TOP=9.29W/M^2/MV, CF BOTTOM=11.59				
+67	ALPHA				soil temperature				
+68	CSI				soil moisture content probe 				

@@ -1,0 +1,38 @@
+The execution was successful
+
+- Initializing Data Flow Task (Success)
+
+- Initializing Connections (Success)
+
+- Setting SQL Command (Success)
+
+- Setting Source Connection (Success)
+
+- Setting Destination Connection (Success)
+
+- Validating (Success)
+
+- Prepare for Execute (Success)
+
+- Pre-execute (Success)
+	Messages
+	* Information 0x402090dc: Data Flow Task 1: The processing of file "Y:\raid\san\local\database\mssqlserver\iarcod\DAILY_tables.txt" has started.
+	 (SQL Server Import and Export Wizard)
+	
+
+- Executing (Success)
+
+- Copying to Y:\raid\san\local\database\mssqlserver\iarcod\DAILY_tables.txt (Success)
+	* 672733 rows transferred
+
+- Post-execute (Success)
+	Messages
+	* Information 0x402090dd: Data Flow Task 1: The processing of file "Y:\raid\san\local\database\mssqlserver\iarcod\DAILY_tables.txt" has ended.
+	 (SQL Server Import and Export Wizard)
+	
+	* Information 0x4004300b: Data Flow Task 1: "Destination - DAILY_tables_txt" wrote 672733 rows.
+	 (SQL Server Import and Export Wizard)
+	
+
+
+
