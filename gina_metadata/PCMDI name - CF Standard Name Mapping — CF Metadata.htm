@@ -1,0 +1,926 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en">
+
+  
+    
+    
+    
+    
+    
+
+  
+
+  <head>
+    <meta http-equiv="Content-Type"
+          content="text/html;charset=utf-8" />
+
+    <title>
+        PCMDI name - CF Standard Name Mapping
+        &mdash;
+        CF Metadata
+    </title>
+
+    
+      
+        <base href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/pcmdi-name-cf-standard-name-mapping" />
+      
+    
+
+    <meta name="generator" content="Plone - http://plone.org" />
+
+
+    <!-- Plone ECMAScripts -->
+    
+      
+        
+            
+                <script type="text/javascript"
+                        src="http://cf-pcmdi.llnl.gov/portal_javascripts/Plone%20Default/ploneScripts2950.js">
+                </script>
+                
+            
+        
+    
+    
+
+    
+	
+          
+        
+            
+                
+                    
+                    
+                        <style type="text/css"><!-- @import url(http://cf-pcmdi.llnl.gov/portal_css/Plone%20Default/ploneStyles4916.css); --></style>
+                    
+                    
+                
+            
+            
+                
+                    <link rel="alternate stylesheet"
+                          type="text/css" media="screen"
+                          href="http://cf-pcmdi.llnl.gov/portal_css/Plone%20Default/ploneStyles2581.css"
+                          title="Small Text" />
+                    
+                    
+                
+            
+            
+                
+                    <link rel="alternate stylesheet"
+                          type="text/css" media="screen"
+                          href="http://cf-pcmdi.llnl.gov/portal_css/Plone%20Default/ploneStyles1342.css"
+                          title="Large Text" />
+                    
+                    
+                
+            
+            
+                
+                    
+                    
+                        <style type="text/css" media="all"><!-- @import url(http://cf-pcmdi.llnl.gov/portal_css/Plone%20Default/ploneStyles0961.css); --></style>
+                    
+                    
+                
+            
+        
+    
+        
+        
+    
+
+    <!-- Internet Explorer CSS Fixes -->
+    <!--[if IE]>
+        <style type="text/css" media="all">@import url(http://cf-pcmdi.llnl.gov/IEFixes.css);</style>
+    <![endif]-->
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="http://cf-pcmdi.llnl.gov/favicon.ico" />
+
+    <link rel="home" href="http://cf-pcmdi.llnl.gov"
+          title="Front page" />
+    <link rel="search"
+          href="http://cf-pcmdi.llnl.gov/search_form"
+          title="Search this site" />
+    <link rel="author"
+          href="http://cf-pcmdi.llnl.gov/author/halliday1"
+          title="Author information" />
+    <link rel="contents"
+          href="http://cf-pcmdi.llnl.gov/sitemap"
+          title="Site Map" />
+
+    
+
+    
+
+    <link rel="up"
+          href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names"
+          title="Up one level" />
+
+    
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
+    
+    
+      
+      
+    
+
+    
+      
+      
+    
+
+    
+      
+      
+    
+
+    
+      
+      
+    
+
+  </head>
+
+  <body class="section-documents" dir="ltr">
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top">
+
+        <div id="portal-header">
+          <p class="hiddenStructure">
+            <a accesskey="2"
+               href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/pcmdi-name-cf-standard-name-mapping#documentContent">Skip to content.</a> |
+
+            <a accesskey="6"
+               href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/pcmdi-name-cf-standard-name-mapping#portlet-navigation-tree">Skip to navigation</a>
+          </p>
+
+             
+
+             <div id="portal-searchbox">
+    <form name="searchform"
+          action="http://cf-pcmdi.llnl.gov/search"
+          style="white-space:nowrap"
+          onsubmit="return liveSearchSubmit()">
+
+        <label for="searchGadget" class="hiddenStructure">Search Site</label>
+
+        <div class="LSBox">
+        <input id="searchGadget" name="SearchableText"
+               type="text" size="15" title="Search Site"
+               accesskey="4" class="visibility:visible" />
+
+        <input class="searchButton" type="submit"
+               value="Search" />
+
+        <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+        </div>
+    </form>
+
+    <div id="portal-advanced-search" class="hiddenStructure">
+        <a href="http://cf-pcmdi.llnl.gov/search_form"
+           accesskey="5">
+            Advanced Search&hellip;
+        </a>
+    </div>
+
+</div>
+
+             <h1 id="portal-logo">
+    <a href="http://cf-pcmdi.llnl.gov" accesskey="1">CF Metadata</a>
+</h1>
+
+             <div id="portal-skinswitcher">
+  
+</div>
+
+             
+    <h5 class="hiddenStructure">Sections</h5>
+
+    <ul id="portal-globalnav">
+        <li id="portaltab-index_html" class="plain">
+            <a href="http://cf-pcmdi.llnl.gov">Home</a></li>
+        <li id="portaltab-documents" class="selected">
+            <a href="http://cf-pcmdi.llnl.gov/documents"
+               title="">Documents</a></li>
+        <li id="portaltab-conformance" class="plain">
+            <a href="http://cf-pcmdi.llnl.gov/conformance"
+               title="">Conformance</a></li>
+        <li id="portaltab-discussion" class="plain">
+            <a href="http://cf-pcmdi.llnl.gov/discussion"
+               title="">Discussion</a></li>
+        <li id="portaltab-governance" class="plain">
+            <a href="http://cf-pcmdi.llnl.gov/governance"
+               title="">Governance</a></li>
+        <li id="portaltab-working-groups" class="plain">
+            <a href="http://cf-pcmdi.llnl.gov/working-groups"
+               title="">Working Groups</a></li>
+    </ul>
+
+          </div>
+
+          <div id="portal-personaltools-wrapper">
+
+<h5 class="hiddenStructure">Personal tools</h5>
+
+<ul id="portal-personaltools">
+   
+
+    
+        <li>
+            <a href="http://cf-pcmdi.llnl.gov/login_form">
+               Log in
+            </a>
+        </li>
+    
+
+</ul>
+</div>
+
+           <div id="portal-breadcrumbs">
+
+    <span id="breadcrumbs-you-are-here">You
+are here:</span>
+    <a href="http://cf-pcmdi.llnl.gov">Home</a>
+    <span class="breadcrumbSeparator">
+        &rarr;
+        
+    </span>
+    <span dir="ltr">
+        
+            <a href="http://cf-pcmdi.llnl.gov/documents">Documents</a>
+            <span class="breadcrumbSeparator">
+                &rarr;
+                
+            </span>
+            
+         
+    </span>
+    <span dir="ltr">
+        
+            <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names">CF Standard Names</a>
+            <span class="breadcrumbSeparator">
+                &rarr;
+                
+            </span>
+            
+         
+    </span>
+    <span dir="ltr">
+        
+            
+            
+            <span>PCMDI name - CF Standard Name Mapping</span>
+         
+    </span>
+
+</div>
+      </div>
+
+      <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
+
+      
+
+      <table id="portal-columns">
+        <tbody>
+          <tr>
+            
+            <td id="portal-column-one">
+              <div class="visualPadding">
+                
+                  
+
+    
+        
+
+        
+            
+
+<dl class="portlet" id="portlet-navigation-tree">
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <a href="http://cf-pcmdi.llnl.gov/sitemap"
+           class="tile">Navigation</a>
+       
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem lastItem">
+        <ul class="portletNavigationTree navTreeLevel0">
+
+            <li class="navTreeItem">
+                
+                   <div class="visualIcon contenttype-plone-site">
+                       <a class=" visualIconPadding"
+                          href="http://cf-pcmdi.llnl.gov"
+                          title="">
+                       Home
+                       
+                       </a>
+                   </div>
+                
+            </li>
+            
+
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/documents"
+           class="state-visible visualIconPadding" title="">Documents</a>
+        
+    </div>
+
+    <ul class="navTree navTreeLevel2">
+        
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names"
+           class="state-published visualIconPadding"
+           title="">CF Standard Names</a>
+        
+    </div>
+
+    <ul class="navTree navTreeLevel3">
+        
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/standard-name-table"
+           class="state-visible visualIconPadding" title="">Standard Name Table</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/area-type-table"
+           class="state-published visualIconPadding"
+           title="">Area Type Table</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-document">
+        
+        <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/pcmdi-name-cf-standard-name-mapping"
+           class="state-visible visualIconPadding navTreeCurrentItem"
+           title="">PCMDI name - CF Standard Name Mapping</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+    </ul>
+    
+</li>
+
+
+    </ul>
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/conformance"
+           class="state-published visualIconPadding"
+           title="">Conformance</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/discussion"
+           class="state-published visualIconPadding"
+           title="">Discussion</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/governance"
+           class="state-visible visualIconPadding" title="">Governance</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+<li class="navTreeItem visualNoMarker">
+
+    
+
+    <div class="visualIcon contenttype-folder">
+        
+        <a href="http://cf-pcmdi.llnl.gov/working-groups"
+           class="state-visible visualIconPadding" title="">Working Groups</a>
+        
+    </div>
+
+    
+    
+</li>
+
+
+
+
+        </ul>
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+</dl>
+
+
+        
+
+        
+
+        
+    
+    
+        
+
+        
+            
+        
+
+        
+
+        
+    
+    
+        
+
+        
+            
+        
+
+        
+
+        
+    
+
+                
+                &nbsp;
+              </div>
+            </td>
+            
+
+            
+            <td id="portal-column-content">
+
+              
+                <div id="content" class="">
+
+                  
+
+                  <div class="documentContent" id="region-content">
+
+                    <a name="documentContent"></a>
+
+                    
+
+    
+
+
+
+                    
+
+                    
+    
+
+        <div class="documentActions">
+    
+
+    <h5 class="hiddenStructure">Document Actions</h5>
+
+    <ul>
+    
+        <li>
+            <a href="http://cf-pcmdi.llnl.gov/documents/cf-standard-names/pcmdi-name-cf-standard-name-mapping/sendto_form">
+
+                <img src="http://cf-pcmdi.llnl.gov/mail_icon.gif"
+                     alt="Send this page to somebody"
+                     title="Send this page to somebody"
+                     id="icon-sendto" />
+            </a>
+        </li>
+    
+    
+        <li>
+            <a href="javascript:this.print();">
+
+                <img src="http://cf-pcmdi.llnl.gov/print_icon.gif"
+                     alt="Print this page"
+                     title="Print this page" id="icon-print" />
+            </a>
+        </li>
+    
+
+    </ul>
+    
+
+    
+      
+
+    
+
+    
+
+</div>
+
+        <h1 class="documentFirstHeading">PCMDI name - CF Standard Name Mapping</h1>
+    
+        <div>
+  <!--
+    <div class="documentByLine">
+        <img src="" alt=""
+           tal:define="locked portal/lock_icon.gif;"
+           tal:condition="isLocked"
+           tal:replace="structure python:locked.tag(title='Locked')"
+           />
+
+        <tal:name tal:condition="creator"
+            tal:define="author python:mtool.getMemberInfo(creator)">
+          <span class="documentAuthor"
+                i18n:translate="label_by_author">
+            by
+          <a href="#"
+             tal:attributes="href string:${portal_url}/author/${creator}"
+             tal:content="python:author and author['fullname'] or creator"
+             tal:omit-tag="not:author"
+             i18n:name="author">
+            Bob Dobalina
+          </a>
+
+          &mdash;
+          
+          </span>
+        </tal:name>
+
+        <span class="documentModified">
+            <span i18n:translate="box_last_modified">
+            last modified
+            </span>
+            <span tal:replace="python:toLocalizedTime(here.ModificationDate(),long_format=1)">
+            August 16, 2001 at 23:35:59
+            </span>
+        </span>
+
+        <span class="state-expired"
+            tal:condition="python:portal.isExpired(here)"
+            i18n:translate="time_expired">
+        &mdash; expired
+        </span>
+
+        <span class="documentLocked"
+              tal:define="locked portal/lock_icon.gif"
+              tal:condition="isLocked">
+            <img src=""
+                 tal:replace="structure python:locked.tag(title='This item is locked')"
+                 alt="Object locked" />
+        </span>
+
+        <div class="documentContributors"
+             tal:condition="here/Contributors"
+             i18n:translate="text_contributors">
+            Contributors:
+            <span i18n:name="name"
+                  tal:omit-tag=""
+                  tal:content="python: ', '.join(here.Contributors())">
+              Mary
+            </span>
+        </div>
+
+        <tal:rights condition="here/Rights">
+        <div tal:replace="here/Rights">
+          Copyleft NiceCorp Inc.
+        </div>
+        </tal:rights>
+
+        <span metal:use-macro="here/review_history/macros/review_history" />
+
+    </div>
+  -->
+</div>
+
+        
+        
+    
+        <div class="plain">
+            <table border="1"><tbody><tr><td rowspan="2"><b>name</b>
+</td><td align="center" colspan="2"><b>Units</b>
+</td><td rowspan="2"><b>PCMDI description</b>
+</td><td rowspan="2"><b>CF Standard Name</b>
+</td></tr><tr><td><b>PCMDI</b></td><td><b>CF</b>
+</td></tr><tr><td>cl</td><td>%</td><td>1</td><td>Cloud amount</td><td><kbd class="att">cloud_area_fraction_in_atmosphere_layer</kbd>
+</td></tr><tr><td>cli</td><td>kg/kg</td><td>1</td><td>Cloud ice</td><td><kbd class="att">mass_fraction_of_cloud_ice_in_air</kbd>
+</td></tr><tr><td>clivi</td><td>kg/m2</td><td>kg m-2</td><td>Vertically integrated cloud ice</td><td><kbd class="att">atmosphere_cloud_ice_content</kbd>
+</td></tr><tr><td>clt</td><td>%</td><td>1</td><td>Total cloud amount</td><td><kbd class="att">cloud_area_fraction</kbd>
+</td></tr><tr><td>clw</td><td>kg/kg</td><td>1</td><td>Cloud liquid water</td><td><kbd class="att">mass_fraction_of_cloud_liquid_water_in_air</kbd>
+</td></tr><tr><td>clwvi</td><td>kg/m2</td><td>kg m-2</td><td>Vertically integrated cloud water (liquid and solid phase)</td><td><kbd class="att">atmosphere_cloud_condensed_water_content</kbd>
+</td></tr><tr><td>evspsbl</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Surface evaporation plus sublimation rate</td><td><kbd class="att">water_evaporation_flux</kbd>
+</td></tr><tr><td>hfcorr</td><td>W/m2</td><td>W m-2</td><td>Flux correction (or "adjustment") for heat flux</td><td><kbd class="att">heat_flux_correction</kbd>
+</td></tr><tr><td>hfls</td><td>W/m2</td><td>W m-2</td><td>Heat flux latent surface</td><td><kbd class="att">surface_upward_latent_heat_flux</kbd>
+</td></tr><tr><td>hfns</td><td>W/m2</td><td>W m-2</td><td>Heat flux net surface</td><td><kbd class="att">surface_downward_heat_flux_in_air</kbd>
+</td></tr><tr><td>hfss</td><td>W/m2</td><td>W m-2</td><td>Heat flux sensible surface</td><td><kbd class="att">surface_upward_sensible_heat_flux</kbd>
+</td></tr><tr><td>hur</td><td>%</td><td>1</td><td>Relative humidity</td><td><kbd class="att">relative_humidity</kbd>
+</td></tr><tr><td>hus</td><td>kg/kg</td><td>1</td><td>Specific humidity</td><td><kbd class="att">specific_humidity</kbd>
+</td></tr><tr><td>huss</td><td>kg/kg</td><td>1</td><td>Surface specific humidity (2m)</td><td><kbd class="att">specific_humidity</kbd>  with a vertical coordinate in
+<kbd class="att">height</kbd> of 2 m.
+</td></tr><tr><td>latitude</td><td><br /></td><td>degree_north</td><td>Latitude</td><td><kbd class="att">latitude</kbd>
+</td></tr><tr><td>lev</td><td><br /></td><td>1</td><td>Model level number</td><td><kbd class="att">model_level_number</kbd>
+</td></tr><tr><td>longitude</td><td><br /></td><td>degree_east</td><td>Longitude</td><td><kbd class="att">longitude</kbd>
+</td></tr><tr><td>mptta</td><td>K2</td><td>K2</td><td>Mean square of temperature</td><td><kbd class="att">square_of_air_temperature</kbd>
+</td></tr><tr><td>mpuua</td><td>m2/s2</td><td>m2 s-2</td><td>Mean square of eastward wind</td><td><kbd class="att">square_of_eastward_wind</kbd>
+</td></tr><tr><td>mpuva</td><td>m2/s2</td><td>m2 s-2</td><td>Mean product of eastward and northward wind</td><td><kbd class="att">product_of_eastward_wind_and_northward_wind</kbd>
+</td></tr><tr><td>mpuzga</td><td>m2/s</td><td>m2 s-1</td><td>Mean product of eastward wind and geopotential height</td><td><kbd class="att">product_of_eastward_wind_and_geopotential_height</kbd>
+</td></tr><tr><td>mpvhusa</td><td>m/s</td><td>m s-1</td><td>Mean product of northward wind and specific humidity</td><td><kbd class="att">product_of_northward_wind_and_specific_humidity</kbd>
+</td></tr><tr><td>mpvta</td><td>m*K/s</td><td>K m s-1</td><td>Mean product of northward wind and temperature</td><td><kbd class="att">product_of_northward_wind_and_air_temperature</kbd>
+</td></tr><tr><td>mpvva</td><td>m2/s2</td><td>m2 s-2</td><td>Mean square of northward wind</td><td><kbd class="att">square_of_northward_wind</kbd>
+</td></tr><tr><td>mpvzga</td><td>m2/s</td><td>m2 s-1</td><td>Mean product of northward wind and geopotential height</td><td><kbd class="att">product_of_northward_wind_and_geopotential_height</kbd>
+</td></tr><tr><td>mpwapta</td><td>K*Pa/s</td><td>K Pa s-1</td><td>Mean product of vertical motion and temperature</td><td><kbd class="att">product_of_omega_and_air_temperature</kbd>
+</td></tr><tr><td>mpwhusa</td><td>Pa/s</td><td>Pa s-1</td><td>Mean product of vertical motion and specific humidity</td><td><kbd class="att">product_of_omega_and_specific_humidity</kbd>
+</td></tr><tr><td>mrfso</td><td>kg/m2</td><td>kg m-2</td><td>Total soil frozen water content</td><td><kbd class="att">soil_frozen_water_content</kbd>
+</td></tr><tr><td>mrro</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Total runoff rate (including drainage)</td><td><kbd class="att">runoff_flux</kbd>
+</td></tr><tr><td>mrros</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Surface runoff rate</td><td><kbd class="att">surface_runoff_flux</kbd>
+</td></tr><tr><td>mrso</td><td>kg/m2</td><td>kg m-2</td><td>Total soil water content</td><td><kbd class="att">soil_moisture_content</kbd>
+</td></tr><tr><td>mrsofc</td><td>kg/m2</td><td>kg m-2</td><td>Soil moisture field capacity</td><td><kbd class="att">soil_moisture_content_at_field_capacity</kbd>
+
+</td></tr><tr><td>mrsofcs</td><td>kg/m2</td><td>kg m-2</td><td>Surface soil
+moisture field capacity (upper 0.1 m)</td><td><kbd class="att">moisture_content_of_soil_layer_at_field_capacity</kbd> with
+vertical bounds in <kbd class="att">depth</kbd> of 0.0 and 0.1 m.
+
+</td></tr><tr><td>mrsos</td><td>kg/m2</td><td>kg m-2</td><td>Surface soil water content (upper 0.1m)</td><td><kbd class="att">moisture_content_of_soil_layer</kbd> with vertical bounds in
+<kbd class="att">depth</kbd> of 0.0 and 0.1 m.
+</td></tr><tr><td>orog</td><td>m</td><td>m</td><td>Model orography</td><td><kbd class="att">surface_altitude</kbd>
+</td></tr><tr><td>plev</td><td>Pa</td><td>Pa</td><td>Air pressure</td><td><kbd class="att">air_pressure</kbd>
+</td></tr><tr><td>pr</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Total precipitation rate</td><td><kbd class="att">precipitation_flux</kbd>
+</td></tr><tr><td>prc</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Convective precipitation rate</td><td><kbd class="att">convective_precipitation_flux</kbd>
+</td></tr><tr><td>wfo</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Net surface freshwater flux (P - E + sea ice effects + river inflow + flux adjustment)</td><td><kbd class="att">water_flux_into_ocean</kbd>
+</td></tr><tr><td>prsn</td><td>kg/(m2*s)</td><td>kg m-2 s-1</td><td>Snowfall rate (water equivalent)</td><td><kbd class="att">snowfall_flux</kbd>
+</td></tr><tr><td>prw</td><td>kg/m2</td><td>kg m-2</td><td>Precipitable water</td><td><kbd class="att">atmosphere_water_vapor_content</kbd>
+</td></tr><tr><td>ps</td><td>Pa</td><td>Pa</td><td>Surface pressure</td><td><kbd class="att">surface_air_pressure</kbd>
+</td></tr><tr><td>psbg</td><td>%</td><td>1</td><td>Pressure surface below ground percentage</td><td><kbd class="att">area_fraction_below_surface</kbd> with a coordinate in
+<kbd class="att">air_pressure</kbd> identifying the pressure surface.
+</td></tr><tr><td>psl</td><td>Pa</td><td>Pa</td><td>Mean sea-level pressure</td><td><kbd class="att">air_pressure_at_sea_level</kbd>
+</td></tr><tr><td>rlds</td><td>W/m2</td><td>W m-2</td><td>LW radiation downward surface</td><td><kbd class="att">surface_downwelling_longwave_flux_in_air</kbd>
+</td></tr><tr><td>rldscs</td><td>W/m2</td><td>W m-2</td><td>LW radiation downward surface clear sky</td><td><kbd class="att">surface_downwelling_longwave_flux_in_air_assuming_clear_sky</kbd>
+</td></tr><tr><td>rls</td><td>W/m2</td><td>W m-2</td><td>LW radiation net surface</td><td><kbd class="att">surface_net_downward_longwave_flux</kbd>
+</td></tr><tr><td>rlus</td><td>W/m2</td><td>W m-2</td><td>LW radiation upward surface</td><td><kbd class="att">surface_upwelling_longwave_flux_in_air</kbd>
+</td></tr><tr><td>rlutcs</td><td>W/m2</td><td>W m-2</td><td>LW radiation upward TOA clear sky</td><td><kbd class="att">toa_outgoing_longwave_flux_assuming_clear_sky</kbd>
+</td></tr><tr><td>rsds</td><td>W/m2</td><td>W m-2</td><td>SW radiation incident at the surface</td><td><kbd class="att">surface_downwelling_shortwave_flux_in_air</kbd>
+</td></tr><tr><td>rsdscs</td><td>W/m2</td><td>W m-2</td><td>SW radiation downward clear sky surface</td><td><kbd class="att">surface_downwelling_shortwave_flux_in_air_assuming_clear_sky</kbd>
+</td></tr><tr><td>rsdt</td><td>W/m2</td><td>W m-2</td><td>SW radiation downward TOA</td><td><kbd class="att">toa_incoming_shortwave_flux</kbd>
+</td></tr><tr><td>rss</td><td>W/m2</td><td>W m-2</td><td>SW radiation net surface</td><td><kbd class="att">surface_net_downward_shortwave_flux</kbd>
+</td></tr><tr><td>rst</td><td>W/m2</td><td>W m-2</td><td>SW radiation net TOA</td><td><kbd class="att">toa_net_downward_shortwave_flux</kbd>
+</td></tr><tr><td>rsus</td><td>W/m2</td><td>W m-2</td><td>SW radiaton upward (reflected) surface</td><td><kbd class="att">surface_upwelling_shortwave_flux_in_air</kbd>
+</td></tr><tr><td>rsuscs</td><td>W/m2</td><td>W m-2</td><td>SW radiation upward surface clear sky</td><td><kbd class="att">surface_upwelling_shortwave_flux_in_air_assuming_clear_sky</kbd>
+</td></tr><tr><td>rsut</td><td>W/m2</td><td>W m-2</td><td>SW radiation upward TOA</td><td><kbd class="att">toa_outgoing_shortwave_flux</kbd>
+</td></tr><tr><td>rsutcs</td><td>W/m2</td><td>W m-2</td><td>SW radiation upward TOA clear sky</td><td><kbd class="att">toa_outgoing_shortwave_flux_assuming_clear_sky</kbd>
+</td></tr><tr><td>rtmt</td><td>W/m2</td><td>W m-2</td><td>Net Radiation at Model Top</td><td><kbd class="att">net_downward_radiative_flux_at_top_of_atmosphere_model</kbd>
+</td></tr><tr><td>sftgif</td><td>%</td><td>1</td><td>Sfc type % glacier</td><td><kbd class="att">land_ice_area_fraction</kbd>
+</td></tr><tr><td>sftlf</td><td>%</td><td>1</td><td>Sfc type % land</td><td><kbd class="att">land_area_fraction</kbd>
+</td></tr><tr><td>sic</td><td>%</td><td>1</td><td>Sea-ice concentration</td><td><kbd class="att">sea_ice_area_fraction</kbd>
+</td></tr><tr><td>sit</td><td>m</td><td>m</td><td>Ice thickness</td><td><kbd class="att">sea_ice_thickness</kbd>
+</td></tr><tr><td>snc</td><td>%</td><td>1</td><td>Snow cover (percent area)</td><td><kbd class="att">surface_snow_area_fraction</kbd>
+</td></tr><tr><td>snd</td><td>m</td><td>m</td><td>Snow depth</td><td><kbd class="att">surface_snow_thickness</kbd>
+</td></tr><tr><td>snm</td><td>kg/m2/s</td><td>kg m-2 s-1</td><td>Snow melt flux</td><td><kbd class="att">surface_snow_melt_flux</kbd>
+</td></tr><tr><td>snw</td><td>kg/m2</td><td>kg m-2</td><td>Snow depth (water equivalent)</td><td><kbd class="att">surface_snow_amount</kbd>
+</td></tr><tr><td>so</td><td>per mil</td><td>1e-3</td><td>Ocean salinity</td><td><kbd class="att">sea_water_salinity</kbd>
+</td></tr><tr><td>soatlzm</td><td>per mil</td><td>1e-3</td><td>Zonal mean salinity, Atlantic basin</td><td><kbd class="att">sea_water_salinity</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>atlantic_ocean</kbd>.
+</td></tr><tr><td>sogozm</td><td>per mil</td><td>1e-3</td><td>Zonal mean salinity, global ocean</td><td><kbd class="att">sea_water_salinity</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd>.
+</td></tr><tr><td>soindzm</td><td>per mil</td><td>1e-3</td><td>Zonal mean salinity, Indian basin</td><td><kbd class="att">sea_water_salinity</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>indian_ocean</kbd>.
+</td></tr><tr><td>sopaczm</td><td>per mil</td><td>1e-3</td><td>Zonal mean salinity, Pacific basin</td><td><kbd class="att">sea_water_salinity</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>pacific_ocean</kbd>.
+</td></tr><tr><td>stfbaro</td><td><br /></td><td>m3 s-1</td><td>Oceanic barotropic stream function</td><td><kbd class="att">ocean_barotropic_streamfunction</kbd>
+</td></tr><tr><td>stfmmcatl</td><td><br /></td><td>m3 s-1</td><td>Mean meridional circulation streamfunction, Atlantic basin</td><td><kbd class="att">ocean_meridional_overturning_streamfunction</kbd>  with a coordinate in <kbd class="att">region</kbd>
+having value <kbd>atlantic_ocean</kbd>.
+</td></tr><tr><td>stfmmcgo</td><td><br /></td><td>m3 s-1</td><td>Mean meridional circulation streamfunction, global ocean</td><td><kbd class="att">ocean_meridional_overturning_streamfunction</kbd>
+</td></tr><tr><td>stfmmcind</td><td><br /></td><td>m3 s-1</td><td>Mean meridional circulation streamfunction, Indian basin</td><td><kbd class="att">ocean_meridional_overturning_streamfunction</kbd>  with a coordinate in <kbd class="att">region</kbd>
+having value <kbd>indian_ocean</kbd>.
+</td></tr><tr><td>stfmmcpac</td><td><br /></td><td>m3 s-1</td><td>Mean meridional circulation streamfunction, Pacific basin</td><td><kbd class="att">ocean_meridional_overturning_streamfunction</kbd>  with a coordinate in <kbd class="att">region</kbd>
+having value <kbd>pacific_ocean</kbd>.
+</td></tr><tr><td>ta</td><td>K</td><td>K</td><td>Air Temperature</td><td><kbd class="att">air_temperature</kbd>
+</td></tr><tr><td>tas</td><td>K</td><td>K</td><td>Surface (2m) air temperature</td><td><kbd class="att">air_temperature</kbd>  with a vertical coordinate in <kbd class="att">height</kbd>
+of 2 m.
+</td></tr><tr><td>tasmax</td><td>K</td><td>K</td><td>Daily maximum surface (2m) temperature</td><td><kbd class="att">air_temperature</kbd>  with a
+vertical coordinate in <kbd class="att">height</kbd> of 2 m and a <kbd class="att">cell_methods</kbd> attribute
+including <em>time</em><kbd>: maximum within days</kbd>.
+</td></tr><tr><td>tasmin</td><td>K</td><td>K</td><td>Daily minimum surface (2m) temperature</td><td><kbd class="att">air_temperature</kbd>  with a
+vertical coordinate in <kbd class="att">height</kbd> of 2 m and a <kbd class="att">cell_methods</kbd> attribute
+including <em>time</em><kbd>: minimum within days</kbd>.
+</td></tr><tr><td>taamzmsd</td><td><br /></td><td>K</td><td>Standard deviation of annual mean zonal mean air temperature</td><td><kbd class="att">air_temperature</kbd>  with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd>
+<em>time</em><kbd>: standard_deviation (interval: 1 year)</kbd>.
+</td></tr><tr><td>tadmzmsd</td><td><br /></td><td>K</td><td>Standard deviation of decadal mean zonal mean air temperature</td><td><kbd class="att">air_temperature</kbd>  with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd>
+<em>time</em><kbd>: standard_deviation (interval: 10 years)</kbd>.
+</td></tr><tr><td>tauu</td><td>N/m2</td><td>Pa</td><td>Eastward surface wind stress (positive for eastward wind)</td><td><kbd class="att">surface_downward_eastward_stress</kbd>
+</td></tr><tr><td>tauucorr</td><td>Pa</td><td>Pa</td><td>Eastward momentum flux correction</td><td><kbd class="att">eastward_momentum_flux_correction</kbd>
+</td></tr><tr><td>tauv</td><td>N/m2</td><td>Pa</td><td>Northward surface wind stress (positive for northward wind)</td><td><kbd class="att">surface_downward_northward_stress</kbd>
+</td></tr><tr><td>tauvcorr</td><td>Pa</td><td>Pa</td><td>Northward momentum flux correction</td><td><kbd class="att">northward_momentum_flux_correction</kbd>
+</td></tr><tr><td>time</td><td><br /></td><td>s</td><td>Time</td><td><kbd class="att">time</kbd>
+</td></tr><tr><td>tnmmuc</td><td>m/s2</td><td>m s-2</td><td>Eastward wind tendency due to convection</td><td><kbd class="att">tendency_of_eastward_wind_due_to_convection</kbd>
+</td></tr><tr><td>tnmmugwd</td><td>m/s2</td><td>m s-2</td><td>Eastward wind tendency due to gravity wave drag</td><td><kbd class="att">tendency_of_eastward_wind_due_to_gravity_wave_drag</kbd>
+</td></tr><tr><td>tnmmutot</td><td>m/s2</td><td>m s-2</td><td>Total eastward wind tendency</td><td><kbd class="att">tendency_of_eastward_wind</kbd>
+</td></tr><tr><td>tnmmvc</td><td>m/s2</td><td>m s-2</td><td>Northward wind tendency due to convection</td><td><kbd class="att">tendency_of_northward_wind_due_to_convection</kbd>
+</td></tr><tr><td>tnmmvgwd</td><td>m/s2</td><td>m s-2</td><td>Northward wind tendency due to gravity wave drag</td><td><kbd class="att">tendency_of_northward_wind_due_to_gravity_wave_drag</kbd>
+</td></tr><tr><td>tnmmvtot</td><td>m/s2</td><td>m s-2</td><td>Total northward wind tendency</td><td><kbd class="att">tendency_of_northward_wind</kbd>
+</td></tr><tr><td>tnmrc</td><td>(Kg/Kg)/s</td><td>s-1</td><td>Moisture tendency due to convection</td><td><kbd class="att">tendency_of_specific_humidity_due_to_convection</kbd>
+</td></tr><tr><td>tnmrd</td><td>(Kg/Kg)/s</td><td>s-1</td><td>Moisture tendency due to parametrized model physics</td><td><kbd class="att">tendency_of_specific_humidity_due_to_model_physics</kbd>
+</td></tr><tr><td>tnt</td><td>K/s</td><td>K s-1</td><td>Total diabatic temperature tendency</td><td><kbd class="att">tendency_of_air_temperature_due_to_diabatic_processes</kbd>
+</td></tr><tr><td>tntdc</td><td>K/s</td><td>K s-1</td><td>Temperature tendency due to dry convective processes</td><td><kbd class="att">tendency_of_air_temperature_due_to_dry_convection</kbd>
+</td></tr><tr><td>tntlsp</td><td>K/s</td><td>K s-1</td><td>Temperature tendency due to large scale precipitation</td><td><kbd class="att">tendency_of_air_temperature_due_to_large_scale_precipitation</kbd>
+</td></tr><tr><td>tntlw</td><td>K/s</td><td>K s-1</td><td>Temperature tendency due to LW radiation</td><td><kbd class="att">tendency_of_air_temperature_due_to_longwave_heating</kbd>
+</td></tr><tr><td>tntmc</td><td>K/s</td><td>K s-1</td><td>Temperature tendency due to moist convective processes</td><td><kbd class="att">tendency_of_air_temperature_due_to_moist_convection</kbd>
+</td></tr><tr><td>tntsw</td><td>K/s</td><td>K s-1</td><td>Temperature tendency due to SW radiation</td><td><kbd class="att">tendency_of_air_temperature_due_to_shortwave_heating</kbd>
+</td></tr><tr><td>to</td><td>K</td><td>K</td><td>Ocean temperature</td><td><kbd class="att">sea_water_temperature</kbd>
+</td></tr><tr><td>toatlzm</td><td>K</td><td>K</td><td>Ocean temperature, Atlantic basin</td><td><kbd class="att">sea_water_temperature</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>atlantic_ocean</kbd>.
+</td></tr><tr><td>togozm</td><td>K</td><td>K</td><td>Ocean temperature, global ocean</td><td><kbd class="att">sea_water_temperature</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd>.
+</td></tr><tr><td>toindzm</td><td>K</td><td>K</td><td>Ocean temperature, Indian basin</td><td><kbd class="att">sea_water_temperature</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>indian_ocean</kbd>.
+</td></tr><tr><td>topaczm</td><td>K</td><td>K</td><td>Ocean temperature, Pacific basin</td><td><kbd class="att">sea_water_temperature</kbd> 
+with a <kbd class="att">cell_methods</kbd> attribute including <kbd>longitude: mean</kbd> and a
+coordinate in <kbd class="att">region</kbd> having value <kbd>pacific_ocean</kbd>.
+</td></tr><tr><td>tro3</td><td>ppmv</td><td>1</td><td>Ozone Concentration</td><td><kbd class="att">mole_fraction_of_o3_in_air</kbd>
+</td></tr><tr><td>ts</td><td>K</td><td>K</td><td>Ground Surface Temperature</td><td><kbd class="att">surface_temperature</kbd>
+</td></tr><tr><td>ua</td><td>M/s</td><td>m s-1</td><td>Eastward wind</td><td><kbd class="att">eastward_wind</kbd>
+</td></tr><tr><td>uas</td><td>M/s</td><td>m s-1</td><td>Surface (10m) eastward wind</td><td><kbd class="att">eastward_wind</kbd>  with a vertical coordinate
+in <kbd class="att">height</kbd> of 10 m.
+</td></tr><tr><td>uaz</td><td>M/s</td><td>m s-1</td><td>Eastward wind zonal mean</td><td><kbd class="att">eastward_wind</kbd>  with a <kbd class="att">cell_methods</kbd>
+attribute including <kbd>longitude: mean</kbd>.
+</td></tr><tr><td>va</td><td>M/s</td><td>m s-1</td><td>Northward wind</td><td><kbd class="att">northward_wind</kbd>
+</td></tr><tr><td>vas</td><td>M/s</td><td>m s-1</td><td>Surface (10m) northward wind</td><td><kbd class="att">northward_wind</kbd>  with a vertical coordinate
+in <kbd class="att">height</kbd> of 10 m.
+</td></tr><tr><td>vaz</td><td>M/s</td><td>m s-1</td><td>Northward wind zonal mean</td><td><kbd class="att">northward_wind</kbd>  with a <kbd class="att">cell_methods</kbd>
+attribute including <kbd>longitude: mean</kbd>.
+</td></tr><tr><td>vorpot</td><td>1/(Pa*s)</td><td>K m2 kg-1 s-1</td><td>Potential vorticity (350, 380, 405K)</td><td><kbd class="att">ertel_potential_vorticity</kbd>
+</td></tr><tr><td>wap</td><td>Pa/s</td><td>Pa s-1</td><td>Vertical motion (omega)</td><td><kbd class="att">lagrangian_tendency_of_air_pressure</kbd>
+</td></tr><tr><td>zmla</td><td>m</td><td>m</td><td>Planetary boundary layer height</td><td><kbd class="att">atmosphere_boundary_layer_thickness</kbd>
+</td></tr><tr><td>zg</td><td>m</td><td>m</td><td>Geopotential height</td><td><kbd class="att">geopotential_height</kbd>
+</td></tr><tr><td>zh</td><td>m</td><td>m</td><td>Height</td><td><kbd class="att">height</kbd>
+</td></tr><tr><td>zobt</td><td>m</td><td>m</td><td>Sea bottom topography or bathymetry</td><td><kbd class="att">sea_floor_depth_below_geoid</kbd></td></tr></tbody></table>
+        </div>
+
+        <div id="relatedItems">
+    
+        
+            
+        
+    
+</div>
+    
+    
+
+
+                    
+                      
+                 
+    
+        
+    
+
+                    
+
+                  </div>
+
+                </div>
+
+              
+            </td>
+            
+
+            
+            
+            
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="visualClear" id="clear-space-before-footer"><!-- --></div>
+
+
+      <hr class="netscape4" />
+
+      
+
+        <div id="portal-footer">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td id="portal-footer-left"><span>UCRL-WEB-223427 | <a href="http://www.llnl.gov/disclaimer.html" target="_blank">Privacy &amp; Legal Notice</a></span></td>
+		<td id="portal-footer-right"><span><a href="mailto:webmaster@pcmdi.llnl.gov">webmaster@pcmdi.llnl.gov</a></span></td>
+	</tr>
+</table>
+
+
+</div>
+
+        <div id="portal-colophon">
+      <!--
+
+	Please keep the Plone Powered button (or a textual link to us) if you use
+	Plone on your site. It's a nice token of gratitude, and we appreciate your
+	help in promoting the Plone name.
+
+	Plone is powered by the combined forces of Zope and CMF, two absolutely
+	great systems made by Zope Corporation (http://zope.com) and they in turn
+	are based on the best programming language in the world - Python
+	(http://www.python.org). We owe these guys a lot, thanks for making Plone
+	possible!
+
+      -->
+
+      <a href="http://plone.org">
+	<img src="http://cf-pcmdi.llnl.gov/plone_powered.gif"
+      height="15" width="80" alt="Powered by Plone"
+      title="This Plone site was built using the Plone Content Management System. Click for more information." />
+      </a>
+
+      
+
+    </div>
+      
+
+    </div>
+
+</body>
+</html>
+
+
