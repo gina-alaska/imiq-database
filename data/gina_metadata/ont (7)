@@ -1,0 +1,441 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:omv="http://omv.ontoware.org/2005/05/ontology#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns="http://mmisw.org/ont/secoora/parameter/"
+    xmlns:omvmmi="http://mmisw.org/ont/mmi/20081020/ontologyMetadata/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xml:base="http://mmisw.org/ont/secoora/parameter">
+    <owl:Ontology rdf:about="">
+        <omvmmi:hasContentCreator>SECOORA</omvmmi:hasContentCreator>
+        <omv:description>The SECOORA Vocabulary, now expanded to nearly 200 terms, is based on the IOOS Parameter Vocabulary (130 terms). All terms were given unique definitions and researched for consistency and continuity. All term names and definitions were reviewed and references and units provided in most cases. However, terms on fish and zooplankton species and abundance were not included in this version.</omv:description>
+        <omvmmi:shortNameUri>http://mmisw.org/ont/mmi/resourcetype/parameter</omvmmi:shortNameUri>
+        <omvmmi:contact>Sara Haines</omvmmi:contact>
+        <omvmmi:origVocUri>http://mmisw.org/ont/ioos/parameter</omvmmi:origVocUri>
+        <omv:acronym>parameter</omv:acronym>
+        <omv:creationDate>2013-09-23T21:22:17+0000</omv:creationDate>
+        <dc:creator>Sara Haines</dc:creator>
+        <dc:source>http://mmisw.org/ont/ioos/parameter</dc:source>
+        <omvmmi:origVocManager>Sara Haines</omvmmi:origVocManager>
+        <omvmmi:contactRole>ontology producer</omvmmi:contactRole>
+        <omv:uri>http://mmisw.org/ont/secoora/parameter</omv:uri>
+        <omvmmi:hasResourceType>parameter</omvmmi:hasResourceType>
+        <omv:version>20130308T142347</omv:version>
+        <dc:date>2013-03-08T14:23:47+0000</dc:date>
+        <dc:description>The SECOORA Vocabulary, now expanded to nearly 200 terms, is based on the IOOS Parameter Vocabulary (130 terms). All terms were given unique definitions and researched for consistency and continuity. All term names and definitions were reviewed and references and units provided in most cases. However, terms on fish and zooplankton species and abundance were not included in this version.</dc:description>
+        <omv:name>SECOORA Parameter Vocabulary</omv:name>
+        <omv:hasCreator>Sara Haines</omv:hasCreator>
+        <omvmmi:creditRequired>not specified</omvmmi:creditRequired>
+        <omvmmi:temporaryMmiRole>ontology producer</omvmmi:temporaryMmiRole>
+        <omvmmi:origMaintainerCode>secoora</omvmmi:origMaintainerCode>
+        <omv:usedOntologyEngineeringTool rdf:resource="http://mmisw.org/ont/mmi/20081020/ontologyMetadata/voc2rdf"/>
+    </owl:Ontology>
+    <owl:Class rdf:about="http://mmisw.org/ont/secoora/parameter/Parameter">
+        <rdfs:label>Parameter</rdfs:label>
+    </owl:Class>
+    <owl:DatatypeProperty rdf:about="http://mmisw.org/ont/secoora/parameter/Units">
+        <rdfs:domain rdf:resource="http://mmisw.org/ont/secoora/parameter/Parameter"/>
+        <rdfs:label>Units</rdfs:label>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://mmisw.org/ont/secoora/parameter/Reference">
+        <rdfs:domain rdf:resource="http://mmisw.org/ont/secoora/parameter/Parameter"/>
+        <rdfs:label>Reference</rdfs:label>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://mmisw.org/ont/secoora/parameter/Definition">
+        <rdfs:domain rdf:resource="http://mmisw.org/ont/secoora/parameter/Parameter"/>
+        <rdfs:label>Definition</rdfs:label>
+    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="http://mmisw.org/ont/secoora/parameter/Term">
+        <rdfs:domain rdf:resource="http://mmisw.org/ont/secoora/parameter/Parameter"/>
+        <rdfs:label>Term</rdfs:label>
+    </owl:DatatypeProperty>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/depth_cell_size">
+        <Units>meter</Units>
+        <Definition>For an ADCP, the range of depth over which the current velocities are averaged.</Definition>
+        <Term>depth_cell_size</Term>
+        <rdfs:label>depth_cell_size</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/anaerobic_bacteria_excreted_in_human_and_animal_fecal_matter">
+        <Definition>that do not appear to grow in the aquatic/soil environment.  Another indicator of fecal contamination.  E Coli and Enterococci have been found to multiply in aquatic soils. Most Probable Number (MPN) per unit volume.	EPA Report of the Experts Scientific Workshop on Critical Research Needs for the Development of New or Revised Recreational Water Quality Criteria (EPA 823-R-07-006; June 2007)	MPN ml-1</Definition>
+        <Term>anaerobic bacteria excreted in human and animal fecal matter</Term>
+        <rdfs:label>anaerobic bacteria excreted in human and animal fecal matter</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/dissolved_inorganic_carbon">
+        <Units>umol kg-1</Units>
+        <Reference>Scripps Sea Water CO2 Program, http://scrippsco2.ucsd.edu/research/sea_water_co2.html</Reference>
+        <Definition>Total dissolved inorganic carbon (DIC) is the sum of gaseous CO2, bicarbonate and carbonate is the major carbon reservoir in the ocean.  DIC content is expressed as mole of Carbon to mass of seawater.</Definition>
+        <Term>dissolved_inorganic_carbon</Term>
+        <rdfs:label>dissolved_inorganic_carbon</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/cryptosporidium">
+        <Units>MPN ml-1</Units>
+        <Reference>EPA Basic Information about Pathogens and Indicators in Drinking Water, http://water.epa.gov/drink/contaminants/basicinformation/</Reference>
+        <Definition>A single-celled protozoan parasite commonly found in lakes and rivers, especially when the water is contaminated with sewage and animal waste.  Cryptosporidium can survive in the salt water for up to 12 weeks, primarily infecting filter feeders such as oysters. The occurrence of Cryptosporidium is increased in water with decreasing temperatures and increasing turbidity of the water. Most Probable Number (MPN) per unit volume.</Definition>
+        <Term>cryptosporidium</Term>
+        <rdfs:label>cryptosporidium</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/bottom_tracking_depth">
+        <Units>meter</Units>
+        <Definition>Distance to sea floor determined by travel time of a reflected pulses sent out from ship-mounted ADCP.</Definition>
+        <Term>bottom_tracking_depth</Term>
+        <rdfs:label>bottom_tracking_depth</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/echo_intensity">
+        <Reference>AMS Glossary of Meterology, Second Edition, 2000, Cambridge, Massachusetts. http://amsglossary.allenpress.com/glossary</Reference>
+        <Definition>Brightness or intensity of scattered or reflected radio signal from a target.</Definition>
+        <Term>echo_intensity</Term>
+        <rdfs:label>echo_intensity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/enterococcus">
+        <Units>MPN ml-1</Units>
+        <Reference>EPA Report of the Experts Scientific Workshop on Critical Research Needs for the Development of New or Revised Recreational Water Quality Criteria (EPA 823-R-07-006; June 2007)</Reference>
+        <Definition>Enterococci are bacterial indicators of fecal contamination.  In marine/estuarine waters, E. coli is more readily inactivated than enterococci and appears to correlate less well to health risk than enterococci for saline water environments. Most Probable Number (MPN) per unit volume.</Definition>
+        <Term>enterococcus</Term>
+        <rdfs:label>enterococcus</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/eastward_wind_stress">
+        <Units>N m-2</Units>
+        <Definition>East/West component of wind stress. Eastward is positive.</Definition>
+        <Term>eastward_wind_stress</Term>
+        <rdfs:label>eastward_wind_stress</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/acidity">
+        <Definition>pH is defined as the negative decimal logarithm of the activity of the hydrogen ion in solution and is a measure of acidity.</Definition>
+        <Term>acidity</Term>
+        <rdfs:label>acidity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_shortwave_irradiance">
+        <Units>W m-2</Units>
+        <Definition>Integrated downwelling irradiance for spectral wavelengths less than 700nm.</Definition>
+        <Term>downwelling_shortwave_irradiance</Term>
+        <rdfs:label>downwelling_shortwave_irradiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/ammonia">
+        <Units>ug L-1 as N</Units>
+        <Definition>Concentration of ammonia (NH3) in a water sample.</Definition>
+        <Term>ammonia</Term>
+        <rdfs:label>ammonia</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_uv_radiance">
+        <Units>W m-2 sr-1</Units>
+        <Definition>Integrated downwelling radiance for wavelengths in the ultraviolet region.</Definition>
+        <Term>downwelling_uv_radiance</Term>
+        <rdfs:label>downwelling_uv_radiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/depth">
+        <Units>meter</Units>
+        <Definition>Z-coordinate of observation in vertical distance below reference. Down is positive. (sea surface | geiod | ellipsoid | MSL | MLLW | AGL )</Definition>
+        <Term>depth</Term>
+        <rdfs:label>depth</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/current_speed">
+        <Units>cm s-1</Units>
+        <Definition>Magnitude of velocity of ocean current. Current is the steady flow of water along a cyclic or directional path relative to location and time.</Definition>
+        <Term>current_speed</Term>
+        <rdfs:label>current_speed</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/altitude">
+        <Units>meter</Units>
+        <Definition>Z-coordinate of observation in vertical distance above reference. Up is positive.  (sea surface | geiod | ellipsoid | MSL | MLLW | AGL)</Definition>
+        <Term>altitude</Term>
+        <rdfs:label>altitude</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/dissolved_oxygen_saturation">
+        <Units>%</Units>
+        <Definition>Dissolved Oxygen Saturation (DO%) is DO concentraion relative to DO saturation levels at the same temperature and salinity in a water sample.</Definition>
+        <Term>dissolved_oxygen_saturation</Term>
+        <rdfs:label>dissolved_oxygen_saturation</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/correlation_magnitude">
+        <Reference>Symonds, D.R. QA/QC Parameters for Acoustic Doppler Current Profilers, Teledyne RDI Application Note, June, 2006.</Reference>
+        <Definition>This parameter is a measure of the pulse-to-pulse correlation in a returned signal.  Specifically for RDI ADCP, it is the magnitude of the normalized echo autocorrelation at the lag used for estimating the Doppler phase change.  As the correlation magnitude value decreases, so does data accuracy.</Definition>
+        <Term>correlation_magnitude</Term>
+        <rdfs:label>correlation_magnitude</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/drifter_speed">
+        <Units>cm s-1</Units>
+        <Definition>Magnitude of velocity of a drifter. A drifter is an object that moves with the flow of current.</Definition>
+        <Term>drifter_speed</Term>
+        <rdfs:label>drifter_speed</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/bearing">
+        <Units>degree</Units>
+        <Definition>The direction towards an object usually from one's own frame of reference.</Definition>
+        <Term>bearing</Term>
+        <rdfs:label>bearing</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/enclosed_temperature">
+        <Units>deg C</Units>
+        <Definition>Inside temperature of an enclosure or housing for sensor, system electronics, or battery that is recorded to monitor sensor health and data reliability.  Some instruments may cease to operate or may perform poorly outside of manufacturer recommended operating temperatures.</Definition>
+        <Term>enclosed_temperature</Term>
+        <rdfs:label>enclosed_temperature</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/ammonium">
+        <Units>ug L-1 as N</Units>
+        <Definition>Concentration of ammonium (NH4+)  in a water sample.</Definition>
+        <Term>ammonium</Term>
+        <rdfs:label>ammonium</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/cloud_cover">
+        <Units>percent</Units>
+        <Definition>Percent of sky covered by clouds of all types.</Definition>
+        <Term>cloud_cover</Term>
+        <rdfs:label>cloud_cover</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/black_white_irradiance">
+        <Units>W m-2</Units>
+        <Definition>Irradiance for black body and white light source.</Definition>
+        <Term>black_white_irradiance</Term>
+        <rdfs:label>black_white_irradiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/air_temperature">
+        <Units>celcius</Units>
+        <Definition>Temperature of air in situ.</Definition>
+        <Term>air_temperature</Term>
+        <rdfs:label>air_temperature</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/chlorophyll_a">
+        <Units>though the relationship between fluorescence and biomass is quite complex.","",""
+"clostridium_perfringens",""Clostridium perfringens are spore-forming"</Units>
+        <Reference>""Alain Aminot and Francisco Rey","2001"
+"chlorophyll_flourescence","A relative measure of the abundance of phytoplankton in  sea water. It can be calibrated to give an estimate in mg/L or mg/g</Reference>
+        <Definition>Concentration of chloropyll-a in a defined volume of water used to estimate phytoplanton mass.  Measurements using spectrographic or flourometry must be calibrated against discrete water sample measurements at a frequency appropriate to the local conditions.</Definition>
+        <Term>chlorophyll_a</Term>
+        <rdfs:label>chlorophyll_a</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/albedo">
+        <Definition>Fraction of downward radiation that is reflected or scattered</Definition>
+        <Term>albedo</Term>
+        <rdfs:label>albedo</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/dissolved_organic_carbon">
+        <Units>umol l-1</Units>
+        <Reference>Scripps Sea Water CO2 Program, http://scrippsco2.ucsd.edu/research/sea_water_co2.html</Reference>
+        <Definition>Dissolved Organic Carbon (DOC) is used to describe the thousands of dissolved compounds found in water that derive from organic materials. DOC mostly consists of long-chain organic molecules, but smaller species, such as methane, are also considered organic.</Definition>
+        <Term>dissolved_organic_carbon</Term>
+        <rdfs:label>dissolved_organic_carbon</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/dew_point_temperature">
+        <Units>celcius</Units>
+        <Definition>Temperature at which water vapor in air begins to condense.</Definition>
+        <Term>dew_point_temperature</Term>
+        <rdfs:label>dew_point_temperature</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downward_shortwave_radiation">
+        <Units>W m-2</Units>
+        <Definition>Downward solar insolation. Positive is downward.</Definition>
+        <Term>downward_shortwave_radiation</Term>
+        <rdfs:label>downward_shortwave_radiation</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/error_velocity">
+        <Units>cm s-1</Units>
+        <Reference>Symonds, D.R. QA/QC Parameters for Acoustic Doppler Current Profilers, Teledyne RDI Application Note, June, 2006.</Reference>
+        <Definition>This parameter is the difference between the two independent estimates of vertical velocity at a given range bin.</Definition>
+        <Term>error_velocity</Term>
+        <rdfs:label>error_velocity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/conductivity">
+        <Units>siemens | uS</Units>
+        <Definition>Ability of a material to pass an electrical current.  Inverse of resistance. In water, it is a proxy from which salinity is derived for water quality or to further derive water density.</Definition>
+        <Term>conductivity</Term>
+        <rdfs:label>conductivity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/averaging_interval">
+        <Units>seconds</Units>
+        <Definition>Time period over which several observations are averaged.</Definition>
+        <Term>averaging_interval</Term>
+        <rdfs:label>averaging_interval</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downward_longwave_radiation">
+        <Definition>Downward IR radiation. Positive is downward.</Definition>
+        <Term>downward_longwave_radiation</Term>
+        <rdfs:label>downward_longwave_radiation</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/bottom">
+        <Definition>Bottom of a layer. Also, lowest position or layer.</Definition>
+        <Term>bottom</Term>
+        <rdfs:label>bottom</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/attenuation">
+        <Reference>AMS Glossary of Meterology, Second Edition, 2000, Cambridge, Massachusetts. http://amsglossary.allenpress.com/glossary</Reference>
+        <Definition>As waves propagate through a medium, the signal strength attenuates by absorption and scattering within the medium.</Definition>
+        <Term>attenuation</Term>
+        <rdfs:label>attenuation</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/drifter_velocity">
+        <Units>cm s-1</Units>
+        <Definition>The velocity of an object that moves with the flow of current.  Speed and direction are determined from point-to-point geographic locations with time.</Definition>
+        <Term>drifter_velocity</Term>
+        <rdfs:label>drifter_velocity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_radiance">
+        <Units>W m-2 sr-1</Units>
+        <Definition>Radiance from below.</Definition>
+        <Term>downwelling_radiance</Term>
+        <rdfs:label>downwelling_radiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/air_density">
+        <Units>kg m-3</Units>
+        <Definition>Mass of air per unit volume.</Definition>
+        <Term>air_density</Term>
+        <rdfs:label>air_density</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/air_pressure">
+        <Units>hPa</Units>
+        <Definition>Pressure exerted by overlying air</Definition>
+        <Term>air_pressure</Term>
+        <rdfs:label>air_pressure</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/black_white_radiance">
+        <Units>W m-2 sr-1</Units>
+        <Definition>Radiance for black body and white light source.</Definition>
+        <Term>black_white_radiance</Term>
+        <rdfs:label>black_white_radiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/bottom_tracking_velocity">
+        <Units>degrees</Units>
+        <Definition>In vessel-mounted ADCP applications, bottom tracking can be used to accurately remove platform velocity from profile velocities. When the sea-floor bottom is within range of the ADCP, a special ping can be transmitted to measure the Doppler shift of the signal return from the bottom, providing a very accurate measurement of ship velocity.  When bottom-tracking is unavailable (too deep for ADCP to sense sea-floor), ship navigation data is used to estimate ship velocity.</Definition>
+        <Term>bottom_tracking_velocity</Term>
+        <rdfs:label>bottom_tracking_velocity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/delta_m">
+        <Definition>The difference between the last acceptable measurement or value and the measurement or value of interest.</Definition>
+        <Term>delta_m</Term>
+        <rdfs:label>delta_m</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/depth_cell">
+        <Definition>Division of a profile with depth into regularly spaced cells or bins.  ADCPs average the velocities over the entire range of each depth cell.</Definition>
+        <Term>depth_cell</Term>
+        <rdfs:label>depth_cell</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_irradiance">
+        <Units>W m-2</Units>
+        <Definition>Irradiance from above.</Definition>
+        <Term>downwelling_irradiance</Term>
+        <rdfs:label>downwelling_irradiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/battery_voltage">
+        <Units>volts</Units>
+        <Definition>Battery voltage of a sensor system or datalogger that is recorded as an indicator of sensor health and data reliability.</Definition>
+        <Term>battery_voltage</Term>
+        <rdfs:label>battery_voltage</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/eastward_wind">
+        <Units>m s-1</Units>
+        <Definition>East/West component of wind vector. Eastward wind is positive.  Wind is motion of air relative to the surface of the earth.</Definition>
+        <Term>eastward_wind</Term>
+        <rdfs:label>eastward_wind</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/absorption">
+        <Reference>AMS Glossary of Meterology, Second Edition, 2000, Cambridge, Massachusetts. http://amsglossary.allenpress.com/glossary</Reference>
+        <Definition>As waves propagate through a medium, the signal strength attenuates by absorption and scattering within the medium.</Definition>
+        <Term>absorption</Term>
+        <rdfs:label>absorption</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/echo_amplitude">
+        <Reference>AMS Glossary of Meterology, Second Edition, 2000, Cambridge, Massachusetts. http://amsglossary.allenpress.com/glossary</Reference>
+        <Definition>Amplitude of an echoed or returned signal received in radar.  Amplitude is vertical deflection or magnitude of radio wave and is a function of the signal strength.</Definition>
+        <Term>echo_amplitude</Term>
+        <rdfs:label>echo_amplitude</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/cdom">
+        <Units>mg l-1 or ppm</Units>
+        <Definition>Colored (or chromophoric) dissolved organic matter (CDOM). Measurements using spectrographic or flourometry must be calibrated against discrete water sample measurements at a frequency appropriate to the local conditions.</Definition>
+        <Term>cdom</Term>
+        <rdfs:label>cdom</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/beam_velocity">
+        <Units>cm s-1</Units>
+        <Definition>For acoustic applications, it is the velocity of the scattering medium of a volume defined by the bearing or beam direction over a specific distance range from the sensing antenna.</Definition>
+        <Term>beam_velocity</Term>
+        <rdfs:label>beam_velocity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/e_coli">
+        <Units>MPN ml-1</Units>
+        <Reference>EPA Basic Information about Pathogens and Indicators in Drinking Water, http://water.epa.gov/drink/contaminants/basicinformation/</Reference>
+        <Definition>Fecal coliform and E. coli are bacteria whose presence indicates that water may be contaminanted by human or animal wastes. In marine/estuarine waters, E. coli is more readily inactivated than enterococci and appears to correlate less well to health risk than enterococci for saline water environments.  Most Probable Number (MPN) per unit volume.</Definition>
+        <Term>e_coli</Term>
+        <rdfs:label>e_coli</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/fecal_coliform">
+        <Units>MPN ml-1</Units>
+        <Reference>EPA Basic Information about Pathogens and Indicators in Drinking Water, http://water.epa.gov/drink/contaminants/basicinformation/</Reference>
+        <Definition>Fecal coliform and E. coli are bacteria whose presence indicates that water may be contaminanted by human or animal wastes. Most Probable Number (MPN) per unit volume.</Definition>
+        <Term>fecal_coliform</Term>
+        <rdfs:label>fecal_coliform</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/backscatter">
+        <Definition>Backscatter refers to the scattered part of returned or echoed signal received in radar.</Definition>
+        <Term>backscatter</Term>
+        <rdfs:label>backscatter</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_longwave_irradiance">
+        <Units>W m-2</Units>
+        <Definition>Integrated downwelling irradiance for spectral wavelengths greater than 700nm.</Definition>
+        <Term>downwelling_longwave_irradiance</Term>
+        <rdfs:label>downwelling_longwave_irradiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/delta_t">
+        <Definition>The difference between the time of last acceptable measurement or value and the time of the measurement or value of interest.</Definition>
+        <Term>delta_t</Term>
+        <rdfs:label>delta_t</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/absorption_coefficient">
+        <Units>1/(m*sr)</Units>
+        <Reference>AMS Glossary of Meterology, Second Edition, 2000, Cambridge, Massachusetts. http://amsglossary.allenpress.com/glossary</Reference>
+        <Definition>The measure of extinction of a wavelength of light due to absorption as it traverses through the medium in which the incident radiant energy is taken up by the substance.  Attenuation of light in seawater is caused by absorption and scattering of the radiation of the volume.</Definition>
+        <Term>absorption_coefficient</Term>
+        <rdfs:label>absorption_coefficient</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/current_to_direction">
+        <Units>degrees_true</Units>
+        <Definition>Direction towards which ocean current is going. Oceanographic convention. Current is the steady flow of water along a cyclic or directional path relative to location and time.</Definition>
+        <Term>current_to_direction</Term>
+        <rdfs:label>current_to_direction</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/drifter_to_direction">
+        <Units>degrees_true</Units>
+        <Definition>Direction towards which a drifter is going.   A drifter is an object that moves with the flow of current.</Definition>
+        <Term>drifter_to_direction</Term>
+        <rdfs:label>drifter_to_direction</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/downwelling_uv_irradiance">
+        <Units>W m-2</Units>
+        <Definition>Integrated downwelling irradiance for wavelengths in the ultraviolet region.</Definition>
+        <Term>downwelling_uv_irradiance</Term>
+        <rdfs:label>downwelling_uv_irradiance</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/electromagnetic_wavelength">
+        <Units>m</Units>
+        <Definition>Specific frequency of energy within the electromagnetic spectrum.</Definition>
+        <Term>electromagnetic_wavelength</Term>
+        <rdfs:label>electromagnetic_wavelength</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/current_velocity">
+        <Units>cm s-1</Units>
+        <Definition>The vector quantity of speed and direction or geographic components of speed of current flow. Current is the steady flow of water along a cyclic or directional path relative to location and time.</Definition>
+        <Term>current_velocity</Term>
+        <rdfs:label>current_velocity</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/blanking_height">
+        <Units>meter</Units>
+        <Definition>Distance from instrument to first depth cell measurement that is blanked to avoid ringing in the transducer head and flow disturbance of the ADCP and mount.</Definition>
+        <Term>blanking_height</Term>
+        <rdfs:label>blanking_height</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/dissolved_oxygen">
+        <Units>mg L-1</Units>
+        <Definition>Concentration of dissolved oxygen (DO) in water and can be measured by laboratory chemical analysis,  electrochemical or optical probes.   DO concentration is highly dependent on temperature and salinity.</Definition>
+        <Term>dissolved_oxygen</Term>
+        <rdfs:label>dissolved_oxygen</rdfs:label>
+    </Parameter>
+    <Parameter rdf:about="http://mmisw.org/ont/secoora/parameter/eastward_current">
+        <Units>cm s-1</Units>
+        <Definition>East/West component of ocean current. Eastward is positive. Current is the steady flow of water along a cyclic or directional path relative to location and time.</Definition>
+        <Term>eastward_current</Term>
+        <rdfs:label>eastward_current</rdfs:label>
+    </Parameter>
+</rdf:RDF>
