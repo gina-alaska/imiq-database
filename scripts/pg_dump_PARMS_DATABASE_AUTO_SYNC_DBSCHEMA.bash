@@ -62,8 +62,8 @@ fi
 #
 # Environmental variables ==> SOURCE INCLUDE FILES
 #
-# EXPORT_SOURCE=$HOME/tools/backup_scripts/POSTGRES
-EXPORT_SOURCE=$HOME/northpole/Dropbox/Cheryls_Sandbox/tools/backup_scripts/POSTGRES
+EXPORT_SOURCE=/mnt/raid/gina-alaska/dba-tools/backup_scripts
+#EXPORT_SOURCE=$HOME/tools/backup_scripts/POSTGRES
 for EXPORT_NAME in $EXPORT_SOURCE/EXPORT*.bash; do
     echo "sourcing: "  $EXPORT_NAME
     source $EXPORT_NAME
