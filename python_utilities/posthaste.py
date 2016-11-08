@@ -36,6 +36,39 @@ class PostHaste (object):
         self.table = conn.fetch()
         conn.commit()
         
+    def parse_sql (self):
+        """ Function doc """
+        sql = self.sql.lower()
+        
+        split = sql.split('from')
+        select = split[0]
+        rows = [r.strip().replace(')','').replace('(','') for r in select.split('select')[1].split(',')]
+        
+        
+        
+        if len(rows) != 1 and '*' in rows:
+            return 'UNPARSEABLE', []
+        elif len(rows) == 1 and '*' in rows:
+            schema, table = split[1].lstrip().split(' ')[0].split('.')
+            return 'IMPLICIT', [schema, table]
+        else:
+            return 'EXPLICIT', rows
+        
+        
+    
+    def get_headers (self, table, schema = 'TABLES'):
+        """ Function doc """
+        get_headers = ("SELECT * FROM information_schema.columns WHERE "
+                        "table_schema = " + schema + " AND "
+                        "table_name  = " + table + "")
+        b_sql, b_table, self.sql = self.sql, self.table, get_headers 
+        self.run()
+        self.sql = b_sql
+        headers = s.as_dataframe()[3].tolist()
+        self.table = b_table
+
+        return headers
+        
     def as_DataFrame (self):
         """ Function doc """
         return DataFrame(self.table)
