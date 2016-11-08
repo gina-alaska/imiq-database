@@ -21,6 +21,8 @@ class PostHaste (object):
         self.host = host
         self.db = database
         self.delimiter = ','
+        self.sql = ""
+        self.table = []
     
     def open (self, sql_file):
         """ Function doc """
@@ -64,7 +66,7 @@ class PostHaste (object):
         b_sql, b_table, self.sql = self.sql, self.table, get_headers 
         self.run()
         self.sql = b_sql
-        headers = s.as_dataframe()[3].tolist()
+        headers = self.as_DataFrame()[3].tolist()
         self.table = b_table
 
         return headers
@@ -72,5 +74,23 @@ class PostHaste (object):
     def as_DataFrame (self):
         """ Function doc """
         return DataFrame(self.table)
+        
+    def as_named_DataFrame (self):
+        """
+        returns the dataframe wiht column names if possible
+        """
+        if self.sql == "":
+            return DataFrame([])
+            
+        
+        flag, values = self.parse_sql()
+        if flag == 'EXPLICIT':
+            return DataFrame(self.table, columns = values)
+        elif flag = 'IMPLICIT':
+            schema = "'" + values[0] + "'"
+            table = "'" + values[1] + "'"
+            DataFrame(self.table,columns=self.get_headers(table,schema))
+        else:
+            return self.as_DataFrame()
                                                                 
 
