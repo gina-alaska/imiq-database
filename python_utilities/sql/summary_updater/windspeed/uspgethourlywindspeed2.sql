@@ -38,17 +38,17 @@ BEGIN
 --   SourceID = 213, VariableID = 566
 -- OR
 --   calon Windspeed/ms
---   SourceID = 213, VariableID = 1133
+--   SourceID = , VariableID = 1133
   IF EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 and
                                             $2 in ( 335, 529, 541, 535,
                                                     292, 511, 566, 1133))
   THEN
     OPEN loopCursor
-    for execute format('SELECT  date_trunc(''hour'',dv.datetimeutc) as dateTimeUTC,
+    for execute format('SELECT date_trunc(''hour'',dv.datetimeutc) as dateTimeUTC,
                                 avg(dv.datavalue)
                                 FROM tables.odmdatavalues_metric AS dv 
                         WHERE dv.siteid = $1 AND dv.originalvariableid = $2
-                        GROUP BY datetimeutc;') using site_id, var_id;
+                        GROUP BY date_trunc(''hour'',dv.datetimeutc);') using site_id, var_id;
         loop
           fetch loopCursor into dateTimeUTC, avgValue;
           if not found then
@@ -70,20 +70,26 @@ BEGIN
   ELSIF EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 and $2 in (82, 469, 827))
   THEN
     OPEN loopCursor
-    for execute format('select date_trunc(''hour'', ws.datetimeUTC) as DateTimeUTC,
-                                AVG(DataValue),
-                                MAX_Offset.max_OffsetValue,
-                                MAX_Offset.max_OffsetTypeID from tables.ODMDataValues_metric WS
-                        inner join
-                            (select SiteID,
-                                    DateTimeUTC,
-                                    MAX(OffsetValue) as max_OffsetValue,
-                                    OffsetTypeID as max_OffsetTypeID from tables.ODMDataValues_metric 
-                             where SiteID=$1 and OriginalVariableID=$2 
-                             group by SiteID,DateTimeUTC,OffsetTypeID) as MAX_Offset
-                        on MAX_Offset.SiteID=WS.SiteID and MAX_Offset.DateTimeUTC=WS.DateTimeUTC 
-                        WHERE WS.SiteID = $1 and OriginalVariableid=$2 and WS.OffsetValue=MAX_Offset.max_OffsetValue
-                        GROUP by date_trunc(''day'',ws.datetimeutc), MAX_Offset.max_OffsetValue, MAX_Offset.max_OffsetTypeID;')using site_id, var_id;
+    for execute format('
+        SELECT date_trunc(''hour'', ws.datetimeUTC) as DateTimeUTC,
+                AVG(ws.DataValue),
+                MAX_Offset.max_OffsetValue,
+                MAX_Offset.max_OffsetTypeID 
+        FROM tables.ODMDataValues_metric WS
+        INNER JOIN
+           (SELECT SiteID,
+                   DateTimeUTC,
+                   MAX(OffsetValue) as max_OffsetValue,
+                   OffsetTypeID as max_OffsetTypeID 
+            FROM tables.ODMDataValues_metric 
+            WHERE SiteID = $1 AND OriginalVariableID = $2
+            GROUP BY SiteID,DateTimeUTC,OffsetTypeID) AS MAX_Offset
+        ON MAX_Offset.SiteID=WS.SiteID and MAX_Offset.DateTimeUTC=WS.DateTimeUTC 
+        WHERE WS.SiteID = $1 and OriginalVariableid= $2 AND 
+              WS.OffsetValue = MAX_Offset.max_OffsetValue 
+        GROUP BY date_trunc(''hour'', ws.datetimeUTC),
+                 MAX_Offset.max_OffsetValue,
+                 MAX_Offset.max_OffsetTypeID')using site_id, var_id;
         loop
           fetch loopCursor into dateTimeUTC, avgValue, offsetValue, offsetType;
           if not found then

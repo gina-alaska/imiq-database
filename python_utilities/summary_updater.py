@@ -34,6 +34,7 @@ class updateSummaries (object):
         self.errors = []
         self.varids = {}
         self.ignore_sites = []
+        self.log = []
         
         
         
@@ -49,16 +50,18 @@ class updateSummaries (object):
         """
         self.varids[src] = var
         
-    def initilize_varids(self):
+    def initilize_varids(self, use_vars = []):
         """
         initilize varids from seriescatalogue on imiq
         """
         
         sql = """
         select distinct(variableid) from tables.seriescatalog 
-        where sourceid = SOURCE_ID and lower(variablename) like 'VAR'
+        where sourceid = SOURCE_ID and lower(variablename) like 'VAR' and
+              not variableunitsid = 137
               """
         for source in self.sources:
+            s_set = False
             s = PostHaste(self.host,self.db,self.user,self.pswd)
             s.sql = sql.replace('SOURCE_ID', str(source))\
                        .replace('VAR',self.var)
@@ -66,12 +69,21 @@ class updateSummaries (object):
             if len(s.as_DataFrame()) == 0:
                 continue
             elif len(s.as_DataFrame()) != 1:
+                # do i know which var to use?
+                l = s.as_DataFrame().values.T.tolist()[0]
+                for i in l:
+                    #~ print i, s_set
+                    if i in use_vars and s_set == False:
+                        self.varids[source] = [i]
+                        s_set = True
+                    elif i in use_vars and s_set != False:
+                        self.varids[source] = self.varids[source] + [i]
                 msg = 'Source ' + str(source) +\
                                 'has more that one possible variable'
                 self.errors.append(msg)
                 continue
             varid = int(s.as_DataFrame()[0])
-            self.varids[source] = varid
+            self.varids[source] = [varid]
       
     def get_siteids(self, source):
         """
@@ -109,18 +121,6 @@ class updateSummaries (object):
         for site in self.get_siteids(srcid):
             c += self.get_site_count_from_datavalues_table(time, site, varid)
         return c
-        #~ sql = """
-        #~ select count(*) from tables.TABLE
-        #~ where siteid in (select siteid from tables.sites where sourceid = SRCID)
-            #~ and originalvariableid=VARID
-        #~ """
-        #~ s = PostHaste(self.host,self.db,self.user,self.pswd)
-        #~ s.sql = sql.replace('TABLE', self.metadata[self.var][time]['table'])\
-                   #~ .replace('SRCID', str(srcid))\
-                   #~ .replace('VARID', str(varid))
-
-        #~ s.run()
-        #~ return int(s.as_DataFrame()[0])
         
     def get_site_count_from_datavalues_table (self, time, siteid, varid):
         """
@@ -217,7 +217,7 @@ class updateSummaries (object):
             print "cannot execute:", siteid, "var:", varid
             return
     
-    def update_datavalues_tables (self):
+    def update_datavalues_tables (self, intervals = ['daily','hourly']):
         """
         update the data values tables for sources
         
@@ -225,37 +225,38 @@ class updateSummaries (object):
         """
         for source in self.sources:
             try:
-                varid = self.varids[source]
+                source_vars = self.varids[source]
             except KeyError:
-                #~ print source, 'No Vars'
                 continue
-            for time in ['daily','hourly']:
-                
-                init_count = self.get_source_count_from_datavalues_table(time, 
-                                                                        source,
-                                                                        varid)
-                print source, varid
-                print '--', time,' init count:',  init_count
-                
-                #~ self.delete_source_from_datavalues_table(time, source, varid)
-                
-                #~ for site in self.get_siteids(source):
-                    #~ self.excute_db_function(time, site, varid)
-                self.update_dv_table(time, self.get_siteids(source), varid)
-                
-                post_count = self.get_source_count_from_datavalues_table(time, 
-                                                                         source,
-                                                                         varid)
-                print '--', time,' post count:',  post_count
-                if post_count < init_count:
-                    print " -- ERR: LESS"
-                    self.errors.append('Source ' +str(source) + "failure")
+            for varid in source_vars:
+                self.log.append( str(source) + ', ' + str(varid))
+                print self.log[-1]
+                for time in intervals:
+                    
+                    init_count = self.get_source_count_from_datavalues_table(time, 
+                                                                            source,
+                                                                            varid)
+                    
+                    self.log.append('-- ' + str(time) + ' init count:' + str(init_count))
+                    print self.log[-1]
+                    
+                    self.update_dv_table(time, self.get_siteids(source), varid)
+                    
+                    post_count = self.get_source_count_from_datavalues_table(time, 
+                                                                             source,
+                                                                             varid)
+                    self.log.append('-- ' + str(time) + ' init count:' + str(post_count))
+                    print self.log[-1]
+                    if post_count < init_count:
+                        print " -- ERR: LESS"
+                        self.errors.append('Source ' +str(source) + "failure")
     
     def update_dv_table (self, time, sites, varid):
         """
         """
         for site in sites:
-            print '----',site, varid
+            self.log.append('---- ' + str(site) + ', ' + str(varid))
+            print self.log[-1]
             self.delete_site_from_datavalues_table(time, site, varid)
             self.excute_db_function(time, site, varid)
                     
@@ -264,7 +265,9 @@ class updateSummaries (object):
         create a new summary table on imiq
         """
         for table in self.metadata[self.var]['summaries']:
+            self.log.append('updating table: ' + str(table) )
             s = PostHaste(self.host,self.db,self.user,self.pswd)
+            print self.log[-1]
             s.open(table)
             s.run()
             
@@ -275,7 +278,9 @@ class updateSummaries (object):
 def main ():
     from clite import CLIte
     flags = CLIte(['--login'],['--variable','--sourceids',
-                                                        '--varid','--siteids','--ignore', '--email'])
+                               '--varid','--siteids','--ignore', 
+                               '--email', '--intervals', '--use_vars',
+                               '--DV_tables_only'])
     
     
     start = datetime.now()
@@ -283,7 +288,25 @@ def main ():
     ERROR = None
     
     try:
-        srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
+        use_vars = []
+        if not flags['--use_vars'] is None:
+            use_vars = [int(i) for i in flags['--use_vars'][1:-1].split(',')]
+        
+        intervals = ['daily','hourly']
+        if not flags['--intervals'] is None:
+            itemp = [i for i in flags['--intervals'][1:-1].split(',')]
+            print itemp
+            for i in itemp:
+                if i not in intervals:
+                    raise ValueError, "Input Intervals must be in ['daily','hourly']" 
+            intervals = itemp
+            
+        
+        
+        try:
+            srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
+        except:
+            srcids = []
         update = updateSummaries(flags['--login'], flags['--variable'], srcids)
         #range(248,258+1) + [29,30,31,34,223, 145, 144] + [ 209, 202, 1, 203, 182, 182, 35, 213]) 
         if not flags['--ignore'] is None:
@@ -292,11 +315,16 @@ def main ():
         
         
         
-        update.initilize_varids()
+        update.initilize_varids(use_vars)
         update.update_db_functions()
-        update.update_datavalues_tables()
+        update.update_datavalues_tables(intervals)
         #~ print update.errors
-        update.create_new_summary_tables()
+        update.log.append('DataValues Updated')
+        print update.log[-1]
+        if not '--DV_tables_only' is None:
+            update.log.append('Updating summary tables')
+            print update.log[-1]
+            update.create_new_summary_tables()
         print update.errors 
     except StandardError as e:
         ERROR = e
@@ -307,12 +335,27 @@ def main ():
     time =  datetime.now() - start
     print 'elapsed time:', str(time)
     if not flags['--email'] is None :
-        if not ERROR is none:
+        if not ERROR is None:
             sub = "Imiq Summary Update, crashed"
-            msg = ERROR + '\n\nelapsed time:' + str(time)
+            msg = str(ERROR) + '\n\n'
+            msg += 'Log:\n'
+            try:
+                for l in update.log:
+                    msg += '  ' + str(l) 
+            except StandardError as e:
+                msg += '  updater object not created \n'
+                msg += str(e)
+            
+            msg +=  '\n\nelapsed time:' + str(time) 
         else:
             sub =  'Imiq Summary Update, complete'
-            msg = flags['--variable'] + ' summaries updated for sources: ' + str(srcids) + '\n\nelapsed time:' + str(time) + '\n\n' + str(update.errors)
+            msg = str(flags['--variable']) + ' summaries updated for sources: ' + str(srcids) + '\n\n' 
+            msg += "Errors:\n"
+            msg += str(update.errors) +' \n\n'
+            msg += 'Log:\n'
+            for l in update.log:
+                msg += '  ' + str(l) 
+            msg += '\n\nelapsed time:' + str(time)
         send_alert(flags['--email'],flags['--email'], sub , msg)
                  
 
