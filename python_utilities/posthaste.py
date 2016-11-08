@@ -86,10 +86,10 @@ class PostHaste (object):
         flag, values = self.parse_sql()
         if flag == 'EXPLICIT':
             return DataFrame(self.table, columns = values)
-        elif flag = 'IMPLICIT':
+        elif flag == 'IMPLICIT':
             schema = "'" + values[0] + "'"
             table = "'" + values[1] + "'"
-            DataFrame(self.table,columns=self.get_headers(table,schema))
+            return DataFrame(self.table,columns=self.get_headers(table,schema))
         else:
             return self.as_DataFrame()
                                                                 
