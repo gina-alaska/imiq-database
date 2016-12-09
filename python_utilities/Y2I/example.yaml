@@ -1,0 +1,25 @@
+name: insert_eaxmple.sql
+schema: tables
+table: datavalues
+length: 
+    of_file: cc_test_data.csv
+columns:
+    - 
+        name: timestamp
+        source: cc_test_data.csv
+        value: Date_Time
+        dtype: datetime
+        format: “%d/%m/%Y %H:%M”
+    - 
+        name: value
+        source: cc_test_data.csv
+        value: Average Air Temperature (F)
+        dtype: float
+    - 
+        name: note
+        source: None
+        value: "testign 123..."
+        dtype: str
+infiles:
+    cc_test_data.csv:
+        skiprows: 1
