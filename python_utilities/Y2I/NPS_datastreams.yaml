@@ -1,0 +1,12 @@
+template: datavalues_insert.yaml
+arguments:
+    -
+        data_file: Asik20120713_20150606.csv
+        name: NPS RAWS Asik Precip
+        method_id: 33
+        device_id: 1
+        out_file: insert_nps-raws_asik_precip.sql
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+   

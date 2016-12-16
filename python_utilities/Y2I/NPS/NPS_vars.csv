@@ -1,0 +1,14 @@
+variablecode,variablename,variabledescription,speciation,variableunitsid,samplemedium,valuetype,isregular,timesupport,timeunitsid,datatype,generalcategory,nodatavalue
+NPS_Precipitation,Precipitation,"Precipitation is the amount of water falling upon the earth as rain or in frozen form such as snow, sleet, and hail.",Unknown,344,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Wind_Speed,Wind speed,Wind speed is the rate at which air passes a given point,Unknown,120,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Wind_Direction,Wind direction,Wind direction refers to the direction from which the air is moving.,Unknown,2,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Average_Air_Temperature,Temperature,Air temperature refers to the air surrounding the weather station instrumentation.,Unknown,97,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Relative_Humidity,Relative humidity,Relative humidity is the percentage ratio of the actual amount of water vapor in the air to the amount of water vapor required for saturation at existing temperature.,Unknown,1,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Battery_Voltage,Voltage,Voltage of logger battery,Unknown,168,Unknown,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Wind_Direction_of_Gust,Wind direction,Direction fo wind gust,Unknown,2,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Peak_Wind_Speed,Wind speed,Peak wind speed,Unknown,120,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Solar_Radiation,"Radiation, incoming shortwave",Solar radiation measures the amount of sunlight exposed to the fuels,Unknown,33,Air,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Snow_Depth,Snow depth,Snow Depth,Unknown,344,Snow,Field Observation,TRUE,60,103,Average,Climate,-9999
+NPS_Minimum_Air_Temperature,Temperature,Air temperature refers to the air surrounding the weather station instrumentation.,Unknown,97,Air,Field Observation,TRUE,60,103,Minimum,Climate,-9999
+NPS_Maximum_Air_Temperature,Temperature,Air temperature refers to the air surrounding the weather station instrumentation.,Unknown,97,Air,Field Observation,TRUE,60,103,Maximum,Climate,-9999
+NPS_Soil_Temperature,Temperature,"Avg soil temperature, degC",Unknown,97,Soil,Field Observation,TRUE,60,103,Average,Climate,-9999

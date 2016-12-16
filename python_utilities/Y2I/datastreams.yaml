@@ -1,0 +1,47 @@
+name: <out_file>
+schema: tables
+table: datavalues
+length: 
+    of_file: <data_file>
+columns:
+    - 
+        name: datastreamname 
+        source: <data_file>
+        value: <sitename> # Average Air Temperature (F)
+        dtype: str
+        append: <feildname>
+    - 
+        name: siteid
+        source: <data_file>
+        value: 
+        dtype: int
+    -
+        name: variableid
+        source:
+        value:
+        dtype: int
+    -
+        name: fieldname
+        source: None
+        value: <fieldname>
+        dtpye: str
+    -
+        name: deviceid
+        source: None
+        value: <device_id>
+        dtype: int
+    -
+        name: methodid
+        source: None
+        value: <method_id>
+        dtype: int
+   -
+        name: DownloadDate 
+        source: none
+        value: <aqc_date>
+        dtype: datetime
+        format: <aqc_date_format> 
+           
+infiles:
+    <data_file>:
+        skiprows: <skip_rows>

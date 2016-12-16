@@ -1,0 +1,75 @@
+name: NPS_VARS.sql
+schema: tables
+table: variables
+length: 
+    of_file: NPS_vars.csv
+columns:
+    - 
+        name: variablecode
+        source: NPS_vars.csv
+        value: variablecode
+        dtype: str
+    - 
+        name: variablename
+        source: NPS_vars.csv
+        value: variablename
+        dtype: str
+    - 
+        name: variabledescription
+        source: NPS_vars.csv
+        value: variabledescription
+        dtype: str
+    - 
+        name: speciation
+        source: None
+        value: Unknown
+        dtype: str
+    -
+        name: variableunitsid
+        source: NPS_vars.csv
+        value: variableunitsid
+        dtype: int
+    - 
+        name: samplemedium
+        source: NPS_vars.csv
+        value: samplemedium
+        dtype: str
+    - 
+        name: valuetype
+        source: NPS_vars.csv
+        value: valuetype
+        dtype: str
+    - 
+        name: isregular
+        source: NPS_vars.csv
+        value: isregular
+        dtype: str
+    - 
+        name: timesupport
+        source: None
+        value: 1
+        dtype: int
+    -   
+        name: timeunitsid
+        source: None
+        value: 103
+        dtype: int
+    - 
+        name: datatype
+        source: NPS_vars.csv
+        value: datatype
+        dtype: str
+    - 
+        name: generalcategory
+        source: None
+        value: Climate
+        dtype: str
+    - 
+        name: nodatavalue
+        source: None
+        value: -9999
+        dtype: float
+        
+infiles:
+    NPS_vars.csv:
+        skiprows: 0

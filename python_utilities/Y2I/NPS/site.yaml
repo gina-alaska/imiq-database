@@ -1,0 +1,51 @@
+name: site_eaxmple.sql
+schema: tables
+table: sites
+length: 
+    of_file: SiteCoordinates.csv
+columns:
+    -
+        name: sitecode
+        source: SiteCoordinates.csv
+        value: 'Site Code'
+        dtype: str
+    -
+        name: sitename
+        source: SiteCoordinates.csv
+        value: 'Site Name'
+        dtype: str
+    -
+        name: spatialcharacteristics 
+        source: None
+        value: POINT
+        dtype: str
+    -
+        name: sourceid
+        source: None
+        value: 136
+        dtype: int
+    -
+        name: state
+        source: None
+        value: Alaska
+        dtype: str
+    -
+        name: comments
+        source: SiteCoordinates.csv
+        value: Park
+        dtype: str
+    -
+        name: latlongdatumid 
+        source: None
+        value: 3
+        dtype: int
+    - 
+        name: geolocation 
+        source: SiteCoordinates.csv
+        lat: Latitude
+        long: Longitude
+        elev: Elevation (ft)
+        dtype: geolocation
+infiles:
+    SiteCoordinates.csv:
+        skiprows: 0

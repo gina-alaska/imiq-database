@@ -1,0 +1,46 @@
+name: <out_file>
+schema: tables
+table: datavalues
+length: 
+    of_file: <data_file>
+columns:
+    - 
+        name: DataValue
+        source: <data_file>
+        value: <value_column> # Average Air Temperature (F)
+        dtype: float
+    - 
+        name: LocalDateTime
+        source: <data_file>
+        value: Date_Time
+        dtype: datetime
+        format: <date_format> #“%d/%m/%Y %H:%M”
+    - 
+        name: UTCOffset
+        source: None
+        value: 8
+        dtype: float
+    -
+        name: DatastreamID
+        source: None
+        value: <data_stream_id>
+        dtype: int
+    -
+        name: offsettypeid
+        source: None
+        value: <offset_type_id>
+        dtype: int
+    -
+        name: offsetvalue 
+        source: None
+        value: <offset_value>
+        dtype: float
+    -
+        name: CensorCode 
+        source: None
+        value: nc
+        dtype: char
+           
+infiles:
+    <data_file>:
+        skiprows: <skip_rows>

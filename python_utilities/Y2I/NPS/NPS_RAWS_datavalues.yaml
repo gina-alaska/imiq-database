@@ -1,0 +1,152 @@
+template: datavalues_insert.yaml
+arguments:
+    -
+        name: NPS RAWS Asik Precip
+        out_file: insert_nps-raws_asik_precip.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Precipitation (in)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Wind Speed
+        out_file: insert_nps-raws_asik_wind_speed.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Wind Speed (mph)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Wind Dir
+        out_file: insert_nps-raws_asik_wind_Dir.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Wind Direction (degrees)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Air Temp
+        out_file: insert_nps-raws_asik_air_temp.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Average Air Temperature (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik RH
+        out_file: insert_nps-raws_asik_rh.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Relative Humidity (%)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Voltage
+        out_file: insert_nps-raws_asik_volt.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Battery Voltage (Volts)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Wind Direction of Gust (degrees)
+        out_file: insert_nps-raws_asik_gust_dir.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Wind Direction of Gust (degrees)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Peak Wind Speed (mph)
+        out_file: insert_nps-raws_asik_peak_ws.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Peak Wind Speed (mph)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Rad
+        out_file: insert_nps-raws_asik_rad.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: 9
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Snow Depth (in)
+        out_file: insert_nps-raws_asik_snow_depth.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Snow Depth (in)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Minimum Air Temperature (F)
+        out_file: insert_nps-raws_asik_at_min.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Minimum Air Temperature (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Maximum Air Temperature (F)
+        out_file: insert_nps-raws_asik_at_max.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Maximum Air Temperature (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: NULL
+        offset_value: NULL
+    -
+        name: NPS RAWS Asik Soil Temperature 10 cm (F)
+        out_file: insert_nps-raws_asik_soil_temp_10_cm.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Soil Temperature 10 cm (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: centimeters
+        offset_value: 10
+    -
+        name: NPS RAWS Asik Soil Temperature 20 cm (F)
+        out_file: insert_nps-raws_asik_soil_temp_10_cm.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Soil Temperature 20 cm (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: centimeters
+        offset_value: 20
+    -
+        name: NPS RAWS Asik Soil Temperature 50 cm (F)
+        out_file: insert_nps-raws_asik_soil_temp_50_cm.sql
+        data_file: Asik20120713_20150606.csv
+        data_format: "%d/%m/%Y %H:%M"
+        value_column: Soil Temperature 50 cm (F)
+        data_stream_id: 12345
+        skip_rows: 1
+        offset_type_id: centimeters
+        offset_value: 10
