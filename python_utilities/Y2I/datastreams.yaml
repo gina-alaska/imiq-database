@@ -1,30 +1,31 @@
 name: <out_file>
+mode: <mode>
 schema: tables
-table: datavalues
+table: datastreams
 length: 
     of_file: <data_file>
 columns:
     - 
         name: datastreamname 
         source: <data_file>
-        value: <sitename> # Average Air Temperature (F)
+        value: sitecode # Average Air Temperature (F)
         dtype: str
-        append: <feildname>
+        append: <name>
     - 
         name: siteid
         source: <data_file>
-        value: 
+        value: siteid
         dtype: int
     -
         name: variableid
-        source:
-        value:
+        source: None
+        value: <varid>
         dtype: int
     -
         name: fieldname
         source: None
-        value: <fieldname>
-        dtpye: str
+        value: <name>
+        dtype: str
     -
         name: deviceid
         source: None
@@ -35,7 +36,7 @@ columns:
         source: None
         value: <method_id>
         dtype: int
-   -
+    -
         name: DownloadDate 
         source: none
         value: <aqc_date>

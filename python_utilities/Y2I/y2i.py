@@ -46,6 +46,7 @@ class Y2I (object):
     def load_infiles (self):
         """ load the input files """
         for f in self.config['infiles']:
+            print f
             self.data[f] = read_csv(f, 
                             skiprows = self.config['infiles'][f]['skiprows'])
 
@@ -83,7 +84,13 @@ class Y2I (object):
                 self.table = concat([self.table, values],axis = 1)
             else:
                 #~ print 'b'
-                self.table[col['name']] = col['value']
+                #~ print col['name']
+                if col['dtype'] == 'datetime':
+                    #~ print 
+                    values = to_datetime(col['value'])
+                    self.table[col['name']] = values
+                else:
+                    self.table[col['name']] = col['value']
     
     def to_string (self):
         """ return the insert sql statement as a string """
@@ -97,7 +104,16 @@ class Y2I (object):
             #~ print row
             row = str(row)
             row = '(' + row[1:-1] + ')'
+            while row.find("Timestamp(") != -1:
+                ts_sec = row[row.find("Timestamp")+len("Timestamp"):]
+                start = row[:row.find("Timestamp")+len("Timestamp")]
+                remaing = ts_sec[ts_sec.find(')')+1:]
+                ts_sec = ts_sec[:ts_sec.find(')')+1]
+                row = start + ' '+ ts_sec[1:-1]+ ' ' + remaing 
+                
+                #~ row = row[:row.find("Timestamp")+len("Timestamp")]
             string += self.tab + row + ',\n'
+            
             
         string = string[:-2] + ';'
             
@@ -106,8 +122,12 @@ class Y2I (object):
 
     def save_sql (self):
         """ Function doc """
-        with open(self.config['name'], 'w') as sql:
-            sql.write(self.to_string())
+        try:
+            mode = self.config['mode']
+        except KeyError:
+            mode = 'w'
+        with open(self.config['name'], mode) as sql:
+            sql.write(self.to_string()+'\n')
             
     def generate_sql (self):
         """ create the table and generate the sql file"""
@@ -135,7 +155,8 @@ def main ():
             converter = Y2I(setup['template'], setup['arguments'][i])
             #~ print converter.config
             converter.generate_sql()
-    except KeyError:
+    except KeyError as e:
+        print e
         converter = Y2I(sys.argv[1])
         converter.generate_sql()
     

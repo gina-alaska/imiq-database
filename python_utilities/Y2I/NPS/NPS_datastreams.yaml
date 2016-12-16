@@ -1,0 +1,134 @@
+template: datastreams.yaml
+arguments:
+    -
+        name: NPS_Precipitation 
+        varid: 1170 
+        out_file: nps_datastreams.sql
+        mode: w
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Wind_Speed 
+        varid: 1171 
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Wind_Dir 
+        varid: 1172 
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Avg_Air_temp
+        varid: 1173
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_RH
+        varid: 1174 
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Battery_Voltage
+        varid: 1175
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Gust_Dir
+        varid: 1176
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Peak_Wind_Speed
+        varid: 1177
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Solar_Rad
+        varid: 1179
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Min_Air_Temp
+        varid: 1180
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Max_Air_Temp
+        varid: 1181
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Soil_Temp
+        varid: 1182
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
