@@ -90,6 +90,17 @@ arguments:
         skip_rows: 0
     -
         name: NPS_Solar_Rad
+        varid: 1178
+        out_file: nps_datastreams.sql
+        mode: a
+        data_file: nps_sites.csv
+        method_id: 33
+        device_id: 1
+        aqc_data_format: "%Y/%m/%d"
+        aqc_date: "2016/12/01"
+        skip_rows: 0
+    -
+        name: NPS_Snow_Depth
         varid: 1179
         out_file: nps_datastreams.sql
         mode: a
