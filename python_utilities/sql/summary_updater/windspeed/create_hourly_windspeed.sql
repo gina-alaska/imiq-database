@@ -1,4 +1,13 @@
-﻿
+﻿-- create_hourly_windspeed.sql
+--     creates tables.hourly_windspeed_2.
+--  Note: to finish update drop tables.hourly_windspeed, and rename this table
+--  to tables.hourly_windspeed
+--
+-- version 1.0.0
+-- updated 2017-01-09
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments.
 CREATE TABLE tables.hourly_windspeed_2 AS 
  SELECT v.valueid,
     v.datavalue,

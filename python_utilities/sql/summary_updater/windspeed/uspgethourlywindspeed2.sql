@@ -1,3 +1,13 @@
+-- uspgethourlywindspeed2.sql
+--      a function for updating daily_hourlyspeeddatavalues with data from new 
+-- sources.
+--
+-- version 1.0.0
+-- updated 2017-01-09
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments
+
 -- Function: tables.uspgethourlywindspeed2(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlywindspeed2(integer, integer);

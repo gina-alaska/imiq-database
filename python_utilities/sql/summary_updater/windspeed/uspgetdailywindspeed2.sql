@@ -1,3 +1,13 @@
+-- uspgetdailywindspeed2.sql
+--      a function for updating daily_windspeeddatavalues with data from new 
+-- sources.
+--
+-- version 1.0.0
+-- updated 2017-01-09
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments. Note BOEM is done
+
 -- Function: tables.uspgetdailywindspeed2(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailywindspeed2(integer, integer);
