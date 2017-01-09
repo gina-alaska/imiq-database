@@ -1,0 +1,182 @@
+arguments:
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41180
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Precip
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_precip_DevilMtn.sql
+  skip_rows: 1
+  value_column: Precipitation (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41210
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Speed
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_speed_DevilMtn.sql
+  skip_rows: 1
+  value_column: Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41240
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Dir
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_Dir_DevilMtn.sql
+  skip_rows: 1
+  value_column: Wind Direction (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41270
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Air Temp
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_air_temp_DevilMtn.sql
+  skip_rows: 1
+  value_column: Average Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41300
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS RH
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rh_DevilMtn.sql
+  skip_rows: 1
+  value_column: Relative Humidity (%)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41330
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Voltage
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_volt_DevilMtn.sql
+  skip_rows: 1
+  value_column: Battery Voltage (Volts)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41360
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Direction of Gust (degrees)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_gust_dir_DevilMtn.sql
+  skip_rows: 1
+  value_column: Wind Direction of Gust (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41390
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Peak Wind Speed (mph)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_peak_ws_DevilMtn.sql
+  skip_rows: 1
+  value_column: Peak Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41420
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Rad
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rad_DevilMtn.sql
+  skip_rows: 1
+  value_column: 9
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41450
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Snow Depth (in)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_snow_depth_DevilMtn.sql
+  skip_rows: 1
+  value_column: Snow Depth (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41480
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Minimum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_min_DevilMtn.sql
+  skip_rows: 1
+  value_column: Minimum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41510
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Maximum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_max_DevilMtn.sql
+  skip_rows: 1
+  value_column: Maximum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41540
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 10 cm (F)
+  offset_type_id: centimeters
+  offset_value: 10
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_DevilMtn.sql
+  skip_rows: 1
+  value_column: Soil Temperature 10 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41540
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 20 cm (F)
+  offset_type_id: centimeters
+  offset_value: 20
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_DevilMtn.sql
+  skip_rows: 1
+  value_column: Soil Temperature 20 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/DevilMtn20110818_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41540
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 50 cm (F)
+  offset_type_id: centimeters
+  offset_value: 50
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_50_cm_DevilMtn.sql
+  skip_rows: 1
+  value_column: Soil Temperature 50 cm (F)
+template: datavalues_insert.yaml

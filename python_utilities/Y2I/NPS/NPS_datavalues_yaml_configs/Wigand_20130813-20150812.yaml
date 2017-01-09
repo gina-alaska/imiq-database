@@ -1,0 +1,182 @@
+arguments:
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41204
+  mode: w
+  ts: Date
+  name: NPS RAWS Precip
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_precip_Wigland.sql
+  skip_rows: 1
+  value_column: Precipitation (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41234
+  mode: w
+  ts: Date
+  name: NPS RAWS Wind Speed
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_speed_Wigland.sql
+  skip_rows: 1
+  value_column: Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41264
+  mode: w
+  ts: Date
+  name: NPS RAWS Wind Dir
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_Dir_Wigland.sql
+  skip_rows: 1
+  value_column: Wind Direction (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41294
+  mode: w
+  ts: Date
+  name: NPS RAWS Air Temp
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_air_temp_Wigland.sql
+  skip_rows: 1
+  value_column: Average Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41324
+  mode: w
+  ts: Date
+  name: NPS RAWS RH
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rh_Wigland.sql
+  skip_rows: 1
+  value_column: Relative Humidity (%)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41354
+  mode: w
+  ts: Date
+  name: NPS RAWS Voltage
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_volt_Wigland.sql
+  skip_rows: 1
+  value_column: Battery Voltage (Volts)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41384
+  mode: w
+  ts: Date
+  name: NPS RAWS Wind Direction of Gust (degrees)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_gust_dir_Wigland.sql
+  skip_rows: 1
+  value_column: Wind Direction of Gust (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41414
+  mode: w
+  ts: Date
+  name: NPS RAWS Peak Wind Speed (mph)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_peak_ws_Wigland.sql
+  skip_rows: 1
+  value_column: Peak Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41444
+  mode: w
+  ts: Date
+  name: NPS RAWS Rad
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rad_Wigland.sql
+  skip_rows: 1
+  value_column: 9
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41474
+  mode: w
+  ts: Date
+  name: NPS RAWS Snow Depth (in)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_snow_depth_Wigland.sql
+  skip_rows: 1
+  value_column: Snow Depth (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41504
+  mode: w
+  ts: Date
+  name: NPS RAWS Minimum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_min_Wigland.sql
+  skip_rows: 1
+  value_column: Minimum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41534
+  mode: w
+  ts: Date
+  name: NPS RAWS Maximum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_max_Wigland.sql
+  skip_rows: 1
+  value_column: Maximum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41564
+  mode: w
+  ts: Date
+  name: NPS RAWS Soil Temperature 10 cm (F)
+  offset_type_id: centimeters
+  offset_value: 10
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Wigland.sql
+  skip_rows: 1
+  value_column: Soil Temperature 1 (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41564
+  mode: w
+  ts: Date
+  name: NPS RAWS Soil Temperature 20 cm (F)
+  offset_type_id: centimeters
+  offset_value: 20
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Wigland.sql
+  skip_rows: 1
+  value_column: Soil Temperature 2 (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Wigand_20130813-20150812.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41564
+  mode: w
+  ts: Date
+  name: NPS RAWS Soil Temperature 50 cm (F)
+  offset_type_id: centimeters
+  offset_value: 50
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_50_cm_Wigland.sql
+  skip_rows: 1
+  value_column: Soil Temperature 3 (F)
+template: datavalues_insert.yaml

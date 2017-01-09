@@ -1,0 +1,197 @@
+arguments:
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41177
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Precip
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_precip_Chimney.sql
+  skip_rows: 1
+  value_column: Rain (inches)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41207
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Wind Speed
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_speed_Chimney.sql
+  skip_rows: 1
+  value_column: Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41237
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Wind Dir
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_Dir_Chimney.sql
+  skip_rows: 1
+  value_column: Wind Direction (deg)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41267
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Air Temp
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_air_temp_Chimney.sql
+  skip_rows: 1
+  value_column: Average Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41297
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS RH
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rh_Chimney.sql
+  skip_rows: 1
+  value_column: Relative Humidity (%)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41327
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Voltage
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_volt_Chimney.sql
+  skip_rows: 1
+  value_column: Battery Voltage (V)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41357
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Wind Direction of Gust (degrees)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_gust_dir_Chimney.sql
+  skip_rows: 1
+  value_column: Gust Wind Direction (deg)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41387
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Peak Wind Speed (mph)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_peak_ws_Chimney.sql
+  skip_rows: 1
+  value_column: Max Wind Gust (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41417
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Rad
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rad_Chimney.sql
+  skip_rows: 1
+  value_column: Radiation Li200x (W m-2)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41447
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Snow Depth (in)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_snow_depth_Chimney.sql
+  skip_rows: 1
+  value_column: Snow Depth (inches)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41477
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Minimum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_min_Chimney.sql
+  skip_rows: 1
+  value_column: Minimum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41507
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Maximum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_max_Chimney.sql
+  skip_rows: 1
+  value_column: Maximum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41537
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Soil Temperature 10 cm (F)
+  offset_type_id: centimeters
+  offset_value: 10
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Chimney.sql
+  skip_rows: 1
+  value_column: Soil Temperature 10 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41537
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Soil Temperature 20 cm (F)
+  offset_type_id: centimeters
+  offset_value: 20
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Chimney.sql
+  skip_rows: 1
+  value_column: Soil Temperature 20 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41537
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Soil Temperature 50 cm (F)
+  offset_type_id: centimeters
+  offset_value: 50
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_50_cm_Chimney.sql
+  skip_rows: 1
+  value_column: Soil Temperature 50 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Chimney20120807-20150701.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41537
+  mode: w
+  ts: Date Time (AKDT)
+  name: NPS RAWS Soil Temperature 75 cm (F)
+  offset_type_id: centimeters
+  offset_value: 75
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_75_cm_Chimney.sql
+  skip_rows: 1
+  value_column: Soil Temperature 75 cm (F)
+
+  
+
+template: datavalues_insert.yaml

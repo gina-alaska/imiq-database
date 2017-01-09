@@ -1,0 +1,182 @@
+arguments:
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41190
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Precip
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_precip_Midnight.sql
+  skip_rows: 1
+  value_column: Precipitation (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41220
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Speed
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_speed_Midnight.sql
+  skip_rows: 1
+  value_column: Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41250
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Dir
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_wind_Dir_Midnight.sql
+  skip_rows: 1
+  value_column: Wind Direction (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41280
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Air Temp
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_air_temp_Midnight.sql
+  skip_rows: 1
+  value_column: Average Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41310
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS RH
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rh_Midnight.sql
+  skip_rows: 1
+  value_column: Relative Humidity (%)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41340
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Voltage
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_volt_Midnight.sql
+  skip_rows: 1
+  value_column: Battery Voltage (Volts)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41370
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Wind Direction of Gust (degrees)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_gust_dir_Midnight.sql
+  skip_rows: 1
+  value_column: Wind Direction of Gust (degrees)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41400
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Peak Wind Speed (mph)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_peak_ws_Midnight.sql
+  skip_rows: 1
+  value_column: Peak Wind Speed (mph)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41430
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Rad
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_rad_Midnight.sql
+  skip_rows: 1
+  value_column: 9
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41460
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Snow Depth (in)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_snow_depth_Midnight.sql
+  skip_rows: 1
+  value_column: Snow Depth (in)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41490
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Minimum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_min_Midnight.sql
+  skip_rows: 1
+  value_column: Minimum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41520
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Maximum Air Temperature (F)
+  offset_type_id: null
+  offset_value: null
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_at_max_Midnight.sql
+  skip_rows: 1
+  value_column: Maximum Air Temperature (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41550
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 10 cm (F)
+  offset_type_id: centimeters
+  offset_value: 10
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Midnight.sql
+  skip_rows: 1
+  value_column: Soil Temperature 10 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41550
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 20 cm (F)
+  offset_type_id: centimeters
+  offset_value: 20
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Midnight.sql
+  skip_rows: 1
+  value_column: Soil Temperature 20 cm (F)
+
+- data_file: ./NPS_RAWS_Data_Hill_Sousanes/Midnight20110817_20150602.csv
+  data_format: '%d/%m/%Y %H:%M'
+  data_stream_id: 41550
+  mode: w
+  ts: Date_Time
+  name: NPS RAWS Soil Temperature 50 cm (F)
+  offset_type_id: centimeters
+  offset_value: 50
+  out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_50_cm_Midnight.sql
+  skip_rows: 1
+  value_column: Soil Temperature 50 cm (F)
+template: datavalues_insert.yaml

@@ -45,8 +45,9 @@ class Y2I (object):
         
     def load_infiles (self):
         """ load the input files """
+        #~ print self.config
         for f in self.config['infiles']:
-            print f
+            #~ print f
             self.data[f] = read_csv(f, 
                             skiprows = self.config['infiles'][f]['skiprows'])
 

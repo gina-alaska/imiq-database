@@ -1,4 +1,5 @@
 name: <out_file>
+mode: <mode>
 schema: tables
 table: datavalues
 length: 
@@ -12,7 +13,7 @@ columns:
     - 
         name: LocalDateTime
         source: <data_file>
-        value: Date_Time
+        value: <ts>
         dtype: datetime
         format: <date_format> #“%d/%m/%Y %H:%M”
     - 
