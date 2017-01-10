@@ -135,5 +135,28 @@ metadata = {
         [os.path.join(sql_rt, 'windspeed', 'create_hourly_windspeed.sql'),
          os.path.join(sql_rt, 'windspeed', 'create_daily_windspeed.sql')]
        },
+       
+"wind direction":{
+    'component functions': [
+        os.path.join(sql_rt, 'winddirection', 'calcwinddirection.sql'),
+                            ],
+    'daily': {
+        'table': 'daily_winddirectiondatavalues',
+        'fn': 'uspgetdailywinddirection2',
+        'sql': os.path.join(sql_rt, 'winddirection',
+                    'uspgetdailywinddirection2.sql'),
+             },
+    "hourly": {
+        'table': 'hourly_winddirectiondatavalues',
+        'fn': 'uspgethourlywinddirection2',
+        'sql': os.path.join(sql_rt, 'winddirection', 
+                    'uspgethourlywinddirection2.sql'),
+              },
+    "summaries": [
+        os.path.join(sql_rt, 'winddirection',
+            'create_hourly_winddirection.sql'),
+        os.path.join(sql_rt, 'winddirection', 'create_daily_winddirection.sql')
+                ]
+       },
             
 }
