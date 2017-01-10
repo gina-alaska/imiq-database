@@ -96,7 +96,7 @@ class Y2I (object):
     def to_string (self):
         """ return the insert sql statement as a string """
         
-        table = self.table.values.tolist()
+        table = self.table.fillna('NULL').values.tolist()
         string = "INSERT INTO " + self.config['schema'] + '.' + \
                     self.config['table'] + \
                     ' ' + str(tuple(self.columns)).replace("'","") + ' VALUES\n' 
@@ -116,10 +116,14 @@ class Y2I (object):
             string += self.tab + row + ',\n'
             
             
+        if row.find('NaT') != -1:
+            print "An invalid time was located.'\
+                    ' Please search on 'Nat' to locate"
+            
         string = string[:-2] + ';'
             
         # replace null values
-        return string.replace("'None'","NULL")
+        return string.replace("'None'","NULL").replace("'NULL'","NULL")
 
     def save_sql (self):
         """ Function doc """

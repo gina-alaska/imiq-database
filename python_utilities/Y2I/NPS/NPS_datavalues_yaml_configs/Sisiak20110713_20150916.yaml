@@ -150,7 +150,7 @@ arguments:
   mode: w
   ts: Date_Time
   name: NPS RAWS Soil Temperature 10 cm (F)
-  offset_type_id: centimeters
+  offset_type_id: 47
   offset_value: 10
   out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Sisiak.sql
   skip_rows: 1
@@ -162,7 +162,7 @@ arguments:
   mode: w
   ts: Date_Time
   name: NPS RAWS Soil Temperature 20 cm (F)
-  offset_type_id: centimeters
+  offset_type_id: 47
   offset_value: 20
   out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_10_cm_Sisiak.sql
   skip_rows: 1
@@ -174,7 +174,7 @@ arguments:
   mode: w
   ts: Date_Time
   name: NPS RAWS Soil Temperature 50 cm (F)
-  offset_type_id: centimeters
+  offset_type_id: 47
   offset_value: 50
   out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_50_cm_Sisiak.sql
   skip_rows: 1
@@ -186,7 +186,7 @@ arguments:
   mode: w
   ts: Date_Time
   name: NPS RAWS Soil Temperature 75 cm (F)
-  offset_type_id: centimeters
+  offset_type_id: 47
   offset_value: 75
   out_file: ./NPS_datavalues_insert_scripts/insert_nps_soil_temp_75_cm_Sisiak.sql
   skip_rows: 1
