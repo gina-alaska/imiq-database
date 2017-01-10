@@ -1,10 +1,10 @@
 from posthaste import PostHaste
+from posthaste.email_alert import send_alert
 import os, sys
 from check_activity import load_login
 import summary_updater_metadata
 import psycopg2
 from datetime import datetime
-from email_alert import send_alert
 
 class updateSummaries (object):
     """
@@ -276,7 +276,7 @@ class updateSummaries (object):
                 
 
 def main ():
-    from clite import CLIte
+    from posthaste.clite import CLIte
     flags = CLIte(['--login'],['--variable','--sourceids',
                                '--varid','--siteids','--ignore', 
                                '--email', '--intervals', '--use_vars',
@@ -314,9 +314,11 @@ def main ():
         
         
         
-        
+        # get var ids to update
         update.initilize_varids(use_vars)
+        # update the database functions from local sources
         update.update_db_functions()
+        # update datavalues tables
         update.update_datavalues_tables(intervals)
         #~ print update.errors
         update.log.append('DataValues Updated')
