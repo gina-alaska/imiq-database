@@ -185,11 +185,18 @@ class updateSummaries (object):
         """
         update the instert funcion on the database from local sources
         """
+        # update main functions
         for time in ['daily','hourly']:
             s = PostHaste(self.host,self.db,self.user,self.pswd)
             s.open(self.metadata[self.var][time]['sql'])
             s.run()
-            
+        # update any 'extra' functions
+        if 'component functions' in self.metadata[self.var].keys():
+            for func in self.metadata[self.var]['component functions']:
+                s = PostHaste(self.host,self.db,self.user,self.pswd)
+                s.open(func)
+                s.run()
+                
     def excute_db_function (self, time, siteid, varid):
         """
         excute an insert function on the database
