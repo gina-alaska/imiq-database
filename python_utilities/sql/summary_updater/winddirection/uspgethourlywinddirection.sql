@@ -1,4 +1,14 @@
-﻿-- Function: tables.uspgethourlywinddirection(integer, integer)
+﻿-- uspgetdailywinddirection.sql
+--      updates hourly_winddirectiondatavalues table
+--
+-- version 1.0.0
+-- updated 2017-01-10
+--
+-- changelog:
+-- 1.0.0: added metadata comments.
+
+
+-- Function: tables.uspgethourlywinddirection(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlywinddirection(integer, integer);
 

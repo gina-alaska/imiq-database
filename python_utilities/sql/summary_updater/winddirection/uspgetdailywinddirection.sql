@@ -1,4 +1,13 @@
-﻿-- Function: tables.uspgetdailywinddirection(integer, integer)
+﻿-- uspgetdailywinddirection.sql
+--      updates daily_winddirectiondatavalues table
+--
+-- version 1.0.0
+-- updated 2017-01-10
+--
+-- changelog:
+-- 1.0.0: added metadata comments.
+
+-- Function: tables.uspgetdailywinddirection(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailywinddirection(integer, integer);
 

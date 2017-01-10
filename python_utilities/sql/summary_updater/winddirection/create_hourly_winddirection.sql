@@ -1,4 +1,13 @@
-﻿
+﻿-- create_hourly_winddirection.sql
+--     creates tables.hourly_winddirection_2.
+--  Note: to finish update drop tables.hourly_winddirection, and rename this 
+--  table to tables.daily_winddirection
+--
+-- version 1.0.0
+-- updated 2017-01-10
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments.
 CREATE TABLE tables.hourly_winddirection_2 AS 
  SELECT v.valueid,
     v.datavalue,
