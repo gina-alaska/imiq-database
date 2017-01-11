@@ -6,6 +6,9 @@ import summary_updater_metadata
 import psycopg2
 from datetime import datetime
 
+
+S_VAR_TAB = {'wind direction': 'wind speed'}
+
 class updateSummaries (object):
     """
     for updating summary tables in the imiq database
@@ -84,6 +87,35 @@ class updateSummaries (object):
                 continue
             varid = int(s.as_DataFrame()[0])
             self.varids[source] = [varid]
+            
+    def get_secondary_varid (self, source, secondary_var):
+        """
+        get a secondary var id
+        """
+        
+        sql = """
+        select distinct(variableid) from tables.seriescatalog 
+        where sourceid = SOURCE_ID and lower(variablename) like 'VAR' and
+              not variableunitsid = 137
+              """
+            s_set = False
+        s = PostHaste(self.host,self.db,self.user,self.pswd)
+        s.sql = sql.replace('SOURCE_ID', str(source))\
+                   .replace('VAR',secondary_var)
+        s.run()
+        if len(s.as_DataFrame()) == 0:
+            msg = 'Source ' + str(source) + 'has no possible secondary ' + \
+            'variable for ' + secondary_var
+            self.errors.append(msg)
+            return 'Null'
+
+        elif len(s.as_DataFrame()) != 1:
+            msg = 'Source ' + str(source) + 'has more that one possible ' + \
+                'secondary variable for ' + secondary_var
+            self.errors.append(msg)
+            return 'Null'
+        varid = int(s.as_DataFrame()[0])
+        return varid
       
     def get_siteids(self, source):
         """
@@ -197,7 +229,7 @@ class updateSummaries (object):
                 s.open(func)
                 s.run()
                 
-    def excute_db_function (self, time, siteid, varid):
+    def excute_db_function (self, time, siteid, varid, s_varid = None):
         """
         excute an insert function on the database
         
@@ -210,6 +242,13 @@ class updateSummaries (object):
         sql = """
         select tables.FUNCTION(SITE, VAR);
               """
+        # secondary var neede
+        if not s_varid is None:
+            sql = """
+                select tables.FUNCTION(SITE, VAR, S_VAR);
+              """
+              
+
         if siteid in self.ignore_sites:
             print "ignoring site:", siteid, "var:", varid
             return 
@@ -218,7 +257,7 @@ class updateSummaries (object):
             s.sql = sql\
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
-                   .replace('VAR', str(varid))
+                   .replace('VAR', str(varid)).replace('S_VAR',str(s_varid))
             s.run()
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
@@ -246,26 +285,33 @@ class updateSummaries (object):
                     
                     self.log.append('-- ' + str(time) + ' init count:' + str(init_count))
                     print self.log[-1]
+                    ## check if secondary var needed
+                    if self.var in S_VAR_TAB.keys():
+                        s_var = S_VAR_TAB[self.var]
                     
-                    self.update_dv_table(time, self.get_siteids(source), varid)
+                        self.update_dv_table(time, self.get_siteids(source),
+                                            varid, s_varid)
+                    else:
+                        self.update_dv_table(time, self.get_siteids(source),
+                                            varid)
                     
                     post_count = self.get_source_count_from_datavalues_table(time, 
                                                                              source,
                                                                              varid)
-                    self.log.append('-- ' + str(time) + ' init count:' + str(post_count))
+                    self.log.append('-- ' + str(time) + ' post count:' + str(post_count))
                     print self.log[-1]
                     if post_count < init_count:
                         print " -- ERR: LESS"
                         self.errors.append('Source ' +str(source) + "failure")
     
-    def update_dv_table (self, time, sites, varid):
+    def update_dv_table (self, time, sites, varid, s_varid = None):
         """
         """
         for site in sites:
             self.log.append('---- ' + str(site) + ', ' + str(varid))
             print self.log[-1]
             self.delete_site_from_datavalues_table(time, site, varid)
-            self.excute_db_function(time, site, varid)
+            self.excute_db_function(time, site, varid, s_varid)
                     
     def create_new_summary_tables (self):
         """
