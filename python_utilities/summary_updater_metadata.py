@@ -142,15 +142,15 @@ metadata = {
                             ],
     'daily': {
         'table': 'daily_winddirectiondatavalues',
-        'fn': 'uspgetdailywinddirection2',
+        'fn': 'uspgetdailywinddirection',
         'sql': os.path.join(sql_rt, 'winddirection',
-                    'uspgetdailywinddirection2.sql'),
+                    'uspgetdailywinddirection.sql'),
              },
     "hourly": {
         'table': 'hourly_winddirectiondatavalues',
-        'fn': 'uspgethourlywinddirection2',
+        'fn': 'uspgethourlywinddirection',
         'sql': os.path.join(sql_rt, 'winddirection', 
-                    'uspgethourlywinddirection2.sql'),
+                    'uspgethourlywinddirection.sql'),
               },
     "summaries": [
         os.path.join(sql_rt, 'winddirection',
