@@ -1,10 +1,11 @@
 ﻿-- uspgetdailywinddirection.sql
 --      updates hourly_winddirectiondatavalues table
 --
--- version 1.0.0
--- updated 2017-01-10
+-- version 1.0.1
+-- updated 2017-01-11
 --
 -- changelog:
+-- 1.0.1: added BOEM
 -- 1.0.0: added metadata comments.
 
 
@@ -78,6 +79,10 @@ BEGIN
 --   RWIS: WindDirection 
 --   SourceID = 263, VariableID = 1135 
 --   WS VariableID = 1133
+-- OR
+--   BOEM: winddir
+--   sourceIDs: 248 to 258, VariableID: 1036
+--   WS VariableId = 1035
   IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 334) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 829) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 817) OR
@@ -87,7 +92,8 @@ BEGIN
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 290) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 512) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 568) OR
-     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1135)
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1135) OR
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1036)
   THEN 
     OPEN maxCursor
     for execute format('SELECT date_trunc(''hour'',WD.datetimeutc) as DateTimeUTC, AVG(WS.M*SIN(WD.DataValue*PI()/180)), AVG(WS.M*COS(WD.DataValue*PI()/180)),OffsetValue, OffsetTypeID FROM tables.ODMDataValues_metric AS WD '
