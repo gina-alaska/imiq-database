@@ -15,7 +15,8 @@
 
 CREATE OR REPLACE FUNCTION tables.uspgethourlywinddirection(
     site_id integer,
-    var_id integer)
+    var_id integer,
+    ws_var_id integer)
   RETURNS void AS
 $BODY$
 DECLARE dateTimeUTC timestamp without time zone;
