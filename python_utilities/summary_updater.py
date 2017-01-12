@@ -6,11 +6,13 @@ import summary_updater_metadata
 import psycopg2
 from datetime import datetime
 
+
 ### secondary var stuff was already handeled well in sql file.
 ### leaving most of the code in in case it comes in handy at some
 ### later point
 #~ S_VAR_TAB = {'wind direction': 'wind speed'}
 S_VAR_TAB = {}
+
 
 class updateSummaries (object):
     """
@@ -244,7 +246,7 @@ class updateSummaries (object):
         sql = """
         select tables.FUNCTION(SITE, VAR);
               """
-              
+
         ### secondary var stuff was already handeled well in sql file.
         ### leaving most of the code in in case it comes in handy at some
         ### later point
@@ -254,7 +256,7 @@ class updateSummaries (object):
                 #~ select tables.FUNCTION(SITE, VAR, S_VAR);
               #~ """
               
-        
+
         if siteid in self.ignore_sites:
             print "ignoring site:", siteid, "var:", varid
             return 
@@ -263,8 +265,7 @@ class updateSummaries (object):
             s.sql = sql\
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
-	           .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
-            s.run()
+                   .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
             return
@@ -295,6 +296,7 @@ class updateSummaries (object):
                     if self.var in S_VAR_TAB.keys():
                         s_var = S_VAR_TAB[self.var]
                         s_varid = self.get_secondary_varid(source, s_var) 
+
                         self.update_dv_table(time, self.get_siteids(source),
                                             varid, s_varid)
                     else:

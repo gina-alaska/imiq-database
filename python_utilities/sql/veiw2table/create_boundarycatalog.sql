@@ -2,7 +2,7 @@
 
 -- DROP VIEW tables.boundarycatalog;
 
-CREATE TABLE tables.boundarycatalog_2 AS 
+CREATE MATERIALIZED VIEW tables.boundarycatalog AS 
  SELECT s.datastreamid,
     s.datastreamname,
     s.siteid,
@@ -50,18 +50,18 @@ CREATE TABLE tables.boundarycatalog_2 AS
      JOIN tables.qualitycontrollevels q ON s.qualitycontrollevelid = q.qualitycontrollevelid
   WHERE s.siteid <> 2052 AND s.siteid <> 8044;
 
---ALTER TABLE tables.boundarycatalog_2
---  ADD CONSTRAINT boundarycatalog_datastreamid PRIMARY KEY (datastreamid);
+-- ~ ALTER TABLE tables.boundarycatalog
+  -- ~ ADD CONSTRAINT boundarycatalog_datastreamid PRIMARY KEY (datastreamid);
 
 CREATE INDEX boundarycatalog_siteid_idx
-  ON tables.boundarycatalog_2
+  ON tables.boundarycatalog
   USING btree
   (siteid);
 
-ALTER TABLE tables.boundarycatalog_2
+ALTER TABLE tables.boundarycatalog
   OWNER TO imiq;
-GRANT ALL ON TABLE tables.boundarycatalog_2 TO imiq;
-GRANT ALL ON TABLE tables.boundarycatalog_2 TO asjacobs;
-GRANT ALL ON TABLE tables.boundarycatalog_2 TO chaase;
-GRANT SELECT ON TABLE tables.boundarycatalog_2 TO imiq_reader;
-GRANT ALL ON TABLE tables.boundarycatalog_2 TO rwspicer;
+GRANT ALL ON TABLE tables.boundarycatalog TO imiq;
+GRANT ALL ON TABLE tables.boundarycatalog TO asjacobs;
+GRANT ALL ON TABLE tables.boundarycatalog TO chaase;
+GRANT SELECT ON TABLE tables.boundarycatalog TO imiq_reader;
+GRANT ALL ON TABLE tables.boundarycatalog TO rwspicer;

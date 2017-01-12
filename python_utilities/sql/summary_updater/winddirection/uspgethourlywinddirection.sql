@@ -16,7 +16,8 @@
 
 CREATE OR REPLACE FUNCTION tables.uspgethourlywinddirection(
     site_id integer,
-    var_id integer)
+    var_id integer,
+    ws_var_id integer)
   RETURNS void AS
 $BODY$
 DECLARE dateTimeUTC timestamp without time zone;
@@ -41,7 +42,7 @@ BEGIN
     WHEN $2 = 290 THEN wsid = 292; -- LPeters
     WHEN $2 = 512 THEN wsid = 511; -- NOAA
     WHEN $2 = 568 THEN wsid = 566; -- RWIS
-    WHEN $2 = 1135 THEN wsid = 1133;
+    WHEN $2 = 1135 THEN wsid = 1133; --CALON
     WHEN $2 = 1036 THEN wsid = 1035; -- BOEM
     WHEN $2 = 1172 THEN wsid = 1171; -- NPS
     else wsid = -1;
