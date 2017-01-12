@@ -1,6 +1,22 @@
 import psycopg2
 import datetime 
 import gc
+import select
+
+def wait(conn):
+    """
+    from psycopg2 docs http://initd.org/psycopg/docs/advanced.html#asynchronous-support
+    """
+    while 1:
+        state = conn.poll()
+        if state == psycopg2.extensions.POLL_OK:
+            break
+        elif state == psycopg2.extensions.POLL_WRITE:
+            select.select([], [conn.fileno()], [])
+        elif state == psycopg2.extensions.POLL_READ:
+            select.select([conn.fileno()], [], [])
+        else:
+            raise psycopg2.OperationalError("poll() returned %s" % state)
 
 class Connection(object):
     """ 
@@ -28,7 +44,7 @@ class Connection(object):
                                 password=password)
             self.cur = self.conn.cursor()
         else:
-            aconn = psycopg2.connect(database=database, 
+            self.conn = psycopg2.connect(database=database, 
                                 user=user, 
                                 host=host,
                                 password=password, 

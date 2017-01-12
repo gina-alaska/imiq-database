@@ -1,11 +1,12 @@
+CREATE MATERIALIZED VIEW tables.seriescatalog AS 
 SELECT datastreamid
       ,datastreamname
       ,siteid
       ,sitecode
       ,sitename
-      ,boundarycatalog_2.offsetvalue
+      ,boundarycatalog.offsetvalue
       ,u.unitsabbreviation
-      ,boundarycatalog_2.offsettypeid
+      ,boundarycatalog.offsettypeid
       ,variableid
       ,variablecode
       ,variablename
@@ -39,8 +40,8 @@ SELECT datastreamid
       ,CAST(date_part('year',begindatetime) as integer) - CAST(date_part('year',begindatetime) as integer) % 10 AS startdecade
       ,CAST(date_part('year',enddatetime) as integer) - CAST(date_part('year',enddatetime) as integer) % 10 AS enddecade
       ,date_part('year',enddatetime) - date_part('year',begindatetime) AS totalyears
-  into tables.seriescatalog2
-  FROM tables.boundarycatalog_2
- left join tables.offsettypes o on o.offsettypeid=tables.boundaryCatalog_2.offsettypeid
+  -- ~ into tables.seriescatalog
+  FROM tables.boundarycatalog
+ left join tables.offsettypes o on o.offsettypeid=tables.boundaryCatalog.offsettypeid
  left join tables.units u on u.unitsid=o.offsetunitsid
  where lower(spatialcharacteristics)='point';
