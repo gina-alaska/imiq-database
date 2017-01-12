@@ -101,7 +101,6 @@ class updateSummaries (object):
         where sourceid = SOURCE_ID and lower(variablename) like 'VAR' and
               not variableunitsid = 137
               """
-
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('SOURCE_ID', str(source))\
                    .replace('VAR',secondary_var)
