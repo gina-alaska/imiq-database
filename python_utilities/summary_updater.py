@@ -6,8 +6,11 @@ import summary_updater_metadata
 import psycopg2
 from datetime import datetime
 
-
-S_VAR_TAB = {'wind direction': 'wind speed'}
+### secondary var stuff was already handeled well in sql file.
+### leaving most of the code in in case it comes in handy at some
+### later point
+#~ S_VAR_TAB = {'wind direction': 'wind speed'}
+S_VAR_TAB = {}
 
 class updateSummaries (object):
     """
@@ -98,7 +101,7 @@ class updateSummaries (object):
         where sourceid = SOURCE_ID and lower(variablename) like 'VAR' and
               not variableunitsid = 137
               """
-            s_set = False
+
         s = PostHaste(self.host,self.db,self.user,self.pswd)
         s.sql = sql.replace('SOURCE_ID', str(source))\
                    .replace('VAR',secondary_var)
@@ -242,13 +245,17 @@ class updateSummaries (object):
         sql = """
         select tables.FUNCTION(SITE, VAR);
               """
-        # secondary var neede
-        if not s_varid is None:
-            sql = """
-                select tables.FUNCTION(SITE, VAR, S_VAR);
-              """
               
-
+        ### secondary var stuff was already handeled well in sql file.
+        ### leaving most of the code in in case it comes in handy at some
+        ### later point
+        #~ # secondary var needed 
+        #~ if not s_varid is None:
+            #~ sql = """
+                #~ select tables.FUNCTION(SITE, VAR, S_VAR);
+              #~ """
+              
+        
         if siteid in self.ignore_sites:
             print "ignoring site:", siteid, "var:", varid
             return 
@@ -257,7 +264,7 @@ class updateSummaries (object):
             s.sql = sql\
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
-                   .replace('VAR', str(varid)).replace('S_VAR',str(s_varid))
+	           .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
             s.run()
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
@@ -288,7 +295,7 @@ class updateSummaries (object):
                     ## check if secondary var needed
                     if self.var in S_VAR_TAB.keys():
                         s_var = S_VAR_TAB[self.var]
-                    
+                        s_varid = self.get_secondary_varid(source, s_var) 
                         self.update_dv_table(time, self.get_siteids(source),
                                             varid, s_varid)
                     else:

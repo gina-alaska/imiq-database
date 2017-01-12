@@ -22,9 +22,9 @@ CREATE TABLE tables.daily_winddirection_2 AS
   GROUP BY v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, s.sourceid;
 
 ALTER TABLE tables.daily_winddirection_2
-  ADD CONSTRAINT daily_winddirection_valueid PRIMARY KEY (valueid);
+  ADD CONSTRAINT daily_winddirection_valueid_2 PRIMARY KEY (valueid);
 
-CREATE INDEX daily_winddirection_siteid_idx
+CREATE INDEX daily_winddirection_siteid_idx_2
   ON tables.daily_winddirection_2
   USING btree
   (siteid);
