@@ -8,7 +8,7 @@ import os
 
 sql_rt = os.path.join('sql','summary_updater')
 metadata = {
-"airtemp":{
+"airtemp":{ #needs work
     'daily': {
         'table': 'daily_airtempdatavalues',
         'fn': 'uspgetdailyairtemp2',
@@ -24,7 +24,7 @@ metadata = {
          os.path.join(sql_rt, 'airtemp', 'create_daily_airtemp.sql')]
        },
 
-"airtempmax":{
+"airtempmax":{ #needs work
     'daily': {
         'table': 'daily_airtempmaxdatavalues',
         'fn': 'uspgetdailyairtempmax2',
@@ -40,7 +40,7 @@ metadata = {
          os.path.join(sql_rt, 'airtempmax', 'create_daily_airtempmax.sql')]
        },
 
-"airtempmin":{
+"airtempmin":{ #needs work
     'daily': {
         'table': 'daily_airtempmindatavalues',
         'fn': 'uspgetdailyairtempmin2',
@@ -56,7 +56,7 @@ metadata = {
          os.path.join(sql_rt, 'airtempmin', 'create_daily_airtempmin.sql')]
        },
 
-"discharge":{
+"discharge":{ #needs work
     'daily': {
         'table': 'daily_dischargedatavalues',
         'fn': 'uspgetdailydischarge2',
@@ -72,7 +72,7 @@ metadata = {
          os.path.join(sql_rt, 'discharge', 'create_daily_discharge.sql')]
        },
        
-"precipitation":{
+"precipitation":{ #needs work
     'daily': {
         'table': 'daily_precipdatavalues',
         'fn': 'uspgetdailyprecip2',
@@ -88,7 +88,7 @@ metadata = {
          os.path.join(sql_rt, 'precip', 'create_daily_precip.sql')]
        },
        
-"rh":{
+"rh":{ #needs much work
     'daily': {
         'table': 'daily_rhdatavalues',
         'fn': 'uspgetdailyrh2',
@@ -99,12 +99,17 @@ metadata = {
         'fn': 'uspgethourlyrh2',
         'sql': os.path.join(sql_rt, 'rh', 'uspgethourlyrh2.sql'),
               },
+    #~ "monthly": {
+    #~ }
+    #~ "annual": {
+    #~ }
     "summaries": 
         [os.path.join(sql_rt, 'rh', 'create_hourly_rh.sql'),
-         os.path.join(sql_rt, 'rh', 'create_daily_rh.sql')]
+         os.path.join(sql_rt, 'rh', 'create_daily_rh.sql'),
+         ]
        },
 
-"swe":{
+"swe":{ #needs work
     'daily': {
         'table': 'daily_swedatavalues',
         'fn': 'uspgetdailyswe2',
