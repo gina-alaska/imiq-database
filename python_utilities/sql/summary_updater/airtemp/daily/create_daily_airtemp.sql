@@ -1,4 +1,11 @@
-﻿
+﻿-- create_daily_airtemp.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-01-12
+--
+-- changelog:
+-- 1.0.0: added comments
 CREATE TABLE tables.daily_airtemp_2 AS 
  SELECT v.valueid,
     v.datavalue,

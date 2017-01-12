@@ -1,4 +1,13 @@
-﻿-- Function: tables.uspgethourlyairtemp(integer, integer)
+﻿-- uspgethourlyairtemp.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-01-12
+--
+-- changelog:
+-- 1.0.0: added comments
+
+-- Function: tables.uspgethourlyairtemp(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlyairtemp(integer, integer);
 
@@ -15,7 +24,7 @@ DECLARE timeStampUTC timestamp without time zone;
         loopCursor refcursor;
 
 BEGIN
--- value is ready
+-- value is ready to average
 --   ISH
 --   SourceID = 209, VariableID = 218
 -- OR
