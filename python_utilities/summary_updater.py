@@ -1,3 +1,15 @@
+"""
+summary updater.py
+    for updating imiq summary tables
+    
+    
+version 1.0.0
+updated: 2017-01-12
+
+changelog:
+    1.0.0: working code
+"""
+
 from posthaste import PostHaste
 from posthaste.email_alert import send_alert
 import os, sys
@@ -266,6 +278,7 @@ class updateSummaries (object):
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
                    .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
+            s.run()
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
             return
@@ -296,10 +309,11 @@ class updateSummaries (object):
                     if self.var in S_VAR_TAB.keys():
                         s_var = S_VAR_TAB[self.var]
                         s_varid = self.get_secondary_varid(source, s_var) 
-
+                        #~ print 'a', self.get_siteids(source)
                         self.update_dv_table(time, self.get_siteids(source),
                                             varid, s_varid)
                     else:
+                        #~ print self.get_siteids(source)
                         self.update_dv_table(time, self.get_siteids(source),
                                             varid)
                     

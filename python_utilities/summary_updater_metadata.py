@@ -3,6 +3,12 @@ summary_updater_metatdata.py
 ross spicer
 
 info on .sql files/ imiq tables for summary updater
+
+version 1.0.0
+updated: 2017-01-12
+
+changelog:
+    1.0.0: working code
 """
 import os
 
