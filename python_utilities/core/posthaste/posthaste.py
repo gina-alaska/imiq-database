@@ -53,13 +53,21 @@ class PostHaste (object):
         
     def run (self):
         """ 
-            Run the sql scripn in sql.sql. Will execute the script and then 
+            Run the sql scripn in self.sql. Will execute the script and then 
         commit any changes to database.
         """
         conn = Connection(self.db, self.host, self.user, self.passwd)
         conn.execute(self.sql)
         self.table = conn.fetch()
         conn.commit()
+    
+    def run_async (self):
+        """  Run the sql scripn in self.sql. Will execute the script
+        asynconslouy.
+        """
+        conn = Connection(self.db, self.host, self.user, self.passwd, True)
+        conn.execute(self.sql)
+        self.table = conn.fetch()
         
     def parse_sql (self):
         """

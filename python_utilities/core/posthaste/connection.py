@@ -10,7 +10,7 @@ class Connection(object):
         connections will refer to self.conn and self.cur 
     """
     
-    def __init__ (self, database, host, user, password):
+    def __init__ (self, database, host, user, password, async = False):
         """ 
         Class initializer. sets up the connection to the database
         
@@ -20,11 +20,22 @@ class Connection(object):
             a connection to the database is open. 
         """
         gc.enable()
-        self.conn = psycopg2.connect(database=database, 
+        self.async = async
+        if not async :
+            self.conn = psycopg2.connect(database=database, 
                                 user=user, 
                                 host=host,
                                 password=password)
-        self.cur = self.conn.cursor()
+            self.cur = self.conn.cursor()
+        else:
+            aconn = psycopg2.connect(database=database, 
+                                user=user, 
+                                host=host,
+                                password=password, 
+                                async=1)
+            wait(self.conn)
+            self.cur = self.conn.cursor()
+            
         #~ self.cur.itersize = 10000
 
 
@@ -58,6 +69,9 @@ class Connection(object):
             self.cur.execute(sql)
         else:
             self.cur.execute(sql,args)
+        if self.async == True:
+            print "waiting for query to complete"
+            wait(self.conn)
         gc.collect()
         
     def fetch (self):
