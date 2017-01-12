@@ -1,4 +1,12 @@
-﻿-- Function: tables.uspgetdailyairtempmin(integer, integer)
+﻿-- uspgetdailyairtempmin.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-01-12
+--
+-- changelog:
+-- 1.0.0: added comments
+-- Function: tables.uspgetdailyairtempmin(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailyairtempmin(integer, integer);
 
