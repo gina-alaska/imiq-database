@@ -41,7 +41,8 @@ BEGIN
     WHEN $2 = 290 THEN wsid = 292; -- LPeters
     WHEN $2 = 512 THEN wsid = 511; -- NOAA
     WHEN $2 = 568 THEN wsid = 566; -- RWIS
-    WHEN $2 = 1135 THEN wsid = 1133;
+    WHEN $2 = 1135 THEN wsid = 1133; --CALON
+    WHEN $2 = 1172 THEN wsid = 1171; -- NPS RAWS
     else wsid = -1;
   END CASE;
 -- for:
@@ -84,6 +85,10 @@ BEGIN
 --   BOEM: winddir
 --   sourceIDs: 248 to 258, VariableID: 1036
 --   WS VariableId = 1035
+-- OR
+--   NPS-RAWS: winddir
+--   sourceIDs: 136, VariableID: 1172
+--   WS VariableId = 1171
   IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 334) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 829) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 817) OR
@@ -94,7 +99,9 @@ BEGIN
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 512) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 568) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1135) OR
-     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1036)
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1036) OR
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1172)
+     
   THEN 
     OPEN maxCursor
     for execute format('SELECT date_trunc(''hour'',WD.datetimeutc) as DateTimeUTC, AVG(WS.M*SIN(WD.DataValue*PI()/180)), AVG(WS.M*COS(WD.DataValue*PI()/180)),OffsetValue, OffsetTypeID FROM tables.ODMDataValues_metric AS WD '
