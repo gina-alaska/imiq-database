@@ -2,7 +2,7 @@
 
 -- DROP VIEW tables.datavaluesaggregate;
 
-CREATE TABLE tables.datavaluesaggregate_2 AS 
+CREATE MATERIALIZED VIEW tables.datavaluesaggregate_2 AS 
  SELECT s.datastreamid,
     s.offsetvalue,
     s.offsettypeid,

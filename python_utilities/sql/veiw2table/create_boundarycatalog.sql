@@ -50,10 +50,10 @@ CREATE TABLE tables.boundarycatalog_2 AS
      JOIN tables.qualitycontrollevels q ON s.qualitycontrollevelid = q.qualitycontrollevelid
   WHERE s.siteid <> 2052 AND s.siteid <> 8044;
 
---ALTER TABLE tables.boundarycatalog_2
---  ADD CONSTRAINT boundarycatalog_datastreamid PRIMARY KEY (datastreamid);
+-- ~ ALTER TABLE tables.boundarycatalog_2
+  -- ~ ADD CONSTRAINT boundarycatalog_datastreamid_2 PRIMARY KEY (datastreamid);
 
-CREATE INDEX boundarycatalog_siteid_idx
+CREATE INDEX boundarycatalog_siteid_idx_2
   ON tables.boundarycatalog_2
   USING btree
   (siteid);
