@@ -2,10 +2,11 @@
 --      a function for updating daily_hourlyspeeddatavalues with data from new 
 -- sources.
 --
--- version 1.0.0
+-- version 1.0.1
 -- updated 2017-01-09
 -- 
 -- changelog:
+-- 1.0.1: added NPS-RAWS, BOEM
 -- 1.0.0: added metadata comments
 
 -- Function: tables.uspgethourlywindspeed2(integer, integer)
@@ -49,9 +50,16 @@ BEGIN
 -- OR
 --   calon Windspeed/ms
 --   SourceID = , VariableID = 1133
+-- OR
+--   BOEM: windspeed
+--   sourceIDs: 248 to 258, VariableID: 1035
+-- OR
+--   NPS-RAWS: winddir
+--   sourceIDs: 136, VariableID: 1171
   IF EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 and
                                             $2 in ( 335, 529, 541, 535,
-                                                    292, 511, 566, 1133))
+                                                    292, 511, 566, 1133, 1035, 
+                                                    1171))
   THEN
     OPEN loopCursor
     for execute format('SELECT date_trunc(''hour'',dv.datetimeutc) as dateTimeUTC,

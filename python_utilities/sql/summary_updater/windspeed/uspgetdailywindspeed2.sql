@@ -2,10 +2,11 @@
 --      a function for updating daily_windspeeddatavalues with data from new 
 -- sources.
 --
--- version 1.0.0
+-- version 1.0.1
 -- updated 2017-01-09
 -- 
 -- changelog:
+-- 1.0.1: added NPS-RAWS
 -- 1.0.0: added metadata comments. Note BOEM is done
 
 -- Function: tables.uspgetdailywindspeed2(integer, integer)
@@ -66,9 +67,12 @@ BEGIN
 -- OR
 --   BOEM: windspeed
 --   sourceIDs: 248 to 258, VariableID: 1035
+-- OR
+--   NPS-RAWS: winddir
+--   sourceIDs: 136, VariableID: 1171
   IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 and 
                 $2 in (335, 743, 815, 313, 645, 429, 529,
-                       541, 535, 292, 511, 566, 1133, 1035))
+                       541, 535, 292, 511, 566, 1133, 1035, 1171))
   THEN
     OPEN maxCursor
     for execute format('SELECT date_trunc(''day'',dv.datetimeutc) as dateTimeUTC,
