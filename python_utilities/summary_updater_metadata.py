@@ -8,7 +8,7 @@ version 1.1.0
 updated: 2017-01-13
 
 changelog:
-    1.1.0: added watertemp, updated swe
+    1.1.0: added watertemp, updated swe, added snow depth
     1.0.0: working code
 """
 import os
@@ -135,6 +135,26 @@ metadata = {
          os.path.join(sql_rt, 'swe', 'create_annual_peakswe_all.sql'),
          os.path.join(sql_rt, 'swe', 'create_annual_peakswe.sql')]
        },
+       
+"snow depth":{ #needs work
+    'daily': {
+        'table': 'daily_snowdepthdatavalues',
+        'fn': 'uspgetdailysnowdepth2',
+        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgetdailysnowdepth2.sql'),
+             },
+    "hourly": {
+        'table': 'hourly_snowdepthdatavalues',
+        'fn': 'uspgethourlysnowdepth2',
+        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgethourlysnowdepth2.sql'),
+              },
+    "summaries": 
+        [os.path.join(sql_rt, 'snowdepth', 'create_hourly_snowdepth.sql'),
+         os.path.join(sql_rt, 'snowdepth', 'create_daily_snowdepth.sql'),
+         os.path.join(sql_rt, 'snowdepth', 'create_monthly_snowdepthavg_all.sql'),
+         os.path.join(sql_rt, 'snowdepth', 'create_monthly_snowdepth.sql'),
+         os.path.join(sql_rt, 'snowdepth', 'create_annual_peaksnowdepth_all.sql'),
+         os.path.join(sql_rt, 'snowdepth', 'create_annual_peaksnowdepth.sql')]
+    },
        
 "wind speed":{
     'daily': {

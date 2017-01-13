@@ -1,4 +1,11 @@
-﻿-- Function: tables.uspgetdailysnowdepth(integer, integer)
+﻿-- uspgetdailysnowdepth.sql
+-- 
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+-- 1.0.0: initial version
+-- Function: tables.uspgetdailysnowdepth(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailysnowdepth(integer, integer);
 

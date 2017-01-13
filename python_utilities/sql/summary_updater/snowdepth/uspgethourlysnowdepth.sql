@@ -1,4 +1,11 @@
-﻿-- Function: tables.uspgethourlysnowdepth(integer, integer)
+﻿-- uspgethourlysnowdepth.sql
+-- 
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+-- 1.0.0: initial version
+-- Function: tables.uspgethourlysnowdepth(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlysnowdepth(integer, integer);
 
