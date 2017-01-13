@@ -3,12 +3,13 @@
 --  Note: to finish update drop tables.daily_windspeed, and rename this table
 --  to tables.daily_windspeed
 --
--- version 1.0.0
--- updated 2017-01-09
+-- version 2.0.0
+-- updated 2017-01-13
 -- 
 -- changelog:
+-- 2.0.0: changed to MATERIALIZED VIEW
 -- 1.0.0: added metadata comments.
-CREATE TABLE tables.daily_windspeed_2 AS 
+CREATE MATERIALIZED VIEW tables.daily_windspeed_2 AS 
  SELECT v.valueid,
     v.datavalue,
     v.utcdatetime,
