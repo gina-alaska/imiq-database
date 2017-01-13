@@ -1,4 +1,13 @@
-﻿-- View: tables.monthly_sweavg_all
+﻿-- create_monthly_sweavg_all.sql
+--      creates monthly_sweavg_all table
+--
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+--      1.0.0: initial version
+
+-- View: tables.monthly_sweavg_all
 
 -- DROP VIEW tables.monthly_sweavg_all;
 

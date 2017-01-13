@@ -1,4 +1,13 @@
-﻿-- Function: tables.uspgethourlyswe(integer, integer)
+﻿-- uspgetdailtyswe.sql
+--      function uspgetdailtyswe for updating daily_swedatavalues
+--
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+--      1.0.0: initial version
+
+-- Function: tables.uspgethourlyswe(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlyswe(integer, integer);
 

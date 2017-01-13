@@ -1,4 +1,11 @@
-﻿
+﻿-- create_monthly_sweavg.sql
+--      creates monthly_sweavg table
+--
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+--      1.0.0: initial version
 CREATE TABLE tables.monthly_sweavg_2 AS 
  SELECT row_number() OVER (ORDER BY monthly_sweavg_all.siteid, monthly_sweavg_all.monthlyavg) AS valueid,
     monthly_sweavg_all.monthlyavg AS datavalue,

@@ -1,4 +1,11 @@
-﻿
+﻿-- create_annual_peakswe.sql
+--      creates annual_peakswe table
+--
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+--      1.0.0: initial version
 CREATE TABLE tables.annual_peakswe_2 AS 
  SELECT row_number() OVER (ORDER BY annual_peakswe_all.siteid, annual_peakswe_all.year) AS valueid,
     annual_peakswe_all.datavalue,

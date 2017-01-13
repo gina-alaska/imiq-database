@@ -8,7 +8,7 @@ version 1.1.0
 updated: 2017-01-13
 
 changelog:
-    1.1.0: added watertemp
+    1.1.0: added watertemp, updated swe
     1.0.0: working code
 """
 import os
@@ -129,7 +129,11 @@ metadata = {
               },
     "summaries": 
         [os.path.join(sql_rt, 'swe', 'create_hourly_swe.sql'),
-         os.path.join(sql_rt, 'swe', 'create_daily_swe.sql')]
+         os.path.join(sql_rt, 'swe', 'create_daily_swe.sql'),
+         os.path.join(sql_rt, 'swe', 'create_monthly_sweavg_all.sql'),
+         os.path.join(sql_rt, 'swe', 'create_monthly_swe.sql'),
+         os.path.join(sql_rt, 'swe', 'create_annual_peakswe_all.sql'),
+         os.path.join(sql_rt, 'swe', 'create_annual_peakswe.sql')]
        },
        
 "wind speed":{
