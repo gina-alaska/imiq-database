@@ -4,10 +4,11 @@ ross spicer
 
 info on .sql files/ imiq tables for summary updater
 
-version 1.0.0
-updated: 2017-01-12
+version 1.1.0
+updated: 2017-01-13
 
 changelog:
+    1.1.0: added watertemp
     1.0.0: working code
 """
 import os
@@ -169,5 +170,19 @@ metadata = {
         os.path.join(sql_rt, 'winddirection', 'create_daily_winddirection.sql')
                 ]
        },
-            
+"water temperature":{
+    "daily":{
+        'table': 'daily_watertempdatavalues',
+        'fn': 'uspgetwatertemp',
+        'sql': os.path.join(sql_rt, 'watertemp',
+                    'uspgetdailywatertemp.sql'),
+            },
+    "summaries": [
+        os.path.join(sql_rt, 'watertemp', 'create_daily_watertemp.sql'),   
+        os.path.join(sql_rt, 'watertemp', 'create__15min_watertemp.sql'),
+            ]
+
+    }        
 }
+
+
