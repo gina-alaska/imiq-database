@@ -53,7 +53,7 @@ metadata = {
         'fn': 'uspgetdailyairtempmax2',
         'sql': os.path.join(sql_rt, 'airtempmax', 'uspgetdailyairtempmax2.sql'),
              },
-    "summaries": 
+    "summaries": [
          os.path.join(sql_rt, 'airtempmax', 'create_daily_airtempmax.sql')]
        },
 
@@ -64,7 +64,8 @@ metadata = {
         'sql': os.path.join(sql_rt, 'airtempmin', 'uspgetdailyairtempmin2.sql'),
              },
     "summaries":[
-         os.path.join(sql_rt, 'airtempmin', 'create_daily_airtempmin.sql')]
+         os.path.join(sql_rt, 'airtempmin', 'create_daily_airtempmin.sql')
+         ]
        },
 
 "discharge":{ #needs work
