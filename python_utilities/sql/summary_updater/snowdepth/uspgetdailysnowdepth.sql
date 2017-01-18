@@ -166,8 +166,7 @@ BEGIN
 -- avg of utcday cm to m 
 --   BOEM avg of minute data, convert from cm to m
 --   sourceIDs: 248 to 258, VariableID: 1045
-  ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 1045) OR
-  
+  ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 1045)   
   THEN
     OPEN maxCursor
     for execute format ('SELECT date_trunc(''day'',DateTimeUTC) as DateTimeUTC,AVG(dv.DataValue) FROM tables.ODMDataValues_metric AS dv '

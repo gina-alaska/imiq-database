@@ -144,13 +144,13 @@ metadata = {
 "snow depth":{ #needs work
     'daily': {
         'table': 'daily_snowdepthdatavalues',
-        'fn': 'uspgetdailysnowdepth2',
-        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgetdailysnowdepth2.sql'),
+        'fn': 'uspgetdailysnowdepth',
+        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgetdailysnowdepth.sql'),
              },
     "hourly": {
         'table': 'hourly_snowdepthdatavalues',
-        'fn': 'uspgethourlysnowdepth2',
-        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgethourlysnowdepth2.sql'),
+        'fn': 'uspgethourlysnowdepth',
+        'sql': os.path.join(sql_rt, 'snowdepth', 'uspgethourlysnowdepth.sql'),
               },
     "summaries": 
         [os.path.join(sql_rt, 'snowdepth', 'create_hourly_snowdepth.sql'),
