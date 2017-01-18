@@ -160,7 +160,7 @@ BEGIN
             exit;
           end if;
           INSERT INTO tables.daily_snowdepthdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate)
-                 VALUES(avgValue, DateTimeUTC, $1 / 100.0, $2,NOW()); 
+                 VALUES(avgValue/ 100.0, DateTimeUTC, $1 , $2,NOW()); 
         end loop;
     CLOSE maxCursor;
 -- avg of utcday cm to m 
@@ -169,7 +169,7 @@ BEGIN
   ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 1045)   
   THEN
     OPEN maxCursor
-    for execute format ('SELECT date_trunc(''day'',DateTimeUTC) as DateTimeUTC,AVG(dv.DataValue) FROM tables.ODMDataValues_metric AS dv '
+    for execute format ('SELECT date_trunc(''day'',DateTimeUTC) as DateTimeUTC,AVG(dv.DataValue) as avgValue FROM tables.ODMDataValues_metric AS dv '
                           'WHERE dv.SiteID = $1 and dv.OriginalVariableid=$2 GROUP BY date_trunc(''day'',DateTimeUTC);') using site_id, var_id;
         loop
 	  fetch maxCursor into dateTimeUTC, avgValue;
@@ -177,7 +177,7 @@ BEGIN
             exit;
           end if;
           INSERT INTO tables.daily_snowdepthdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate)
-                 VALUES(avgValue, DateTimeUTC, $1 / 100.0, $2 ,NOW()); 
+                 VALUES(avgValue/ 100.0, DateTimeUTC, $1 , $2 ,NOW()); 
         end loop;
     CLOSE maxCursor;
   END IF;
