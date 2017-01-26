@@ -5,6 +5,8 @@ Y2I (YAML to Insert)
 utility for using yaml file to describe conversion of csv files to .sql 
 insert scripts
 
+V1.0.0
+
 """
 from pandas import read_csv,concat,DataFrame,to_datetime
 import yaml
@@ -111,7 +113,12 @@ class Y2I (object):
                     values = to_datetime(self.data[col['source']][col['value']],
                                                     infer_datetime_format=True)
                 elif col['dtype'] == 'geolocation':
-                    values = "POINT("+self.data[col['source']][col['long']].astype(str) +' ' + self.data[col['source']][col['lat']].astype(str)  + ' ' + self.data[col['source']][col['elev']].astype(str)+ ')'
+                    values = "POINT("  + \
+                        self.data[col['source']][col['long']].astype(str) + \
+                        ' ' + \
+                        self.data[col['source']][col['lat']].astype(str) + \
+                        ' ' + \
+                        self.data[col['source']][col['elev']].astype(str) + ')'
                 else:
                     dt = col['dtype']
                     values = self.data[col['source']][col['value']].astype(dt)

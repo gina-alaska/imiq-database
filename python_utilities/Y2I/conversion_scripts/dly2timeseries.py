@@ -1,10 +1,12 @@
 """
 dly2timeseries.py
 rawser spicer
-2016-12-09
+2017-01-26
 
 convert DAILY GLOBAL HISTORICAL CLIMATOLOGY NETWORK .dly to csv time series
 see GHCN_readme.txt for original file foramth info
+
+V1.0.0
 """
 from pandas import DataFrame
 from datetime import date
