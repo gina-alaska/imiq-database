@@ -1,10 +1,41 @@
+"""
+Y2I (YAML to Insert)
+--------------------
+
+utility for using yaml file to describe conversion of csv files to .sql 
+insert scripts
+
+"""
 from pandas import read_csv,concat,DataFrame,to_datetime
 import yaml
 import os
 import sys
 
 class Y2I (object):
-    """ Yaml to Imiq (or Insert) """
+    """Yaml to Imiq (or Insert). Use to convert csv files to instert scripts 
+    throuh configuration files in yaml
+    
+    Parameters
+    ----------
+    config_file: path
+        path to configuration file, see y2i_yaml_description.
+    template_args: dictionary
+        a dictionary of 
+        
+    Attributes
+    ----------
+    config : dictionary
+        configuration information for conversion
+    data : dictionary
+        dictionary of data file keyed by filename
+    columns : list
+        list of columns to add to insert script
+    length:
+    table
+    tab
+    
+    
+    """
     
     def __init__ (self, config_file, template_args = None):
         """ Class initialiser """
@@ -19,7 +50,8 @@ class Y2I (object):
                 for arg in template_args:
                     #~ print arg, template_args[arg]
                     #~ print template_args[arg]
-                    text = text.replace('<' + arg + '>', str(template_args[arg]))
+                    text = text.replace('<' + arg + '>',
+                        str(template_args[arg]))
                 self.config = yaml.load(text)
                 #~ print text
         
@@ -40,11 +72,12 @@ class Y2I (object):
 
             
     def validate_config (self):
-        """ This should validate the config file """
+        """TODO: This should validate the config file """
         return True
         
     def load_infiles (self):
-        """ load the input files """
+        """load the input files. Sets data[fame] = <file_data> for each file
+        """
         #~ print self.config
         for f in self.config['infiles']:
             #~ print f
@@ -52,14 +85,15 @@ class Y2I (object):
                             skiprows = self.config['infiles'][f]['skiprows'])
 
     def load_length (self):
-        """ load the lenth of the data to add into imiq """
+        """load the lenth of the data to add into imiq. Sets length"""
         if 'of_file' in self.config['length'].keys():
             self.length = len(self.data[self.config['length']['of_file']])
         else: 
             self.length = self.config['length']['constant']
 
     def create_table (self):
-        """ create a proxy the table for the database as a dataframe """
+        """create a proxy the table for the database as a dataframe. sets table.
+        """
         self.table = DataFrame(index = range(self.length))
         
         for col in self.config['columns']:
@@ -92,9 +126,15 @@ class Y2I (object):
                     self.table[col['name']] = values
                 else:
                     self.table[col['name']] = col['value']
+        #~ print self.columns
     
     def to_string (self):
-        """ return the insert sql statement as a string """
+        """
+        Returns
+        -------
+            the insert sql statement as a string
+            
+        """
         
         table = self.table.fillna('NULL').values.tolist()
         string = "INSERT INTO " + self.config['schema'] + '.' + \
@@ -126,7 +166,8 @@ class Y2I (object):
         return string.replace("'None'","NULL").replace("'NULL'","NULL")
 
     def save_sql (self):
-        """ Function doc """
+        """saves sql file as out file described in config
+        """
         try:
             mode = self.config['mode']
         except KeyError:
@@ -135,17 +176,25 @@ class Y2I (object):
             sql.write(self.to_string()+'\n')
             
     def generate_sql (self):
-        """ create the table and generate the sql file"""
+        """create the table and generate the sql file
+        """
         self.create_table()
         self.save_sql()
         
 
 def test():
+    """test utility
+    """
     converter = Y2I('example.yaml')
     converter.generate_sql()
     
 def main ():
-    """ Function doc """
+    """main utility function.
+    
+    python y2i.py <config.yaml>
+    
+    config.yaml may be a yaml config file or a yaml describing a template file
+    """
     try:
         setup = sys.argv[1]
         with open(setup, 'r') as s:

@@ -5,7 +5,7 @@ arguments:
         varid: 1170 
         out_file: nps_datastreams.sql
         mode: w
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -16,7 +16,7 @@ arguments:
         varid: 1171 
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -27,7 +27,7 @@ arguments:
         varid: 1172 
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -38,7 +38,7 @@ arguments:
         varid: 1173
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -49,7 +49,7 @@ arguments:
         varid: 1174 
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -60,7 +60,7 @@ arguments:
         varid: 1175
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -71,7 +71,7 @@ arguments:
         varid: 1176
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -82,7 +82,7 @@ arguments:
         varid: 1177
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -93,7 +93,7 @@ arguments:
         varid: 1178
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -104,7 +104,7 @@ arguments:
         varid: 1179
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -115,7 +115,7 @@ arguments:
         varid: 1180
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -126,7 +126,7 @@ arguments:
         varid: 1181
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
@@ -137,7 +137,7 @@ arguments:
         varid: 1182
         out_file: nps_datastreams.sql
         mode: a
-        data_file: nps_sites.csv
+        data_file: NPS/nps_sites.csv
         method_id: 33
         device_id: 1
         aqc_data_format: "%Y/%m/%d"
