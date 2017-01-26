@@ -1,4 +1,13 @@
-﻿
+﻿-- create_hourly_winddirection.sql
+--     creates tables.hourly_winddirection_2.
+--  Note: to finish update drop tables.hourly_winddirection, and rename this 
+--  table to tables.daily_winddirection
+--
+-- version 1.0.0
+-- updated 2017-01-10
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments.
 CREATE TABLE tables.hourly_winddirection_2 AS 
  SELECT v.valueid,
     v.datavalue,
@@ -12,9 +21,9 @@ CREATE TABLE tables.hourly_winddirection_2 AS
   GROUP BY v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, s.sourceid;
 
 ALTER TABLE tables.hourly_winddirection_2
-  ADD CONSTRAINT hourly_winddirection_valueid PRIMARY KEY (valueid);
+  ADD CONSTRAINT hourly_winddirection_valueid_2 PRIMARY KEY (valueid);
 
-CREATE INDEX hourly_winddirection_siteid_idx
+CREATE INDEX hourly_winddirection_siteid_idx_2
   ON tables.hourly_winddirection_2
   USING btree
   (siteid);

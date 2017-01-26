@@ -1,10 +1,23 @@
-﻿-- Function: tables.uspgethourlywinddirection(integer, integer)
+﻿-- uspgetdailywinddirection.sql
+--      updates hourly_winddirectiondatavalues table
+--
+-- version 1.0.2
+-- updated 2017-01-11
+--
+-- changelog:
+-- 1.0.2: added NPS
+-- 1.0.1: added BOEM
+-- 1.0.0: added metadata comments.
+
+
+-- Function: tables.uspgethourlywinddirection(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlywinddirection(integer, integer);
 
 CREATE OR REPLACE FUNCTION tables.uspgethourlywinddirection(
     site_id integer,
-    var_id integer)
+    var_id integer,
+    ws_var_id integer)
   RETURNS void AS
 $BODY$
 DECLARE dateTimeUTC timestamp without time zone;
@@ -29,7 +42,9 @@ BEGIN
     WHEN $2 = 290 THEN wsid = 292; -- LPeters
     WHEN $2 = 512 THEN wsid = 511; -- NOAA
     WHEN $2 = 568 THEN wsid = 566; -- RWIS
-    WHEN $2 = 1135 THEN wsid = 1133;
+    WHEN $2 = 1135 THEN wsid = 1133; --CALON
+    WHEN $2 = 1036 THEN wsid = 1035; -- BOEM
+    WHEN $2 = 1172 THEN wsid = 1171; -- NPS
     else wsid = -1;
   END CASE;
 -- for:
@@ -68,6 +83,14 @@ BEGIN
 --   RWIS: WindDirection 
 --   SourceID = 263, VariableID = 1135 
 --   WS VariableID = 1133
+-- OR
+--   BOEM: winddir
+--   sourceIDs: 248 to 258, VariableID: 1036
+--   WS VariableId = 1035
+-- OR
+--   NPS-RAWS: winddir
+--   sourceIDs: 136, VariableID: 1172
+--   WS VariableId = 1171
   IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 334) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 829) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 817) OR
@@ -77,7 +100,9 @@ BEGIN
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 290) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 512) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 568) OR
-     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1135)
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1135) OR
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1036) OR
+     EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID= $1 AND $2 = 1172)
   THEN 
     OPEN maxCursor
     for execute format('SELECT date_trunc(''hour'',WD.datetimeutc) as DateTimeUTC, AVG(WS.M*SIN(WD.DataValue*PI()/180)), AVG(WS.M*COS(WD.DataValue*PI()/180)),OffsetValue, OffsetTypeID FROM tables.ODMDataValues_metric AS WD '

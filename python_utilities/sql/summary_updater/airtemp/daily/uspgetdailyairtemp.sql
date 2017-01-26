@@ -1,4 +1,13 @@
-﻿-- Function: tables.uspgetdailyairtemp(integer, integer)
+﻿-- uspgetdailyairtemp.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-01-12
+--
+-- changelog:
+-- 1.0.0: added comments, added BOEM
+
+-- Function: tables.uspgetdailyairtemp(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailyairtemp(integer, integer);
 
@@ -201,6 +210,9 @@ BEGIN
 -- OR
 --   CALON
 --   SourceID = 263, VariableID = 1136
+-- OR
+--   BOEM: Temp/hourly/C, AKST
+--   SourceID = 248,249,250,251,252,253,254,255,256,257,258, VariableID = 1032
   ELSIF EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 218) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 667) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 422) OR
@@ -216,7 +228,8 @@ BEGIN
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 867) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1072) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1073) OR
-        EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1136)
+        EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1136) OR
+        EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1032)
   THEN
   OPEN maxCursor
     for execute('Select date_trunc(''day'',dv.datetimeUTC), AVG(dv.datavalue) from tables.ODMDataValues_metric as dv '

@@ -1,4 +1,17 @@
-﻿-- View: tables._15min_watertemp
+﻿-- create__15min_watertemp.sql
+--     creates tables._15min_watertemp_test, from any surface water data in 
+-- imiq with time support of 15 min. 
+--      Note: to finish update drop tables._15min_watertemp, and rename this 
+-- table to tables._15min_watertemp.
+--
+-- version 1.0.0
+-- updated 2017-01-10
+-- 
+-- changelog:
+-- 1.0.0: added metadata comments.
+
+
+-- View: tables._15min_watertemp
 
 -- DROP VIEW tables._15min_watertemp;
 

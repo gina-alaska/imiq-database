@@ -1,4 +1,11 @@
-﻿-- Function: tables.uspgetdailysnowdepth(integer, integer)
+﻿-- uspgetdailysnowdepth.sql
+-- 
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+-- 1.0.0: initial version
+-- Function: tables.uspgetdailysnowdepth(integer, integer)
 
 -- DROP FUNCTION tables.uspgetdailysnowdepth(integer, integer);
 
@@ -14,10 +21,10 @@ DECLARE dateTimeUTC timestamp without time zone;
 BEGIN
 -- UTC time & convert mm to Meteres for:
 --   GHCN 
---   SourceI 210, VariableID = 402
+--   SourceI 210, VariableID = 402, daily raw data
 -- OR
 --   RAWS Snow Depth mm
---   SourceID = 211,214,215,216,217,218,219, VariableID = 440
+--   SourceID = 211,214,215,216,217,218,219, VariableID = 440, daily raw data
   IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 and $2 = 402) OR
      EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 440)
   THEN
@@ -55,7 +62,7 @@ BEGIN
     CLOSE maxCursor;
 -- average UTC time (variableID change to 680) for:
 --   UAF/WERC Snow Depth
---   SourceID = 29,30,34,223, VariableID = 875 
+--   SourceID = 29,30,34,223, VariableID = 75 
 --   Using hourly summary variableID = 680
 -- OR
 --   AON Snow Depth -- twice?
@@ -138,6 +145,7 @@ BEGIN
                  VALUES(avgValue, DateTimeUTC, $1, $2,NOW()); 
         end loop;
     CLOSE maxCursor;
+-- avg of ulocal: cm to m 
 -- Local dateTime Average (convert cm to meters) for:
 --   UAF/WERC Snow Depth meters/daily
 --   SourceID = 3,193, VariableID = 142
@@ -152,7 +160,24 @@ BEGIN
             exit;
           end if;
           INSERT INTO tables.daily_snowdepthdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate)
-                 VALUES(avgValue, DateTimeUTC, $1, $2,NOW()); 
+                 VALUES(avgValue/ 100.0, DateTimeUTC, $1 , $2,NOW()); 
+        end loop;
+    CLOSE maxCursor;
+-- avg of utcday cm to m 
+--   BOEM avg of minute data, convert from cm to m
+--   sourceIDs: 248 to 258, VariableID: 1045
+  ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 1045)   
+  THEN
+    OPEN maxCursor
+    for execute format ('SELECT date_trunc(''day'',DateTimeUTC) as DateTimeUTC,AVG(dv.DataValue) as avgValue FROM tables.ODMDataValues_metric AS dv '
+                          'WHERE dv.SiteID = $1 and dv.OriginalVariableid=$2 GROUP BY date_trunc(''day'',DateTimeUTC);') using site_id, var_id;
+        loop
+	  fetch maxCursor into dateTimeUTC, avgValue;
+          if not found then
+            exit;
+          end if;
+          INSERT INTO tables.daily_snowdepthdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate)
+                 VALUES(avgValue/ 100.0, DateTimeUTC, $1 , $2 ,NOW()); 
         end loop;
     CLOSE maxCursor;
   END IF;

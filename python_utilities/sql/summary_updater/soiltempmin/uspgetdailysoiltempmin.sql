@@ -1,4 +1,12 @@
-﻿-- Function: tables.uspgetdailysoiltempmin(integer)
+﻿-- uspgetdailysoiltempmin.sql
+--      not currently implemented in database
+-- version 0.0.1
+-- updated 2017-01-13
+-- 
+-- changelog:
+-- 0.0.1: initial version from older source
+
+-- Function: tables.uspgetdailysoiltempmin(integer)
 
 -- DROP FUNCTION tables.uspgetdailysoiltempmin(integer);
 

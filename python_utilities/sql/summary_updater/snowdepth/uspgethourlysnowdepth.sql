@@ -1,4 +1,11 @@
-﻿-- Function: tables.uspgethourlysnowdepth(integer, integer)
+﻿-- uspgethourlysnowdepth.sql
+-- 
+-- version 1.0.0
+-- updated 2017-01-13
+-- 
+-- changelog:
+-- 1.0.0: initial version
+-- Function: tables.uspgethourlysnowdepth(integer, integer)
 
 -- DROP FUNCTION tables.uspgethourlysnowdepth(integer, integer);
 
@@ -17,13 +24,17 @@ BEGIN
 --   SourceID = 209, VariableID = 370
 -- OR 
 --   UAF/WERC: snow Depth
---   SourceID = 29, 30, 34, 223, VariableID = 74
+--   SourceID = 29, 30, 34, 223, VariableID = 75
 -- OR
 --   USGS: Snow Depth/hourly/cm
 --   SourceID = 39. VariableID = 230
+-- OR
+--   BOEM avg of minute data, convert from cm to m
+--   sourceIDs: 248 to 258, VariableID: 1045
   IF EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 370) OR
-     EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 74) OR
-     EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 230) 
+     EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 75) OR
+     EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 230) OR
+     EXISTS (SELECT * FROM tables.odmdatadatavalues_metric WHERE siteid = $1 and $2 = 1045) 
   THEN
     OPEN loopCursor
     for execute format('SELECT date_trunc(''hour'', dv.datetimeUTC) as DateTimeUTC,AVG(dv.DataValue) FROM tables.ODMDataValues_metric AS dv '

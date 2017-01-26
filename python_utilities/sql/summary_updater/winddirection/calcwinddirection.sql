@@ -1,4 +1,14 @@
-﻿-- Function: tables.calcwinddirection(real, real)
+﻿-- calcwinddirection.sql
+--      calculates direction of wind in degrees 
+--
+-- version 1.0.0
+-- updated 2017-01-10
+--
+-- changelog:
+-- 1.0.0: added metadata comments.
+
+
+-- Function: tables.calcwinddirection(real, real)
 
 -- DROP FUNCTION tables.calcwinddirection(real, real);
 
