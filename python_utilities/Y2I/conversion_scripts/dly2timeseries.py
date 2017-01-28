@@ -131,11 +131,18 @@ def convert (in_file, out_file = None):
                   'SNOW','SNOW_mflag','SNOW_qflag','SNOW_sflag',
                   'SNWD','SNWD_mflag','SNWD_qflag','SNWD_sflag',
                   'TMAX','TMAX_mflag','TMAX_qflag','TMAX_sflag',
-                  'TMIN','TMIN_mflag','TMIN_qflag','TMIN_sflag',
-                  ]
+                  'TMIN','TMIN_mflag','TMIN_qflag','TMIN_sflag']
+    
+    good_cols = []
     for col in start_cols:
-        cols.remove(col)
-    cols = start_cols + cols
+        try:
+            cols.remove(col)
+            good_cols.append(col)
+        except ValueError:
+            pass
+        
+        #~ print start_cols
+    cols = good_cols + cols
     
     # save file
     if out_file is None:
@@ -147,5 +154,18 @@ def convert (in_file, out_file = None):
     
         
     
-convert('USW00026617.dly.txt')
+#~ convert('USW00026617.dly.txt')
+
+import sys
+def main():
+    dly_dir = sys.argv[1]
+    out_dir = sys.argv[2]
+    
+    for dly in [f for f in os.listdir(dly_dir) if f.find('.dly') != -1]:
+        print dly
+        out_file = os.path.join(out_dir,dly.split('.')[0] + '.csv')
+        convert(os.path.join(dly_dir,dly),out_file)
+
+if __name__ == "__main__":
+    main()
         
