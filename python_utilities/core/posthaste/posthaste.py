@@ -1,11 +1,13 @@
 """
 posthaste.py
 Rawser Spicer
-version: 1.1.0
+version: 1.2.0
+updated: 2017/01/27
 
     a class for running postgreSQL quires in python
     
 changelog:
+    1.2.0: added load_login; added data method to PostHaste
     1.1.0: added async features
     1.0.0: main features work
     
@@ -14,6 +16,7 @@ from connection import Connection
 #~ from datetime import datetime 
 #~ from os import makedirs
 from pandas import DataFrame
+import yaml
 #~ import smtplib
 #~ from email.mime.text import MIMEText
 
@@ -21,6 +24,8 @@ UTF_8_STR = '\xef\xbb\xbf'
 
 class PostHaste (object):
     """ Class for maning postgress sql quires in python """
+    
+    
     
     def __init__ (self, host, database, user, passwd):
         """
@@ -132,13 +137,28 @@ class PostHaste (object):
             
         
         flag, values = self.parse_sql()
-        if flag == 'EXPLICIT':
-            return DataFrame(self.table, columns = values)
-        elif flag == 'IMPLICIT':
-            schema = "'" + values[0] + "'"
-            table = "'" + values[1] + "'"
-            return DataFrame(self.table,columns=self.get_headers(table,schema))
-        else:
+        try:
+            if flag == 'EXPLICIT':
+                return DataFrame(self.table, columns = values)
+            elif flag == 'IMPLICIT':
+                schema = "'" + values[0] + "'"
+                table = "'" + values[1] + "'"
+                return DataFrame(self.table,columns=self.get_headers(table,schema))
+            else:
+                return self.as_DataFrame()
+        except AssertionError:
             return self.as_DataFrame()
-                                                                
+            
+    def data(self):
+        """
+        same as as_named_DataFrame
+        """
+        return self.as_named_DataFrame()
+                                           
+                                           
+def load_login (fname):                                 
+    """ load login from yaml"""
+    with open(fname, 'r') as f:
+        login = yaml.load(f)
+    return login['host'], login['database'], login['user'], login['password']                     
 
