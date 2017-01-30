@@ -15,7 +15,7 @@ CREATE TABLE tables.annual_avgsummerairtemp_all_2 AS
   GROUP BY a.siteid, a.year
  HAVING count(*) = 3;
 
-CREATE INDEX annual_avgsummerairtemp_all_siteid_idx
+CREATE INDEX annual_avgsummerairtemp_all_siteid_idx_2
   ON tables.annual_avgsummerairtemp_all_2
   USING btree
   (siteid);

@@ -1,10 +1,11 @@
 ﻿-- uspgethourlyairtemp.sql
 --
 --
--- version 1.0.0
--- updated 2017-01-12
+-- version 1.1.0
+-- updated 2017-01-18
 --
 -- changelog:
+-- 1.1.0: added nps-raws
 -- 1.0.0: added comments
 
 -- Function: tables.uspgethourlyairtemp(integer, integer)
@@ -73,6 +74,9 @@ BEGIN
 -- OR
 --   BOEM: Temp/hourly/C, AKST
 --   SourceID = 248,249,250,251,252,253,254,255,256,257,258, VariableID = 1032
+-- OR 
+--   NPS RAWS Temp/hourly/C, AKDT
+--   SourceID = 136, VariableID = 1173
   IF EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=218) OR
      EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=310) OR
      EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=442) OR
@@ -88,7 +92,8 @@ BEGIN
      EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1072) OR
      EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1073) OR
      EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1136) OR
-     EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1032)
+     EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1032) OR
+     EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1173)
   THEN
     OPEN loopCursor
     for execute format('SELECT date_trunc(''hour'', dv.datetimeutc) as dateTimeUTC, AVG(datavalue) FROM tables.odmdatavalues_metric as dv

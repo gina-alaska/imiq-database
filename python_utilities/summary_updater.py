@@ -3,10 +3,11 @@ summary updater.py
     for updating imiq summary tables
     
     
-version 1.0.0
+version 1.0.1
 updated: 2017-01-12
 
 changelog:
+    1.0.1: fixed bugs in function names
     1.0.0: working code
 """
 
@@ -74,6 +75,9 @@ class updateSummaries (object):
         """
         initilize varids from seriescatalogue on imiq
         """
+        fn_var = self.var
+        if self.var == 'airtemp':
+            fn_var = 'temperature'
         
         sql = """
         select distinct(variableid) from tables.seriescatalog 
@@ -84,8 +88,9 @@ class updateSummaries (object):
             s_set = False
             s = PostHaste(self.host,self.db,self.user,self.pswd)
             s.sql = sql.replace('SOURCE_ID', str(source))\
-                       .replace('VAR',self.var)
+                       .replace('VAR',fn_var)
             s.run()
+            #~ print s.sql, s.as_DataFrame()
             if len(s.as_DataFrame()) == 0:
                 continue
             elif len(s.as_DataFrame()) != 1:
@@ -104,6 +109,7 @@ class updateSummaries (object):
                 continue
             varid = int(s.as_DataFrame()[0])
             self.varids[source] = [varid]
+        #~ print self.varids
             
     def get_secondary_varid (self, source, secondary_var):
         """
@@ -391,6 +397,8 @@ def main ():
         
         # get var ids to update
         update.initilize_varids(use_vars)
+        #~ print "A"
+        #~ return
         # update the database functions from local sources
         update.update_db_functions()
         # update datavalues tables
@@ -398,7 +406,11 @@ def main ():
         #~ print update.errors
         update.log.append('DataValues Updated')
         print update.log[-1]
-        if not '--DV_tables_only' is None:
+        #~ print flags['--DV_tables_only']
+        #~ return
+        if flags['--DV_tables_only'] is None:
+            #~ print "A"
+            #~ return
             update.log.append('Updating summary tables')
             print update.log[-1]
             update.create_new_summary_tables()

@@ -22,7 +22,7 @@ CREATE TABLE tables.monthly_airtemp_2 AS
 ALTER TABLE tables.monthly_airtemp_2
   ADD CONSTRAINT monthly_airtemp_valueid PRIMARY KEY (valueid);
 
-CREATE INDEX monthly_airtemp_siteid_idx
+CREATE INDEX monthly_airtemp_siteid_idx_2
   ON tables.monthly_airtemp_2
   USING btree
   (siteid);

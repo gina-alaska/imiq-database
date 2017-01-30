@@ -21,7 +21,7 @@ CREATE TABLE tables.hourly_airtemp_2 AS
 ALTER TABLE tables.hourly_airtemp_2
   ADD CONSTRAINT hourly_airtemp_valueid PRIMARY KEY (valueid);
 
-CREATE INDEX hourly_airtemp_siteid_idx
+CREATE INDEX hourly_airtemp_siteid_idx_2
   ON tables.hourly_airtemp_2
   USING btree
   (siteid);
