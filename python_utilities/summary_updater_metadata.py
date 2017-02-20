@@ -4,10 +4,11 @@ ross spicer
 
 info on .sql files/ imiq tables for summary updater
 
-version 1.1.0
-updated: 2017-01-13
+version 1.1.1
+updated: 2017-01-18
 
 changelog:
+    1.1.1: got rid of all of the 2's except for wind speed where it is needed
     1.1.0: added watertemp, updated swe, added snow depth, updated airtemps
     1.0.0: working code
 """
@@ -18,15 +19,15 @@ metadata = {
 "airtemp":{ 
     'daily': {
         'table': 'daily_airtempdatavalues',
-        'fn': 'uspgetdailyairtemp2',
+        'fn': 'uspgetdailyairtemp',
         'sql': os.path.join(sql_rt, 'airtemp',
-                            'daily', 'uspgetdailyairtemp2.sql'),
+                            'daily', 'uspgetdailyairtemp.sql'),
              },
     "hourly": {
         'table': 'hourly_airtempdatavalues',
-        'fn': 'uspgethourlyairtemp2',
+        'fn': 'uspgethourlyairtemp',
         'sql': os.path.join(sql_rt, 'airtemp',
-                            'hourly', 'uspgethourlyairtemp2.sql'),
+                            'hourly', 'uspgethourlyairtemp.sql'),
               },
     "summaries": 
         [os.path.join(sql_rt, 'airtemp','hourly', 'create_hourly_airtemp.sql'),
@@ -50,8 +51,8 @@ metadata = {
 "airtempmax":{
     'daily': {
         'table': 'daily_airtempmaxdatavalues',
-        'fn': 'uspgetdailyairtempmax2',
-        'sql': os.path.join(sql_rt, 'airtempmax', 'uspgetdailyairtempmax2.sql'),
+        'fn': 'uspgetdailyairtempmax',
+        'sql': os.path.join(sql_rt, 'airtempmax', 'uspgetdailyairtempmax.sql'),
              },
     "summaries": [
          os.path.join(sql_rt, 'airtempmax', 'create_daily_airtempmax.sql')]
@@ -60,8 +61,8 @@ metadata = {
 "airtempmin":{
     'daily': {
         'table': 'daily_airtempmindatavalues',
-        'fn': 'uspgetdailyairtempmin2',
-        'sql': os.path.join(sql_rt, 'airtempmin', 'uspgetdailyairtempmin2.sql'),
+        'fn': 'uspgetdailyairtempmin',
+        'sql': os.path.join(sql_rt, 'airtempmin', 'uspgetdailyairtempmin.sql'),
              },
     "summaries":[
          os.path.join(sql_rt, 'airtempmin', 'create_daily_airtempmin.sql')
@@ -71,13 +72,13 @@ metadata = {
 "discharge":{ #needs work
     'daily': {
         'table': 'daily_dischargedatavalues',
-        'fn': 'uspgetdailydischarge2',
-        'sql': os.path.join(sql_rt, 'discharge', 'uspgetdailydischarge2.sql'),
+        'fn': 'uspgetdailydischarge',
+        'sql': os.path.join(sql_rt, 'discharge', 'uspgetdailydischarge.sql'),
              },
     "hourly": {
         'table': 'hourly_dischargedatavalues',
         'fn': 'uspgethourlydischarge2',
-        'sql': os.path.join(sql_rt, 'discharge', 'uspgethourlydischarge2.sql'),
+        'sql': os.path.join(sql_rt, 'discharge', 'uspgethourlydischarge.sql'),
               },
     "summaries": 
         [os.path.join(sql_rt, 'discharge', 'create_hourly_discharge.sql'),
@@ -87,12 +88,12 @@ metadata = {
 "precipitation":{ #needs work
     'daily': {
         'table': 'daily_precipdatavalues',
-        'fn': 'uspgetdailyprecip2',
-        'sql': os.path.join(sql_rt, 'precip', 'uspgetdailyprecip2.sql'),
+        'fn': 'uspgetdailyprecip',
+        'sql': os.path.join(sql_rt, 'precip', 'uspgetdailyprecip.sql'),
              },
     "hourly": {
         'table': 'hourly_precipdatavalues',
-        'fn': 'uspgethourlyprecip2',
+        'fn': 'uspgethourlyprecip',
         'sql': os.path.join(sql_rt, 'precip', 'uspgethourlyprecip2.sql'),
               },
     "summaries": 
@@ -103,13 +104,13 @@ metadata = {
 "rh":{ #needs much work
     'daily': {
         'table': 'daily_rhdatavalues',
-        'fn': 'uspgetdailyrh2',
-        'sql': os.path.join(sql_rt, 'rh', 'uspgetdailyrh2.sql'),
+        'fn': 'uspgetdailyrh',
+        'sql': os.path.join(sql_rt, 'rh', 'uspgetdailyrh.sql'),
              },
     "hourly": {
         'table': 'hourly_rhdatavalues',
-        'fn': 'uspgethourlyrh2',
-        'sql': os.path.join(sql_rt, 'rh', 'uspgethourlyrh2.sql'),
+        'fn': 'uspgethourlyrh',
+        'sql': os.path.join(sql_rt, 'rh', 'uspgethourlyrh.sql'),
               },
     #~ "monthly": {
     #~ }
@@ -124,13 +125,13 @@ metadata = {
 "swe":{
     'daily': {
         'table': 'daily_swedatavalues',
-        'fn': 'uspgetdailyswe2',
-        'sql': os.path.join(sql_rt, 'swe', 'uspgetdailyswe2.sql'),
+        'fn': 'uspgetdailyswe',
+        'sql': os.path.join(sql_rt, 'swe', 'uspgetdailyswe.sql'),
              },
     "hourly": {
         'table': 'hourly_swedatavalues',
-        'fn': 'uspgethourlyswe2',
-        'sql': os.path.join(sql_rt, 'swe', 'uspgethourlyswe2.sql'),
+        'fn': 'uspgethourlyswe',
+        'sql': os.path.join(sql_rt, 'swe', 'uspgethourlyswe.sql'),
               },
     "summaries": 
         [os.path.join(sql_rt, 'swe', 'create_hourly_swe.sql'),

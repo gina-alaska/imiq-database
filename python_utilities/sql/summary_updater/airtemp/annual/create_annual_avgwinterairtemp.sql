@@ -18,7 +18,7 @@ CREATE TABLE tables.annual_avgwinterairtemp_2 AS
 ALTER TABLE tables.annual_avgwinterairtemp_2
   ADD CONSTRAINT annual_avgwinterairtemp_valueid PRIMARY KEY (valueid);
 
-CREATE INDEX annual_avgwinterairtemp_siteid_idx
+CREATE INDEX annual_avgwinterairtemp_siteid_idx_2
   ON tables.annual_avgwinterairtemp_2
   USING btree
   (siteid);

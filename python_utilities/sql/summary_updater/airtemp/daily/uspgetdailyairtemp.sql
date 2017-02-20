@@ -1,10 +1,11 @@
 ﻿-- uspgetdailyairtemp.sql
 --
 --
--- version 1.0.0
--- updated 2017-01-12
+-- version 1.1.0
+-- updated 2017-01-18
 --
 -- changelog:
+-- 1.1.0: added nps-raws
 -- 1.0.0: added comments, added BOEM
 
 -- Function: tables.uspgetdailyairtemp(integer, integer)
@@ -139,7 +140,9 @@ BEGIN
 -- OR
 --   GHCN ORignal Station Scans: Temp/Daily/F
 --   SourceID = 225, VariableID = 838
-
+-- OR 
+--   NPS RAWS Temp/hourly/C, AKDT
+--   SourceID = 136, VariableID = 1173
   ELSIF EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 432) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 626) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 666) OR
@@ -148,11 +151,12 @@ BEGIN
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 61) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 550) OR 
      -- EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 550) OR --
-        EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 838) 
+        EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 838) OR
+        EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1173)
   THEN
   OPEN maxCursor
-    for execute('Select dv.localdateTime, dv.datavalue from tables.ODMDataValues_metric as dv '
-                  'where dv.siteID = $1 and dv.originalVariableid = $2;') using site_id, var_id;
+    for execute('Select date_trunc(''day'',localdatetime) as localTime, avg(dv.datavalue) from tables.ODMDataValues_metric as dv '
+                  'where dv.siteID = $1 and dv.originalVariableid = $2 group by date_trunc(''day'',localdatetime) ;') using site_id, var_id;
         loop
           fetch maxCursor into ldateTimeUTC, avgValue;
           if not found then 
@@ -229,7 +233,7 @@ BEGIN
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1072) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1073) OR
         EXISTS( SELECT * FROM tables.odmdatavalues_metric where siteid = $1 and $2 = 1136) OR
-        EXISTS(SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1032)
+        EXISTS( SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2=1032)
   THEN
   OPEN maxCursor
     for execute('Select date_trunc(''day'',dv.datetimeUTC), AVG(dv.datavalue) from tables.ODMDataValues_metric as dv '

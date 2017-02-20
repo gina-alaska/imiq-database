@@ -20,7 +20,7 @@ CREATE TABLE tables.monthly_airtemp_all_2 AS
   GROUP BY d.siteid, date_part('year'::text, d.utcdatetime), date_part('month'::text, d.utcdatetime)
  HAVING count(*) >= 10;
 
-CREATE INDEX monthly_airtemp_all_siteid_idx
+CREATE INDEX monthly_airtemp_all_siteid_idx_2
   ON tables.monthly_airtemp_all_2
   USING btree
   (siteid);

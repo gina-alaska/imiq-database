@@ -1,9 +1,10 @@
 ﻿-- uspgetdailysnowdepth.sql
 -- 
--- version 1.0.0
--- updated 2017-01-13
+-- version 1.1.0
+-- updated 2017-01-18
 -- 
 -- changelog:
+-- 1.1.0: added BOEM
 -- 1.0.0: initial version
 -- Function: tables.uspgetdailysnowdepth(integer, integer)
 
