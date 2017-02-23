@@ -94,7 +94,7 @@ metadata = {
     "hourly": {
         'table': 'hourly_precipdatavalues',
         'fn': 'uspgethourlyprecip',
-        'sql': os.path.join(sql_rt, 'precip', 'uspgethourlyprecip2.sql'),
+        'sql': os.path.join(sql_rt, 'precip', 'uspgethourlyprecip.sql'),
               },
     "summaries": 
         [os.path.join(sql_rt, 'precip', 'create_hourly_precip.sql'),

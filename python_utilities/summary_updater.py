@@ -352,6 +352,22 @@ class updateSummaries (object):
             s.open(table)
             s.run()
             
+    def refresh_summary_tables (self, tables = []):
+        """
+        refresh summary table on imiq
+        """
+        ## TODO: implement
+        #~ if len(tables) == 0:
+            #~ tables = self.metadata[self.var]['summaries']
+        
+        for table in tables:
+            self.log.append('refreshing table: ' + str(table))
+            s = PostHaste(self.host,self.db,self.user,self.pswd)
+            print self.log[-1]
+            s.sql = "REFRESH MATERIALIZED VIEW tables." + table
+            #~ s.open(table)
+            s.run()
+            
         
                     
                 
@@ -389,32 +405,59 @@ def main ():
         except:
             srcids = []
         update = updateSummaries(flags['--login'], flags['--variable'], srcids)
-        #range(248,258+1) + [29,30,31,34,223, 145, 144] + [ 209, 202, 1, 203, 182, 182, 35, 213]) 
         if not flags['--ignore'] is None:
             update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
-        
-        
-        
+            
+           
+           
         # get var ids to update
         update.initilize_varids(use_vars)
-        #~ print "A"
-        #~ return
         # update the database functions from local sources
         update.update_db_functions()
-        # update datavalues tables
-        update.update_datavalues_tables(intervals)
-        #~ print update.errors
-        update.log.append('DataValues Updated')
-        print update.log[-1]
-        #~ print flags['--DV_tables_only']
-        #~ return
-        if flags['--DV_tables_only'] is None:
-            #~ print "A"
-            #~ return
-            update.log.append('Updating summary tables')
+            
+        
+        if not flags['--variable'].lower() == 'precipitation':
+            ## NORMAL UPDATE ORDER:
+            ##    hourly and daily _datavalues tables updated first
+            ##    then others
+            
+            # update datavalues tables
+            update.update_datavalues_tables(intervals)
+            update.log.append('DataValues Updated')
             print update.log[-1]
-            update.create_new_summary_tables()
-        print update.errors 
+
+            ## update summary tables
+            if flags['--DV_tables_only'] is None:
+                update.log.append('Updating summary tables')
+                print update.log[-1]
+                update.create_new_summary_tables()
+             
+        else:
+            ## PRCIP is weird because of thersholds
+            ## hourly_DV->hourly-daily_DV->daily->others
+            
+            ## hourly datavalues
+            update.update_datavalues_tables(['hourly'])
+            update.log.append('Hourly DataValues Updated')
+            print update.log[-1]
+
+            
+            ## hourly
+            update.log.append('refreshing hourly summary table')
+            print update.log[-1]
+            update.refresh_summary_tables(['hourly_precip'])
+            
+            ## daily DV
+            if 'daily' in intervals:    
+                update.update_datavalues_tables(['hourly'])
+                update.log.append('Daily DataValues Updated')
+                print update.log[-1]
+            
+            ## others
+            update.refresh_summary_tables(['daily_precip'])
+        
+        
+        print update.errors
     except StandardError as e:
         ERROR = e
     
