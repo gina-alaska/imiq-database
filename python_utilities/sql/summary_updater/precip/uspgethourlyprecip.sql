@@ -20,6 +20,7 @@ BEGIN
     --   NOAA: VariableID = 522 Precip/mm/Minute.  SourceID = 35
     --   LPeters:  VariableID = 294 Precip/Hourly.  SourceID = 182
     --   CALON: VariableID = 1139  Precip/Hourly.  SourceID = 263
+    --   NPS: VariableID = 1170, Prechp/hourly. Sourceid = 136
     IF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 340) OR
        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 84) OR
        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 319) OR
@@ -28,7 +29,8 @@ BEGIN
        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 496) OR
        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 522) OR
        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 294) OR
-       EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 1139) 
+       EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 1139) OR
+       EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 1170)
     THEN
         OPEN max_cursor 
         FOR EXECUTE format(
@@ -79,7 +81,9 @@ BEGIN
         CLOSE max_cursor;
     -- Taking the value on the hour, since it is the accumulated value for the hour
     -- RWIS: VariableID = 575 Precip/Mintues  SourceID = 213
-    ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 575) 
+    -- BOEM: VariableID = 1042 Precip acumulated 1hr. SourceIDs = 248 through 258
+    ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 575) OR
+          EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 1042) 
     THEN
         OPEN max_cursor 
         FOR execute format(
@@ -94,7 +98,7 @@ BEGIN
                 GROUP BY date_trunc(''hour'',datetimeutc)) dv3
             ON dv3.DateTimeUTC = dv.DateTimeUTC
             WHERE dv.SiteID = $1 and dv.OriginalVariableid=$2
-            order by DateTimeUTC;') USING site_id,var_id;
+            order by dv.DateTimeUTC;') USING site_id,var_id;
         LOOP
             FETCH max_cursor INTO datetimeutc, summaryvalue;
             IF NOT FOUND THEN
