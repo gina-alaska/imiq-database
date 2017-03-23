@@ -25,7 +25,7 @@ from (SELECT p.SiteID,
              COUNT(*) as total
       from tables.daily_precip p
       GROUP BY p.SiteID, YEAR, MONTH
-      having COUNT(*) >= 10) AS monthly_all
+      having COUNT(*) >= 10) AS monthly_all;
       
       
 CREATE INDEX monthly_precip_mv_idx

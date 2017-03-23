@@ -455,7 +455,8 @@ def main ():
             
             ## others
             update.refresh_summary_tables(['daily_precip'])
-        
+            update.refresh_summary_tables(['monthly_precip'])
+            update.refresh_summary_tables(['monthly_totalprecip'])
         
         print update.errors
     except StandardError as e:

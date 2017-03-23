@@ -31,3 +31,11 @@ CREATE INDEX annual_totalprecip_mv_siteid_idx
   ON tables.annual_totalprecip
   USING btree
   (siteid);
+
+
+
+ALTER MATERIALIZED VIEW tables.annual_totalprecip
+  OWNER TO imiq;
+
+COMMENT ON MATERIALIZED VIEW tables.annual_totalprecip
+  IS 'This view creates annual total using "daily_precip".  Restricted to months with at least 10 days of data, and years with 12 months of data';
