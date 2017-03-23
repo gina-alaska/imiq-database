@@ -1,6 +1,9 @@
 """script to backup the GHCN values in the datavalues table on 2017/03/21
 
 Rawser Spicer
+
+version 1.0.0
+updated: 2017-03-21
 """
 import posthaste as ph
 import os
