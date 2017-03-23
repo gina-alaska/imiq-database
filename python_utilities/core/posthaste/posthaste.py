@@ -27,7 +27,7 @@ class PostHaste (object):
     
     
     
-    def __init__ (self, host, database, user, passwd):
+    def __init__ (self, host, database, user, passwd, dry_run = False):
         """
         sets up the connection info
         
@@ -43,6 +43,7 @@ class PostHaste (object):
         self.delimiter = ','
         self.sql = ""
         self.table = []
+        self.testing = dry_run
     
     def open (self, sql_file):
         """
@@ -62,6 +63,8 @@ class PostHaste (object):
             Run the sql scripn in self.sql. Will execute the script and then 
         commit any changes to database.
         """
+        if self.testing:
+            return
         conn = Connection(self.db, self.host, self.user, self.passwd)
         conn.execute(self.sql)
         self.table = conn.fetch()
@@ -71,6 +74,8 @@ class PostHaste (object):
         """  Run the sql scripn in self.sql. Will execute the script
         asynconslouy.
         """
+        if self.testing:
+            return
         conn = Connection(self.db, self.host, self.user, self.passwd, True)
         conn.execute(self.sql)
         self.table = conn.fetch()
