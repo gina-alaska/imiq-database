@@ -1,3 +1,11 @@
+-- uspgetdailyprecip.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-02-24
+--
+-- changelog:
+-- 1.0.0: created from old uspgerdailyprecip.sql
 
 
 CREATE OR REPLACE FUNCTION tables.uspgetdailyprecip(

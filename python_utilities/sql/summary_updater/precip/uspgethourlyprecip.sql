@@ -1,4 +1,11 @@
-
+-- uspgethourlyprecip.sql
+--
+--
+-- version 1.0.0
+-- updated 2017-02-24
+--
+-- changelog:
+-- 1.0.0: created from old uspgerhourlyprecip.sql
 
 CREATE OR REPLACE FUNCTION tables.uspgethourlyprecip(
     site_id INTEGER,
