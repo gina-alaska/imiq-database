@@ -99,7 +99,7 @@ metadata = {
     "summaries": 
         [os.path.join(sql_rt, 'precip', 'create_hourly_precip.sql'),
          os.path.join(sql_rt, 'precip', 'create_daily_precip.sql'),
-         os.path.join(sql_rt, 'precip', 'create_monthly_precip.sql')
+         os.path.join(sql_rt, 'precip', 'create_monthly_precip.sql'),
          os.path.join(sql_rt, 'precip', 'create_annual_totalprecip.sql')]
        },
        
