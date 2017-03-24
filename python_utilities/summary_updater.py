@@ -54,8 +54,11 @@ class updateSummaries (object):
         self.sources = sources
         self.errors = []
         self.varids = {}
+        ## for sites to ingnore when updating DV tables
         self.ignore_sites = []
         self.log = []
+        ## for sites to skip durring delete and update step
+        self.completed_sites = []
         
         
         
@@ -284,7 +287,7 @@ class updateSummaries (object):
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
                    .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
-            s.run()
+            s.run_async()
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
             return
@@ -338,6 +341,11 @@ class updateSummaries (object):
         for site in sites:
             self.log.append('---- ' + str(site) + ', ' + str(varid))
             print self.log[-1]
+            if siteid in self.completed_sites:
+                self.log.append("------ ignoring site, as it has been flaged"
+                    " as complite: " +  siteid + "var: " + varid + "")
+                print self.log[-1]
+                continue
             self.delete_site_from_datavalues_table(time, site, varid)
             self.excute_db_function(time, site, varid, s_varid)
                     
@@ -369,7 +377,12 @@ class updateSummaries (object):
             s.run()
             
         
-                    
+def return_list(string, dtpye, sep = ',', start_char = '[', end_char=']' ):
+    """make a list from a string
+    """
+    string = string.replace(start_char,'').string.replace(end_char,'')
+    return [dtype(i) for i in string.split(',')]
+
                 
 
 def main ():
@@ -377,7 +390,7 @@ def main ():
     flags = CLIte(['--login'],['--variable','--sourceids',
                                '--varid','--siteids','--ignore', 
                                '--email', '--intervals', '--use_vars',
-                               '--DV_tables_only'])
+                               '--DV_tables_only', '--completed_sites'])
     
     
     start = datetime.now()
@@ -407,7 +420,10 @@ def main ():
         update = updateSummaries(flags['--login'], flags['--variable'], srcids)
         if not flags['--ignore'] is None:
             update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
-            
+        if not flags['--completed_sites'] is None:
+            update.completed_sites = return_list(flags['--completed_sites'],
+                int)
+        
            
            
         # get var ids to update
@@ -487,7 +503,7 @@ def main ():
             msg += str(update.errors) +' \n\n'
             msg += 'Log:\n'
             for l in update.log:
-                msg += '  ' + str(l) 
+                msg += '  ' + str(l)  +'\n'
             msg += '\n\nelapsed time:' + str(time)
         send_alert(flags['--email'],flags['--email'], sub , msg)
                  

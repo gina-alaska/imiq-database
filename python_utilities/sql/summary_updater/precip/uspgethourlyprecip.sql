@@ -94,18 +94,11 @@ BEGIN
     THEN
         OPEN max_cursor 
         FOR execute format(
-            'SELECT date_trunc(''hour'',dv.datetimeutc) AS datetiemutc, 
-                    dv.datavalue 
-             FROM tables.odmdatavalues_metric AS dv 
-             INNER JOIN (
-                SELECT date_trunc(''hour'',datetimeutc) as hourtimeutc,
-                       MIN(dv2.datetimeutc) as datetimeutc
-                FROM tables.odmdatavalues_metric dv2
-                WHERE dv2.siteid = $1 and dv2.originalvariableid=$2
-                GROUP BY date_trunc(''hour'',datetimeutc)) dv3
-            ON dv3.DateTimeUTC = dv.DateTimeUTC
-            WHERE dv.SiteID = $1 and dv.OriginalVariableid=$2
-            order by dv.DateTimeUTC;') USING site_id,var_id;
+            'SELECT distinct on (date_trunc(''hour'',datetimeutc))
+                date_trunc(''hour'',datetimeutc) AS datetiemutc, datavalue, siteid
+                FROM tables.odmdatavalues_metric
+                WHERE siteid = $1 and originalvariableid= $2
+                order by date_trunc(''hour'',datetimeutc) , datetiemutc') USING site_id,var_id;
         LOOP
             FETCH max_cursor INTO datetimeutc, summaryvalue;
             IF NOT FOUND THEN
