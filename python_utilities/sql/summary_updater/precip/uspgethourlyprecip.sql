@@ -97,10 +97,10 @@ BEGIN
             insertdate)
         select datavalue, datetiemutc as utcdatetime,  $1 as siteid, 
                $2 as originalvariableid, now() as insertdate
-        from (SELECT distinct on (date_trunc('hour',datetimeutc)) 
-                date_trunc('hour',datetimeutc) AS datetiemutc, datavalue
+        from (SELECT distinct on (date_trunc('hour',dv2.datetimeutc)) 
+                date_trunc('hour',dv2.datetimeutc) AS datetiemutc, datavalue
               FROM tables.odmdatavalues_metric dv2
-              WHERE dv2.siteid = $1 and dv2.originalvariableid=$2) as dv
+              WHERE dv2.siteid = $1 and dv2.originalvariableid=$2) as dv;
 
     END IF;
 END;

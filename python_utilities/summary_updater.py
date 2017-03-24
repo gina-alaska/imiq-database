@@ -268,6 +268,36 @@ class updateSummaries (object):
         select tables.FUNCTION(SITE, VAR);
               """
 
+        ## TEMP fix untill this can be moved somewhere else
+        if varid in (575, 1042) and time == 'hourly':
+            sql = """
+            INSERT INTO tables.hourly_precipdatavalues(
+                datavalue,utcdatetime, siteid, originalvariableid, insertdate)
+
+            select
+                datavalue, datetiemutc as utcdatetime, SITE as siteid, 
+                VAR as originalvariableid, now() as insertdate
+            from
+                (SELECT distinct on (date_trunc('hour',datetimeutc)) 
+                    date_trunc('hour',datetimeutc) AS datetiemutc,
+                    datavalue
+                FROM tables.odmdatavalues_metric dv2
+                WHERE dv2.siteid = SITE and dv2.originalvariableid=VAR)
+            as datavalues"""
+        elif varid in (575, 1042) and time == 'daily':
+            sql = """
+            INSERT INTO tables.daily_precipdatavalues(
+                datavalue, utcdatetime, siteid, originalvariableid, insertdate)
+
+            select
+                sumvalue, datetimeutc as utcdatetime, SITE as siteid, 
+                VAR as originalvariableid, now() as insertdate
+            from
+                (SELECT date_trunc('day',utcdatetime) as datetimeutc,
+                        SUM(dv.datavalue) as sumvalue
+                FROM tables.hourly_precip AS dv 
+                WHERE dv.siteid = SITE AND dv.originalvariableid=VAR
+                GROUP BY date_trunc('day',utcdatetime)) as datavalues"""
         ### secondary var stuff was already handeled well in sql file.
         ### leaving most of the code in in case it comes in handy at some
         ### later point
@@ -287,7 +317,7 @@ class updateSummaries (object):
                    .replace('FUNCTION', self.metadata[self.var][time]['fn'])\
                    .replace('SITE', str(siteid))\
                    .replace('S_VAR',str(s_varid)).replace('VAR', str(varid))
-            s.run_async()
+            s.run()
         except psycopg2.DataError:
             print "cannot execute:", siteid, "var:", varid
             return
@@ -341,7 +371,7 @@ class updateSummaries (object):
         for site in sites:
             self.log.append('---- ' + str(site) + ', ' + str(varid))
             print self.log[-1]
-            if siteid in self.completed_sites:
+            if site in self.completed_sites:
                 self.log.append("------ ignoring site, as it has been flaged"
                     " as complite: " +  siteid + "var: " + varid + "")
                 print self.log[-1]
@@ -465,14 +495,14 @@ def main ():
             
             ## daily DV
             if 'daily' in intervals:    
-                update.update_datavalues_tables(['hourly'])
+                update.update_datavalues_tables(['daily'])
                 update.log.append('Daily DataValues Updated')
                 print update.log[-1]
             
             ## others
             update.refresh_summary_tables(['daily_precip'])
             update.refresh_summary_tables(['monthly_precip'])
-            update.refresh_summary_tables(['monthly_totalprecip'])
+            update.refresh_summary_tables(['annual_totalprecip'])
         
         print update.errors
     except StandardError as e:
