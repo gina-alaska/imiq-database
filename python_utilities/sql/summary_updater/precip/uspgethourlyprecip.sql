@@ -92,23 +92,16 @@ BEGIN
     ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 575) OR
           EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE siteid = $1 AND $2 = 1042) 
     THEN
-        OPEN max_cursor 
-        FOR execute format(
-            'SELECT distinct on (date_trunc(''hour'',datetimeutc))
-                date_trunc(''hour'',datetimeutc) AS datetiemutc, datavalue, siteid
-                FROM tables.odmdatavalues_metric
-                WHERE siteid = $1 and originalvariableid= $2
-                order by date_trunc(''hour'',datetimeutc) , datetiemutc') USING site_id,var_id;
-        LOOP
-            FETCH max_cursor INTO datetimeutc, summaryvalue;
-            IF NOT FOUND THEN
-                EXIT;
-            END IF;
-            INSERT INTO tables.hourly_precipdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate) 
-                VALUES(summaryvalue, datetimeutc, $1, $2, NOW());
-         -- RAISE NOTICE 'Inserted % with value %',DateTimeUTC,summaryvalue;
-        END LOOP;
-        CLOSE max_cursor;
+        INSERT INTO tables.hourly_precipdatavalues(
+            datavalue, utcdatetime, siteid, originalvariableid, 
+            insertdate)
+        select datavalue, datetiemutc as utcdatetime,  $1 as siteid, 
+               $2 as originalvariableid, now() as insertdate
+        from (SELECT distinct on (date_trunc('hour',datetimeutc)) 
+                date_trunc('hour',datetimeutc) AS datetiemutc, datavalue
+              FROM tables.odmdatavalues_metric dv2
+              WHERE dv2.siteid = $1 and dv2.originalvariableid=$2) as dv
+
     END IF;
 END;
 $BODY$
