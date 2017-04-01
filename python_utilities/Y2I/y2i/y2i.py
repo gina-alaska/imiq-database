@@ -70,7 +70,7 @@ class Y2I (object):
         valid, reason = self.validate_config()
         if not valid:
             # write a custom error
-            raise RuntimeError, "bad config file"
+            raise RuntimeError, "bad config file" + reason
             
         self.data = {}
         self.load_infiles()
@@ -86,6 +86,7 @@ class Y2I (object):
             
     def validate_config (self):
         """TODO: This should validate the config file """
+        #~ return True, ""
         try:
             key = []
             key.append('name')
@@ -354,19 +355,12 @@ def test():
     converter = Y2I('example.yaml')
     converter.generate_sql()
     
-def main ():
-    """main utility function.
-    
-    python y2i.py <config.yaml>
-    
-    config.yaml may be a yaml config file or a yaml describing a template file
-    """
+def utility (script):
     try:
         ## config is argument/template type
-        setup = sys.argv[1]
+        setup = script
         with open(setup, 'r') as s:
             setup = yaml.load(s)
-        #~ print sys.argv[1]
         for i in range(len(setup['arguments'])):
             try:
                 print setup['arguments'][i]['name']
@@ -383,11 +377,21 @@ def main ():
                 print " -- no sql generated"
                 continue
     except KeyError as e:
-        #~ print e
+        print e
         ## config is plain config type 
-        converter = Y2I(sys.argv[1])
+        converter = Y2I(script)
         converter.generate_sql()
     #~ print "\n\n"
+    
+def main ():
+    """main utility function.
+    
+    python y2i.py <config.yaml>
+    
+    config.yaml may be a yaml config file or a yaml describing a template file
+    """
+    #~ print sys.argv[1:]
+    utility(sys.argv[1])
     
 if __name__ == "__main__":
     main()

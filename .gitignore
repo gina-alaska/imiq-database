@@ -2,3 +2,4 @@
 *.DS_Store
 python_utilities/core/build
 python_utilities/core/dist
+*.egg-info*
