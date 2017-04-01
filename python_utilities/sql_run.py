@@ -41,7 +41,7 @@ def main():
     
 
     ## set up scripts
-    s = ph.PostHaste(*ph.load_login(login), dry_run=True)
+    s = ph.PostHaste(*ph.load_login(login), dry_run=False)
     if target[-4:] == '.sql':
        scripts = [target]
     else:
@@ -59,7 +59,7 @@ def main():
         completed = read_csv(log_file)['completed'].values.tolist()
     except (KeyError,IOError):
         completed = []
-       
+
     ## run scripts
     for script in scripts:
         if script in completed:
@@ -73,6 +73,7 @@ def main():
             print e
             break
         completed.append(script)
+        DataFrame(completed,columns=['completed']).to_csv(log_file, index=False)
     
     ## save log
     DataFrame(completed,columns=['completed']).to_csv(log_file, index=False)
