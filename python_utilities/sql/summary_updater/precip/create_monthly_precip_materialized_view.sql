@@ -15,7 +15,7 @@ CREATE MATERIALIZED VIEW tables.monthly_precip as
 SELECT ROW_NUMBER() OVER (ORDER BY SiteID,Monthlytotal) AS ValueID, 
        MonthlyTotal as DataValue,
        SiteID, 
-        (((monthly_all.year::character varying::text || '-'::text) || monthly_all.month::character varying::text) || '-01'::text)::timestamp without time zone AS utcdatetime,
+       (((monthly_all.year::character varying::text || '-'::text) || monthly_all.month::character varying::text) || '-01'::text)::timestamp without time zone AS utcdatetime,
        690 as OriginalVariableID,
        701 as VariableID
 from (SELECT p.SiteID,

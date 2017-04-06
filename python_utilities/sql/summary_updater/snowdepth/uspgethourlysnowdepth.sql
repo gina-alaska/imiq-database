@@ -4,6 +4,7 @@
 -- updated 2017-01-18
 -- 
 -- changelog:
+-- 1.1.1: removed grant statments
 -- 1.1.0: added BOEM
 -- 1.0.0: initial version
 -- Function: tables.uspgethourlysnowdepth(integer, integer)
@@ -81,8 +82,3 @@ $BODY$
   COST 100;
 ALTER FUNCTION tables.uspgethourlysnowdepth(integer, integer)
   OWNER TO imiq;
-GRANT EXECUTE ON FUNCTION tables.uspgethourlysnowdepth(integer, integer) TO public;
-GRANT EXECUTE ON FUNCTION tables.uspgethourlysnowdepth(integer, integer) TO imiq;
-GRANT EXECUTE ON FUNCTION tables.uspgethourlysnowdepth(integer, integer) TO asjacobs;
-GRANT EXECUTE ON FUNCTION tables.uspgethourlysnowdepth(integer, integer) TO rwspicer;
-GRANT EXECUTE ON FUNCTION tables.uspgethourlysnowdepth(integer, integer) TO chaase;

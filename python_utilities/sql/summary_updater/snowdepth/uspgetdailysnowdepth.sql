@@ -1,9 +1,10 @@
 ﻿-- uspgetdailysnowdepth.sql
 -- 
--- version 1.1.0
--- updated 2017-01-18
+-- version 1.1.1
+-- updated 2017-04-06
 -- 
 -- changelog:
+-- 1.1.1: removed grant statments
 -- 1.1.0: added BOEM
 -- 1.0.0: initial version
 -- Function: tables.uspgetdailysnowdepth(integer, integer)
@@ -37,9 +38,9 @@ BEGIN
           if not found then
             exit;
           end if;
-          SELECT avgValue = avgValue / 1000.0; -- convert to meters
+          -- ~ SELECT avgValue = avgValue / 1000.0; -- convert to meters
           INSERT INTO tables.daily_snowdepthdatavalues (datavalue, utcdatetime, siteid, originalvariableid, insertdate)
-                 VALUES(avgValue, DateTimeUTC, $1, $2,NOW()); 
+                 VALUES(avgValue/ 1000.0 , DateTimeUTC, $1, $2,NOW()); 
         end loop;
     CLOSE maxCursor;
 -- UTC time for: -------- ***** NEED TO FIX *****
@@ -188,8 +189,4 @@ $BODY$
   COST 100;
 ALTER FUNCTION tables.uspgetdailysnowdepth(integer, integer)
   OWNER TO imiq;
-GRANT EXECUTE ON FUNCTION tables.uspgetdailysnowdepth(integer, integer) TO public;
-GRANT EXECUTE ON FUNCTION tables.uspgetdailysnowdepth(integer, integer) TO imiq;
-GRANT EXECUTE ON FUNCTION tables.uspgetdailysnowdepth(integer, integer) TO asjacobs;
-GRANT EXECUTE ON FUNCTION tables.uspgetdailysnowdepth(integer, integer) TO rwspicer;
-GRANT EXECUTE ON FUNCTION tables.uspgetdailysnowdepth(integer, integer) TO chaase;
+

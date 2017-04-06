@@ -3,10 +3,11 @@ summary updater.py
     for updating imiq summary tables
     
     
-version 1.0.1
-updated: 2017-01-12
+version 1.1.0
+updated: 2017-04-06
 
 changelog:
+    1.1.0: added materialized views support
     1.0.1: fixed bugs in function names
     1.0.0: working code
 """
@@ -87,11 +88,14 @@ class updateSummaries (object):
         where sourceid = SOURCE_ID and lower(variablename) like 'VAR' and
               not variableunitsid = 137
               """
+        #~ print 'self.sources', self.sources
         for source in self.sources:
+            #~ print source
             s_set = False
             s = PostHaste(self.host,self.db,self.user,self.pswd)
             s.sql = sql.replace('SOURCE_ID', str(source))\
                        .replace('VAR',fn_var)
+            #~ print s.sql
             s.run()
             #~ print s.sql, s.as_DataFrame()
             if len(s.as_DataFrame()) == 0:
@@ -112,6 +116,7 @@ class updateSummaries (object):
                 continue
             varid = int(s.as_DataFrame()[0])
             self.varids[source] = [varid]
+
         #~ print self.varids
             
     def get_secondary_varid (self, source, secondary_var):
@@ -328,10 +333,13 @@ class updateSummaries (object):
         
         
         """
+        #~ print self.sources
         for source in self.sources:
+            #~ print source
             try:
                 source_vars = self.varids[source]
-            except KeyError:
+            except KeyError as e:
+                print 'Key error, ', e
                 continue
             for varid in source_vars:
                 self.log.append( str(source) + ', ' + str(varid))
@@ -435,18 +443,20 @@ def main ():
         intervals = ['daily','hourly']
         if not flags['--intervals'] is None:
             itemp = [i for i in flags['--intervals'][1:-1].split(',')]
-            print itemp
+            #~ print itemp
             for i in itemp:
                 if i not in intervals:
                     raise ValueError, "Input Intervals must be in ['daily','hourly']" 
             intervals = itemp
             
-        
+        #~ print intervals 
         
         try:
             srcids = [int(i) for i in flags['--sourceids'][1:-1].split(',')]
-        except:
+        except StandardError as e:
+            #~ print e
             srcids = []
+        #~ print 'sources', srcids
         update = updateSummaries(flags['--login'], flags['--variable'], srcids)
         if not flags['--ignore'] is None:
             update.ignore_sites = [int(i) for i in flags['--ignore'][1:-1].split(',')]
@@ -476,7 +486,15 @@ def main ():
             if flags['--DV_tables_only'] is None:
                 update.log.append('Updating summary tables')
                 print update.log[-1]
-                update.create_new_summary_tables()
+                try:
+                    update.log.append('-- using refresh method')
+                    mvs = update.metadata[update.var]['materialized views']
+                    update.refresh_summary_tables(mvs)
+                except KeyError:
+                    update.log.append(('-- using table create method,'
+                                        ' materialized views unavaliable '))
+                    print update.log[-1]
+                    update.create_new_summary_tables()
              
         else:
             ## PRCIP is weird because of thersholds

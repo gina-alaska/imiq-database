@@ -4,10 +4,11 @@ ross spicer
 
 info on .sql files/ imiq tables for summary updater
 
-version 1.1.1
-updated: 2017-01-18
+version 1.2.0
+updated: 2017-04-06
 
 changelog:
+    1.2.0: added snow depth materlized view options
     1.1.1: got rid of all of the 2's except for wind speed where it is needed
     1.1.0: added watertemp, updated swe, added snow depth, updated airtemps
     1.0.0: working code
@@ -155,7 +156,13 @@ metadata = {
         'fn': 'uspgethourlysnowdepth',
         'sql': os.path.join(sql_rt, 'snowdepth', 'uspgethourlysnowdepth.sql'),
               },
-    "summaries": 
+    "materialized views": 
+        ['hourly_snowdepth', 
+         'daily_snowdepth', 
+         'monthly_snowdepthavg',
+         # 'annual_peaksnowdepth',
+         ],
+    "summaries": ## depreciated
         [os.path.join(sql_rt, 'snowdepth', 'create_hourly_snowdepth.sql'),
          os.path.join(sql_rt, 'snowdepth', 'create_daily_snowdepth.sql'),
          os.path.join(sql_rt, 'snowdepth', 'create_monthly_snowdepthavg_all.sql'),
