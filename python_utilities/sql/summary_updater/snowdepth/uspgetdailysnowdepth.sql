@@ -110,7 +110,7 @@ BEGIN
 --   Permafrost GI Snow Depth
 --   SourceID = 224, VariableID = 835
   ELSIF EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 813) OR
-        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 813) OR
+        EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 320) OR
         EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 612) OR
         EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 396) OR
         EXISTS (SELECT * FROM tables.odmdatavalues_metric WHERE SiteID = $1 AND $2 = 193) OR
