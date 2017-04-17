@@ -181,10 +181,20 @@ class updateSummaries (object):
         outputs:
             returns count >= 0 <int>
         """
-        c = 0
-        for site in self.get_siteids(srcid):
-            c += self.get_site_count_from_datavalues_table(time, site, varid)
-        return c
+        #TODO: generalize
+        sql = """
+        select count(*) from tables.daily_precipdatavalues 
+        where originalvariableid = VARID"""
+        s = PostHaste(self.host,self.db,self.user,self.pswd)
+        s.sql = sql.replace('VARID', str(varid))
+
+        s.run()
+        return int(s.as_DataFrame()[0])
+        
+        #~ c = 0
+        #~ for site in self.get_siteids(srcid):
+            #~ c += self.get_site_count_from_datavalues_table(time, site, varid)
+        #~ return c
         
     def get_site_count_from_datavalues_table (self, time, siteid, varid):
         """
@@ -416,10 +426,58 @@ class updateSummaries (object):
             #~ s.open(table)
             s.run()
             
-    def update_source (self, sourceid ):
+    def update_source (self, sourceid):
         """ Function doc """
         source_to_snippet = supy.precip.daily_snippets.source_to_snippet
-        source_to_snippet
+        source_tokens = supy.precip.daily_snippets.source_tokens
+        insert_sql = supy.precip.daily_snippets.insert_sql
+        
+        
+        tokens = source_tokens[sourceid]
+        snippet = source_to_snippet[sourceid][0]
+        varid = 398
+        
+        src_init = self.get_source_count_from_datavalues_table (0,0,varid)
+        self.log.append('Initial count for precip for source ' + \
+            str(sourceid) + ' is ' + str(src_init))
+        print self.log[-1]
+
+
+        # delete source TODO: move to new function & generalize
+        sql = """
+        delete 
+            from tables.daily_precipdatavalues 
+            where originalvariableid = VARID
+        """
+        s = PostHaste(self.host,self.db,self.user,self.pswd)
+        s.sql = sql.replace('VARID', str(varid))
+
+        s.run()
+        # ---------------------------------------------------
+        
+        for token in tokens:
+            snippet = snippet.replace(token, str(tokens[token]))
+        
+        
+        insert = insert_sql.replace('__SNIPPET__', snippet )
+        self.log.append("Script used: " + insert)
+        print self.log[-1]
+        
+        I = PostHaste(self.host,self.db,self.user,self.pswd)
+        I.sql = insert
+
+        I.run()
+        
+        src_post = self.get_source_count_from_datavalues_table (0,0,varid)
+        self.log.append('Post count for precip for source ' + \
+            str(sourceid) + ' is ' + str(src_post))
+        print self.log[-1]
+        self.log.append('# new values for precip for source ' + \
+            str(sourceid) + ' is ' + str(src_post - src_init))
+        print self.log[-1]
+        
+        
+        #~ raise StandardError, "I WANT TO CRASH"
         
         
             
@@ -431,7 +489,7 @@ def return_list(string, dtpye, sep = ',', start_char = '[', end_char=']' ):
     return [dtype(i) for i in string.split(',')]
 
 
-def precip_new (ubdate, flags):
+def precip_new (update, sources):
     """new precip feature to generate all datavalues
     and insert at (TODO Expand to all things)
     
@@ -439,9 +497,18 @@ def precip_new (ubdate, flags):
     ----------
     update: updateSummaries
         summary object
-    flags: CLIte
-        cli flags
+    sources: list of ints
     """
+    from datetime import datetime
+    start = datetime.now()
+    for source in sources:
+        update.update_source(source)
+        
+    update.refresh_summary_tables(['daily_precip'])
+    update.refresh_summary_tables(['monthly_precip'])
+    update.refresh_summary_tables(['annual_totalprecip'])
+    
+    print datetime.now() - start
     pass
                 
 
@@ -485,102 +552,103 @@ def main ():
         if not flags['--completed_sites'] is None:
             update.completed_sites = return_list(flags['--completed_sites'],
                 int)
-        
-           
-           
-        # get var ids to update
-        update.initilize_varids(use_vars)
-        # update the database functions from local sources
-        update.update_db_functions()
-            
-        
-        if not flags['--variable'].lower() == 'precipitation':
-            ## NORMAL UPDATE ORDER:
-            ##    hourly and daily _datavalues tables updated first
-            ##    then others
-            
-            # update datavalues tables
-            update.update_datavalues_tables(intervals)
-            update.log.append('DataValues Updated')
-            print update.log[-1]
-
-            ## update summary tables
-            if flags['--DV_tables_only'] is None:
-                update.log.append('Updating summary tables')
-                print update.log[-1]
-                try:
-                    update.log.append('-- using refresh method')
-                    mvs = update.metadata[update.var]['materialized views']
-                    update.refresh_summary_tables(mvs)
-                except KeyError:
-                    update.log.append(('-- using table create method,'
-                                        ' materialized views unavaliable '))
-                    print update.log[-1]
-                    update.create_new_summary_tables()
-             
-        else:
-            ## PRCIP is weird because of thersholds
-            ## hourly_DV->hourly-daily_DV->daily->others
-            
-            ## hourly datavalues
-            try:
-                precip_new(update, flags)
-            except:
-                pass
-            
-            update.update_datavalues_tables(['hourly'])
-            update.log.append('Hourly DataValues Updated')
-            print update.log[-1]
-
-            
-            ## hourly
-            update.log.append('refreshing hourly summary table')
-            print update.log[-1]
-            update.refresh_summary_tables(['hourly_precip'])
-            
-            ## daily DV
-            if 'daily' in intervals:    
-                update.update_datavalues_tables(['daily'])
-                update.log.append('Daily DataValues Updated')
-                print update.log[-1]
-            
-            ## others
-            update.refresh_summary_tables(['daily_precip'])
-            update.refresh_summary_tables(['monthly_precip'])
-            update.refresh_summary_tables(['annual_totalprecip'])
-        
-        print update.errors
     except StandardError as e:
-        ERROR = e
+        print e
+        pass   
+        
+    precip_new(update, srcids)
     
-    
-    
-    
-    time =  datetime.now() - start
-    print 'elapsed time:', str(time)
-    if not flags['--email'] is None :
-        if not ERROR is None:
-            sub = "Imiq Summary Update, crashed"
-            msg = str(ERROR) + '\n\n'
-            msg += 'Log:\n'
-            try:
-                for l in update.log:
-                    msg += '  ' + str(l) 
-            except StandardError as e:
-                msg += '  updater object not created \n'
-                msg += str(e)
+           
+        #~ # get var ids to update
+        #~ update.initilize_varids(use_vars)
+        #~ # update the database functions from local sources
+        #~ update.update_db_functions()
             
-            msg +=  '\n\nelapsed time:' + str(time) 
-        else:
-            sub =  'Imiq Summary Update, complete'
-            msg = str(flags['--variable']) + ' summaries updated for sources: ' + str(srcids) + '\n\n' 
-            msg += "Errors:\n"
-            msg += str(update.errors) +' \n\n'
-            msg += 'Log:\n'
-            for l in update.log:
-                msg += '  ' + str(l)  +'\n'
-            msg += '\n\nelapsed time:' + str(time)
-        send_alert(flags['--email'],flags['--email'], sub , msg)
+        
+        #~ if not flags['--variable'].lower() == 'precipitation':
+            #~ ## NORMAL UPDATE ORDER:
+            #~ ##    hourly and daily _datavalues tables updated first
+            #~ ##    then others
+            
+            #~ # update datavalues tables
+            #~ update.update_datavalues_tables(intervals)
+            #~ update.log.append('DataValues Updated')
+            #~ print update.log[-1]
+
+            #~ ## update summary tables
+            #~ if flags['--DV_tables_only'] is None:
+                #~ update.log.append('Updating summary tables')
+                #~ print update.log[-1]
+                #~ try:
+                    #~ update.log.append('-- using refresh method')
+                    #~ mvs = update.metadata[update.var]['materialized views']
+                    #~ update.refresh_summary_tables(mvs)
+                #~ except KeyError:
+                    #~ update.log.append(('-- using table create method,'
+                                        #~ ' materialized views unavaliable '))
+                    #~ print update.log[-1]
+                    #~ update.create_new_summary_tables()
+             
+        #~ else:
+            #~ ## PRCIP is weird because of thersholds
+            #~ ## hourly_DV->hourly-daily_DV->daily->others
+            
+            #~ ## hourly datavalues
+            
+            
+            #~ update.update_datavalues_tables(['hourly'])
+            #~ update.log.append('Hourly DataValues Updated')
+            #~ print update.log[-1]
+
+            
+            #~ ## hourly
+            #~ update.log.append('refreshing hourly summary table')
+            #~ print update.log[-1]
+            #~ update.refresh_summary_tables(['hourly_precip'])
+            
+            #~ ## daily DV
+            #~ if 'daily' in intervals:    
+                #~ update.update_datavalues_tables(['daily'])
+                #~ update.log.append('Daily DataValues Updated')
+                #~ print update.log[-1]
+            
+            #~ ## others
+            #~ update.refresh_summary_tables(['daily_precip'])
+            #~ update.refresh_summary_tables(['monthly_precip'])
+            #~ update.refresh_summary_tables(['annual_totalprecip'])
+        
+        #~ print update.errors
+    #~ except StandardError as e:
+        #~ ERROR = e
+    
+    
+    
+    
+    #~ time =  datetime.now() - start
+    #~ print 'elapsed time:', str(time)
+    #~ if not flags['--email'] is None :
+        #~ if not ERROR is None:
+            #~ sub = "Imiq Summary Update, crashed"
+            #~ msg = str(ERROR) + '\n\n'
+            #~ msg += 'Log:\n'
+            #~ try:
+                #~ for l in update.log:
+                    #~ msg += '  ' + str(l) 
+            #~ except StandardError as e:
+                #~ msg += '  updater object not created \n'
+                #~ msg += str(e)
+            
+            #~ msg +=  '\n\nelapsed time:' + str(time) 
+        #~ else:
+            #~ sub =  'Imiq Summary Update, complete'
+            #~ msg = str(flags['--variable']) + ' summaries updated for sources: ' + str(srcids) + '\n\n' 
+            #~ msg += "Errors:\n"
+            #~ msg += str(update.errors) +' \n\n'
+            #~ msg += 'Log:\n'
+            #~ for l in update.log:
+                #~ msg += '  ' + str(l)  +'\n'
+            #~ msg += '\n\nelapsed time:' + str(time)
+        #~ send_alert(flags['--email'],flags['--email'], sub , msg)
                  
 
 if __name__ == "__main__":

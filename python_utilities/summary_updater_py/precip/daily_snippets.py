@@ -5,16 +5,16 @@ sources = [
     210, #GHCN
 ]
 
-source_tokens = [
-    210: {"__VARIABLEID__"#GHCN
-]
+source_tokens = {
+    210: {"__VARIABLEID__": 398,}#GHCN
+}
 
 insert_sql = \
 """INSERT INTO tables.daily_precipdatavalues(
     datavalue, utcdatetime, siteid, originalvariableid, insertdate)
 select
     datavalue, 
-    datetiemutc as utcdatetime, 
+    utcdatetime, 
     siteid, 
     originalvariableid, 
     insertdate
