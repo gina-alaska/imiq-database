@@ -21,6 +21,8 @@ import psycopg2
 from datetime import datetime
 
 
+import summary_updater_py as supy
+
 ### secondary var stuff was already handeled well in sql file.
 ### leaving most of the code in in case it comes in handy at some
 ### later point
@@ -414,6 +416,13 @@ class updateSummaries (object):
             #~ s.open(table)
             s.run()
             
+    def update_source (self, sourceid ):
+        """ Function doc """
+        source_to_snippet = supy.precip.daily_snippets.source_to_snippet
+        source_to_snippet
+        
+        
+            
         
 def return_list(string, dtpye, sep = ',', start_char = '[', end_char=']' ):
     """make a list from a string
@@ -421,6 +430,19 @@ def return_list(string, dtpye, sep = ',', start_char = '[', end_char=']' ):
     string = string.replace(start_char,'').string.replace(end_char,'')
     return [dtype(i) for i in string.split(',')]
 
+
+def precip_new (ubdate, flags):
+    """new precip feature to generate all datavalues
+    and insert at (TODO Expand to all things)
+    
+    Parameters
+    ----------
+    update: updateSummaries
+        summary object
+    flags: CLIte
+        cli flags
+    """
+    pass
                 
 
 def main ():
@@ -501,6 +523,11 @@ def main ():
             ## hourly_DV->hourly-daily_DV->daily->others
             
             ## hourly datavalues
+            try:
+                precip_new(update, flags)
+            except:
+                pass
+            
             update.update_datavalues_tables(['hourly'])
             update.log.append('Hourly DataValues Updated')
             print update.log[-1]
