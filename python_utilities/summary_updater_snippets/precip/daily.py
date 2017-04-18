@@ -1,4 +1,5 @@
-
+## Name of table this file is accoiated with
+table_name = "daily_precipdatavalues"
 
 ## sources avaiable
 sources = [
