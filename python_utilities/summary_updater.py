@@ -33,6 +33,8 @@ map_to_canon_name = {
     'airtemp':'airtemp',
     'precipitation':'precip',
     'precip':'precip',
+    'snow depth': 'snowdepth',
+    'snowdepth': 'snowdepth',
     'snow water eqivalent':'swe',
     'swe':'swe',
     'windspeed': 'windspeed',
