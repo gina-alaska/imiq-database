@@ -30,7 +30,10 @@ from check_activity import load_login
 map_to_canon_name = {
     'precipitation':'precip',
     'precip':'precip',
-
+    'snow water eqivalent':'swe',
+    'swe':'swe',
+    'windspeed': 'windspeed',
+    'wind speed': 'windspeed',
 }
 
 class SummaryError(Exception):
