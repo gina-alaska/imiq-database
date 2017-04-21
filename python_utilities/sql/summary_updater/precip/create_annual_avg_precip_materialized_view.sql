@@ -1,10 +1,11 @@
 -- create_annual_totalprecip_materialized_view.sql
 --
 -- Rawser Spicer
--- version 1.0.0
--- updated 2017-03-23
+-- version 1.0.1
+-- updated 2017-04-21
 --
 -- changelog:
+-- 1.0.1: changed original variable id from monthly to daily
 -- 1.0.0: created 
 
 CREATE MATERIALIZED VIEW tables.annual_totalprecip as
@@ -12,7 +13,7 @@ select ROW_NUMBER() OVER (ORDER BY SiteID,year) AS ValueID,
        SUM(MonthlyTotal) as DataValue,
        SiteID, 
        (monthly_all.year::character varying::text ||  '-01-01'::text)::timestamp without time zone AS utcdatetime,
-       701 as OriginalVariableID, 
+       690 as OriginalVariableID, 
        703 as VariableID
 from (SELECT p.SiteID,
              date_part('year'::text, utcdatetime) AS YEAR,

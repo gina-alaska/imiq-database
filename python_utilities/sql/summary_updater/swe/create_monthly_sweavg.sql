@@ -5,30 +5,34 @@
 -- updated 2017-01-13
 -- 
 -- changelog:
+--      2.0.0 changed to MATERIALIZED VIEW and intergrated create_monthly_sweavg_all
 --      1.0.0: initial version
-CREATE TABLE tables.monthly_sweavg_2 AS 
- SELECT row_number() OVER (ORDER BY monthly_sweavg_all.siteid, monthly_sweavg_all.monthlyavg) AS valueid,
-    monthly_sweavg_all.monthlyavg AS datavalue,
-    monthly_sweavg_all.siteid,
-    (((monthly_sweavg_all.year || '-'::text) || monthly_sweavg_all.month) || '-01'::text)::timestamp without time zone AS utcdatetime,
+CREATE MATERIALIZED VIEW tables.monthly_sweavg AS 
+SELECT row_number() OVER (ORDER BY siteid, monthlyavg) AS valueid,
+    monthlyavg AS datavalue,
+    siteid,
+    (((monthly_all.year || '-'::text) || monthly_all.month) || '-01'::text)::timestamp without time zone AS utcdatetime,
     693 AS originalvariableid,
     721 AS variableid
-   FROM tables.monthly_sweavg_all;
+FROM (SELECT 
+        p.siteid,
+        date_part('year'::text, p.utcdatetime) AS year,
+        date_part('month'::text, p.utcdatetime) AS month,
+        avg(p.datavalue) AS monthlyavg,
+        count(*) AS total
+      FROM tables.daily_swe p
+      GROUP BY p.siteid, year, month
+      HAVING count(*) >= 1) as monthly_all;
 
-ALTER TABLE tables.monthly_sweavg_2
-  ADD CONSTRAINT monthly_sweavg_valueid PRIMARY KEY (valueid);
 
-CREATE INDEX monthly_sweavg_siteid_idx
-  ON tables.monthly_sweavg_2
+
+CREATE INDEX monthly_sweavg_siteid_idx_mv
+  ON tables.monthly_sweavg
   USING btree
   (siteid);
 
-ALTER TABLE tables.monthly_sweavg_2
+ALTER MATERIALIZED VIEW tables.monthly_sweavg
   OWNER TO imiq;
-GRANT ALL ON TABLE tables.monthly_sweavg_2 TO imiq;
-GRANT ALL ON TABLE tables.monthly_sweavg_2 TO asjacobs;
-GRANT ALL ON TABLE tables.monthly_sweavg_2 TO chaase;
-GRANT SELECT ON TABLE tables.monthly_sweavg_2 TO imiq_reader;
-GRANT ALL ON TABLE tables.monthly_sweavg_2 TO rwspicer;
-COMMENT ON TABLE tables.monthly_sweavg_2
+
+COMMENT ON MATERIALIZED VIEW tables.monthly_sweavg
   IS 'This view creates "monthly_sweavg" with the fields: valueid, datavalue, siteid, utcdatetime, originalvariableid and variableid.  Sets originalvariableid=693 and variableid=721';
