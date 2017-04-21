@@ -26,7 +26,7 @@ from
     ( __SNIPPET__ ) as datavalues;
 """
 
-## Taking the only SWE recorded in the day (USING local day as UTC day)
+## Taking the only windspeed recorded in the day (USING local day as UTC day)
 ## -- for:
 ## --   NCDC GHCN: VariableID = 743, SourceID = 210
 using_localdatetime = [

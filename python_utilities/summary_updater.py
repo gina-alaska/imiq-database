@@ -28,6 +28,9 @@ from check_activity import load_login
 
 ## map alternate names to names imiq uses
 map_to_canon_name = {
+    'air temperature':'airtemp',
+    'air temp':'airtemp',
+    'airtemp':'airtemp',
     'precipitation':'precip',
     'precip':'precip',
     'snow water eqivalent':'swe',
