@@ -19,7 +19,14 @@ SET search_path = tables, pg_catalog;
 --
 
 CREATE VIEW daily_rh AS
-SELECT v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, 691 AS variableid FROM (daily_rhdatavalues v JOIN sites s ON ((v.siteid = s.siteid))) WHERE ((v.datavalue > (0)::double precision) AND (v.datavalue <= (100)::double precision)) GROUP BY v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, s.sourceid;
+SELECT 
+    v.valueid, 
+    v.datavalue, 
+    v.utcdatetime, 
+    v.siteid,
+    v.originalvariableid, 
+    691 AS variableid 
+FROM (daily_rhdatavalues v JOIN sites s ON ((v.siteid = s.siteid))) WHERE ((v.datavalue > (0)::double precision) AND (v.datavalue <= (100)::double precision)) GROUP BY v.valueid, v.datavalue, v.utcdatetime, v.siteid, v.originalvariableid, s.sourceid;
 
 
 --

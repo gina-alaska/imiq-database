@@ -1,5 +1,8 @@
+## info 
+This directroy contains the files needed to update the GHCN data in imiq.
+The steps for this process are documented below
 
-files:
+## files:
 __0_README.md:
     this file
 __current_imiq_GHCN_site_list.txt:
@@ -14,14 +17,19 @@ GHCN_get_all_data.py:
     gets .dly files from source
 
 
-steps for update
+## steps for update
 1) update __current_imiq_GHCN_site_list.txt from imiq
 2) get data from GHCN (py)
    python GHCN_get_all_data.py
    
-3) create and move all .dly files to ./dly_files
+3) create ./dly_files directory and move all .dly files to ./dly_files
 
-4) create ./sql_files and ./cfg_files
+3A) convert create ./csv_files dirctory
+
+3B) run ../../Y2I/conversion_scripts/dly2timeseries.py
+    python ../../Y2I/conversion_scripts/dly2timeseries.py ./dly_files ./csv_files 
+
+4) create ./sql_files and ./cfg_files directorties 
 5) convert to sql (py)
     python all_to_sql.py
     

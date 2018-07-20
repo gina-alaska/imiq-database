@@ -1,3 +1,6 @@
+### this is a Y2I config template. argumet files contain a reference to 
+### a template file. At runtime the argumets are subsituted into the <...>
+### tokens creating a configuration that Y2I can use
 name: <out_file>
 sql comment: <name>
 mode: <mode>

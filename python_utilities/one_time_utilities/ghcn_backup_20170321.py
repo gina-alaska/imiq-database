@@ -8,6 +8,9 @@ updated: 2017-03-21
 import posthaste as ph
 import os
 
+
+### NOTE this line would need to change to have the right path to an
+### imiq login file
 s = ph.PostHaste(*ph.load_login('../../imiq-login.yaml'))
 
 
@@ -25,10 +28,13 @@ except
 select distinct(datastreamid) from tables.ghcn_backup
 """
 
+## get distinct datastreams
 datastreams_sql = """select distinct(datastreamid) from tables.ghcn_backup"""
 
+## get a given datastreams datae
 get_data_stream_sql = """select * from tables.ghcn_backup where datastreamid = DSID"""
 
+## get headers sql
 get_cols_sql = """select attname, typname 
 from pg_attribute a 
 join pg_class c on a.attrelid = c.oid 

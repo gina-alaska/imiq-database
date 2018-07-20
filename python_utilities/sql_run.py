@@ -14,7 +14,7 @@ from datetime import datetime
 
 from pandas import read_csv, DataFrame
 
-import posthaste as ph
+from utilitools import posthaste as ph
 
 def main():
     """main utility
@@ -33,7 +33,7 @@ def main():
             run
     """
     ## set up cli and get required values
-    from posthaste.clite import CLIte
+    from utilitools.clite import CLIte
     flags = CLIte(['--login','--target'],['--datavalues','--log'])
     
     login = flags['--login']

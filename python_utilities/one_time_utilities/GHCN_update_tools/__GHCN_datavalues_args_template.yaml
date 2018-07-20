@@ -1,3 +1,9 @@
+### this file is a template for an argument file, argument files contain a
+### list of values that can be subsituted into the Y2I config file, in this case
+### __GHCN_datavalues_template.yaml. 
+###
+### this file could not be used on it's own in Y2I the <SITECODE> token
+### must be replaced with a GHCN type code first.
 template: __GHCN_datavalues_template.yaml
 arguments:
 
@@ -93,20 +99,20 @@ arguments:
 
 ## "NCDC_GHCN_SNOW"
 - name: GHCN SNOW
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_SNOW
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,SNOW,SNOW_qflag]
   skip_nan: SNOW
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: float
   skip_rows: 0
   value_column: SNOW
   scaler: 1
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date
@@ -139,19 +145,19 @@ arguments:
 
 ## "NCDC_GHCN_SNOWMeasurementFlag"
 - name: GHCN SNOW MeasurementFlag
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_SNOWMeasurementFlag
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,SNOW,SNOW_qflag,SNOW_mflag]
   skip_nan: SNOW
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: str
   skip_rows: 0
   value_column: SNOW_mflag
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date
@@ -178,20 +184,20 @@ arguments:
             
 ## "NCDC_GHCN_SNWD"
 - name: GHCN SNWD
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_SNWD
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,SNWD,SNWD_qflag]
   skip_nan: SNWD
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: float
   skip_rows: 0
   value_column: SNWD
   scaler: 1
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date
@@ -224,19 +230,19 @@ arguments:
 
 ## "NCDC_GHCN_SNWDMeasurementFlag"
 - name: GHCN SNWD MeasurementFlag
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_SNWDMeasurementFlag
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,SNWD,SNWD_qflag,SNWD_mflag]
   skip_nan: SNWD
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: str
   skip_rows: 0
   value_column: SNWD_mflag
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date
@@ -265,20 +271,20 @@ arguments:
 
 ## "NCDC_GHCN_TMAX"
 - name: GHCN TMAX
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_TMAX
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,TMAX,TMAX_qflag]
   skip_nan: TMAX
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: float
   skip_rows: 0
   value_column: TMAX
   scaler: .10
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date
@@ -311,19 +317,19 @@ arguments:
 
 ## "NCDC_GHCN_TMAXMeasurementFlag"
 - name: GHCN TMAX MeasurementFlag
-  sitecode: <SITECODE>
+  sitecode: SITECODE>
   variablecode: NCDC_GHCN_TMAXMeasurementFlag
   
-  data_file: ./csv_files/<SITECODE>.csv
+  data_file: ./csv_files/SITECODE>.csv
   in_cols: [date,TMAX,TMAX_qflag,TMAX_mflag]
   skip_nan: TMAX
-  dv_source: ./csv_files/<SITECODE>.csv
+  dv_source: ./csv_files/SITECODE>.csv
   dv_type: str
   skip_rows: 0
   value_column: TMAX_mflag
   imiq_login: ../imiq-reader.yaml
   
-  out_file: ./sql_files/<SITECODE>.sql
+  out_file: ./sql_files/SITECODE>.sql
   mode: a
   
   ts: date

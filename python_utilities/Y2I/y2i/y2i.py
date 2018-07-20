@@ -12,7 +12,7 @@ change log:
 
 """
 from pandas import read_csv,concat,DataFrame,to_datetime
-import posthaste as ph
+from utilitools import posthaste as ph
 import yaml
 import os
 import sys
@@ -49,13 +49,38 @@ class Y2I (object):
     
     def __init__ (self, config_file, template_args = None):
         """Class initialiser 
+        
+        This loads the config file via 2 possible methods
+        
+        1) STANDALONE METHOD:
+            if only the first (and required) argument, config_file, is provided
+        the settings in that file are used as is to generate the insert scripts.
+        
+        2) TEMPLATE METHOD
+        if config_file, and template_args, are provided the config_file
+        is used as a template, and the arguments in template_args are used
+        to fill in the template. Because the arguments in template_args
+        are a list one config file can be written as a template in a way that 
+        allows it to be used for multiple datastrams. See the examples.
+        
+        
+        Parameters
+        ----------
+        config_file: path
+            path to configuration file, see y2i_yaml_description.
+        template_args: dictionary (optional)
+            a dictionary of 
+        
         """
         #~ print config_file
         
+
         if template_args is None:
+            ## STANDALONE METHOD
             with open(config_file, 'r') as cfg:
                 self.config = yaml.load(cfg)
         else:
+            ## TEMPLATE METHOD
             with open(config_file, 'r') as cfg:
                 text = cfg.read()
                 for arg in template_args:
@@ -100,13 +125,17 @@ class Y2I (object):
         return True, ""
         
     def load_infiles (self):
-        """Load the input files. Sets data[fame] = <file_data> for each file.
+        """Load the input CSV files. 
+        Sets data[fame] = <file_data> for each file.
         """
+        ## for each file
         for f in self.config['infiles']:
             self.data[f] = read_csv(f, 
                 skiprows = self.config['infiles'][f]['skiprows'],
                 low_memory= False)
-               
+            
+            ## Check that rquired rows exitst
+            ## TODO: possibly move before data is stored
             try:
                 if 'columns' in self.config['infiles'][f].keys():
                     self.data[f] = \
@@ -116,6 +145,9 @@ class Y2I (object):
                     str(self.config['infiles'][f]['columns'])
                 raise RuntimeError, msg
                 
+            
+            # for each row IF the value in the skipnan column is nan, 
+            # do not load the row
             try:
                 #### NOTE: create a tempfile to make sure rows are droped
                 #### probably possible as strings"
@@ -131,7 +163,6 @@ class Y2I (object):
                 except OSError:
                     pass
             except KeyError:
-                #~ print "A"
                 pass
             #~ print self.data[f].iloc[:10]
                 
@@ -143,7 +174,7 @@ class Y2I (object):
             self.length = self.config['length']['constant']
 
     def create_table (self):
-        """create a proxy the table for the database as a dataframe. Sets table.
+        """create the table for the database as a dataframe. Sets table.
         """
         ## set up rows for table
         self.table = DataFrame(index = range(self.length))
@@ -159,6 +190,8 @@ class Y2I (object):
             if col['source'] == "imiq":
                 ## Source is on imiq, so get info from database
                 # TODO: add statement for choosing functions.
+                self.imiq_login = col['imiq_login']
+                ## TODO implment function feature
                 siteid = get_datastreamid(col['sitecode'],
                                           col['variablecode'],
                                           col['imiq_login'])
@@ -205,23 +238,6 @@ class Y2I (object):
                     dt = col['dtype']
                     values = self.data[col['source']][col['value']]
                     
-                    ## REPLACE feature:
-                    # TODO: remove, use special conditions instead -------------
-                    try:
-                        if not col['replace'] is None:
-                            warnings.filterwarnings("ignore")
-                            #~ for col['replace'].keys():
-                            reps = list( set(col['replace'].keys()) -\
-                                            set(['default']))
-                            values[values.isin(reps) == False] = \
-                                                col['replace']['default']
-                            for k in reps:
-                                values[values == k] = col['replace'][k]
-                    except KeyError as e:
-                        pass
-                    warnings.filterwarnings("default")
-                    #-----------------------------------------------------------
-                    
                     ## Xonvert ot type
                     values = values.astype(dt)
                     ## Cpply scalers
@@ -250,7 +266,6 @@ class Y2I (object):
 
 
         ## Special conditions to repalce values
-        
         if 'special conditions' in self.config.keys():
             warnings.filterwarnings("ignore")
             conditions = self.config['special conditions']
@@ -272,8 +287,16 @@ class Y2I (object):
             warnings.filterwarnings("default")
         
     
-    def to_string (self):
+    def to_string (self, new_only = True):
         """
+        Convert table to string insert statment.
+        
+        Parameters
+        ----------
+        new_only: bool
+            only generate insert scripts for timestamps that is not currently 
+        in imiq for the datastream
+        
         Returns
         -------
             the insert sql statement as a string
@@ -284,10 +307,20 @@ class Y2I (object):
         string = "INSERT INTO " + self.config['schema'] + '.' + \
                     self.config['table'] + \
                     ' ' + str(tuple(self.columns)).replace("'","") + ' VALUES\n' 
+        init_str = string 
         #~ print table[:10]
+        #~ col= self.config
+        dsid = self.table['DatastreamID'].values[0]
+        timestamps_present = \
+            get_current_datastream_timestamps(dsid,self.imiq_login)
         for row in table:
-            #~ print row
-            #~ break
+            if new_only:
+                #~ if not(row[1] > ld):
+                    #~ continue
+                if row[1] in  to_datetime(ld):
+                    continue
+                
+            
             row = str(row)
             row = '(' + row[1:-1] + ')'
             while row.find("Timestamp(") != -1:
@@ -300,7 +333,9 @@ class Y2I (object):
                 #~ row = row[:row.find("Timestamp")+len("Timestamp")]
             string += self.tab + row + ',\n'
             
-            
+        if string == init_str:
+            return ''
+        
         if row.find('NaT') != -1:
             print "An invalid time was located.'\
                     ' Please search on 'Nat' to locate"
@@ -321,8 +356,12 @@ class Y2I (object):
             mode = self.config['mode']
         except KeyError:
             mode = 'w'
+        s = self.to_string()
+        if s == '':
+            print "no new data not writing"
+            return
         with open(self.config['name'], mode) as sql:
-            sql.write(self.to_string()+'\n')
+            sql.write(s+'\n')
             
     def generate_sql (self):
         """Create the table and generate the sql file
@@ -332,6 +371,16 @@ class Y2I (object):
         
 def get_datastreamid(sitecode, varcode, creds):
     """Get datastreamid from imiq
+    
+    Parameters
+    ----------
+    sitecode: str
+        the sitecode for an imiq site
+    varcode: str
+        the varcode for an imiq variable
+    creds: dict
+        imiq database credentials 
+    
     """
     s = ph.PostHaste(*ph.load_login(creds))
     s.sql = """select datastreamid from tables.datastreams 
@@ -348,6 +397,29 @@ def get_datastreamid(sitecode, varcode, creds):
     except IndexError:
         raise RuntimeError, "Datastreamid not found for: " + str(sitecode) + ' & ' + str(varcode)
         
+#~ def get_last_date(dsid, creds):
+    #~ s = ph.PostHaste(*ph.load_login(creds))
+    #~ s.sql = """select max(localdatetime) from tables.datavalues where datastreamid = DSID"""
+    #~ s.sql =  s.sql.replace('DSID', str(dsid))
+    #~ s.run()
+    #~ return s.data().values[0][0] 
+    
+def get_current_datastream_timestamps(dsid, creds):
+    """Get the timestamps for a datastream that is currently in imiq, as a list. 
+    
+    Parameters
+    ----------
+    disd: int
+        datastreamid in imiq 
+    creds:
+        imiq login credentials
+    """
+    s = ph.PostHaste(*ph.load_login(creds))
+    s.sql = """select localdatetime from tables.datavalues where datastreamid = DSID"""
+    s.sql =  s.sql.replace('DSID', str(dsid))
+    s.run()
+    #~ print s.data().T.values[0]
+    return s.data().T.values[0]
 
 def test():
     """test utility
@@ -356,6 +428,13 @@ def test():
     converter.generate_sql()
     
 def utility (script):
+    """Function called by commandline utility to create insert scripts
+    
+    Parameters
+    ----------
+    script:
+        input script file
+    """
     try:
         ## config is argument/template type
         setup = script
