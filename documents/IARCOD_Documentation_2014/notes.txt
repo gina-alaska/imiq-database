@@ -1,8 +1,0 @@
-Directories:
-  report:  The SQL used to determine which sites most likely had cumulative precipitation or other daily total precipitation errors
-  sql: SQL for seriescatalog, add dates to datastreams,etc
-  views_sql:  SQL to create the sql server views
-  usp: user stored procedures.  Used to create the summaries.
-  relhumidity:  SQL and pig used to create the daily and hourly relative humidity
-  summary_sql: SQL used to create/insert into summary tables.
-
