@@ -1,0 +1,12 @@
+type: webservice
+url_base: http://waterservices.usgs.gov/nwis/iv/?
+default_parameters:
+    format: json
+    startDT: 2018-07-03
+    endDT: 2018-07-17
+    parameterCd: 00060,00065
+    siteStatus: all
+sties:
+    - list of site ids
+
+  

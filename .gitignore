@@ -1,5 +1,5 @@
 *.pyc
 *.DS_Store
-python_utilities/core/build
-python_utilities/core/dist
+python/core/build
+python/core/dist
 *.egg-info*
