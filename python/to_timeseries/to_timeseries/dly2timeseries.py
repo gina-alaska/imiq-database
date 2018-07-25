@@ -156,16 +156,16 @@ def convert (in_file, out_file = None):
     
 #~ convert('USW00026617.dly.txt')
 
-import sys
-def main():
-    dly_dir = sys.argv[1]
-    out_dir = sys.argv[2]
+#~ import sys
+#~ def main():
+    #~ dly_dir = sys.argv[1]
+    #~ out_dir = sys.argv[2]
     
-    for dly in [f for f in os.listdir(dly_dir) if f.find('.dly') != -1]:
-        print dly
-        out_file = os.path.join(out_dir,dly.split('.')[0] + '.csv')
-        convert(os.path.join(dly_dir,dly),out_file)
+    #~ for dly in [f for f in os.listdir(dly_dir) if f.find('.dly') != -1]:
+        #~ print dly
+        #~ out_file = os.path.join(out_dir,dly.split('.')[0] + '.csv')
+        #~ convert(os.path.join(dly_dir,dly),out_file)
 
-if __name__ == "__main__":
-    main()
+#~ if __name__ == "__main__":
+    #~ main()
         

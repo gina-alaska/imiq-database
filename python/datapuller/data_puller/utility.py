@@ -9,10 +9,7 @@ Utility for the data_puller
 import pull_ftp
 import yaml
 
-try:
-    from utilitools import clite
-except:
-    from posthaste import clite
+from utilitools import clite
 import os
 
 class DataPullerConfigError(Exception):
