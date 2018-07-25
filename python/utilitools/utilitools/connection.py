@@ -1,11 +1,30 @@
+"""
+Connection
+----------
+
+    This calss creates a connection to a postgress database. A wrapper to 
+psycopg2
+
+Rawser Spicer
+version: 1.0.0
+Split from imiq-database python utilities: 2017-08-18
+
+
+"""
 import psycopg2
 import datetime 
 import gc
 import select
 
 def wait(conn):
-    """
-    from psycopg2 docs http://initd.org/psycopg/docs/advanced.html#asynchronous-support
+    """from psycopg2 docs 
+    http://initd.org/psycopg/docs/advanced.html#asynchronous-support
+    function in order to carry on asynchronous operations
+    
+    Parameters
+    ----------
+    conn: psycopg2.connection
+        a psycopg2 object
     """
     while 1:
         state = conn.poll()
@@ -16,24 +35,39 @@ def wait(conn):
         elif state == psycopg2.extensions.POLL_READ:
             select.select([conn.fileno()], [], [])
         else:
-            raise psycopg2.OperationalError("poll() returned %s" % state)
+            raise psycopg2.OperationalError(
+                "poll() returned %s" % state
+            )
 
 class Connection(object):
-    """ 
-    This calss creates a connection to the imiq_staging database
-        
-    terms:
-        connections will refer to self.conn and self.cur 
+    """This calss creates a connection to a postgress database
     """
     
     def __init__ (self, database, host, user, password, async = False):
-        """ 
-        Class initializer. sets up the connection to the database
+        """This calss creates a connection to a postgress database.
         
-        Preconditions: 
-            user is a user on the database, with password being their password.
-        Postconditions:
-            a connection to the database is open. 
+        Paramertes
+        ----------
+        database: str
+            name of database to connect to
+        host: str
+            hostname of database server
+        user: str
+            a user on the database
+        password: str
+            password for user
+        async: Bool
+            use asynchronous operations
+            
+        Attributes
+        ----------
+        async : bool
+            indicates if asynchronous operations are used
+        conn: psycopg2.connection
+            the connection to the database
+        cur: psycopg2.cursor
+            cursor object bound to conn that allows operation in 
+        database
         """
         gc.enable()
         self.async = async
@@ -56,30 +90,23 @@ class Connection(object):
 
 
     def __del__ (self):
-        """ 
-        Closes the connection to the database. 
-        
-        Preconditions:
-            self.cur and self.conn should be open
-        Postconditions;
-            self.cur and self.conn should be closed.
+        """ Closes the connection to the database. 
         """
         self.cur.close()
         self.conn.close()
         #~ print "connection closed"
 
     def execute (self, sql, args = None):
-        """
-        executes a sql command on the server
+        """Executes a sql command on the server
         
-        Pre:
-            The Connections(self.cur & self.conn) should be open. Sql should be a 
-        valid sql(the postgres version) statement, with %s as place holder for 
-        arguments. Args should have a length that is equal to the number of %s
-        placeholders. 
-        
-        Post:
-            The results of the query will be in self.cur.
+        Prameters
+        ---------
+        sql: str
+            a sql snippet or script
+        args: list or dict
+            variables to be substutued into sql snippet. %s is uesd for lists 
+        where variables are substiuted positionally. %(name)s is used for 
+        dictioarys where kes should corospond with name
         """
         if args is None:
             self.cur.execute(sql)
@@ -91,13 +118,11 @@ class Connection(object):
         gc.collect()
         
     def fetch (self):
-        """
-        returns all of the results from cursor
+        """returns all of the results from cursor
             
-        Pre:
-            Connections should be open.
-        Post:
-            a list is returned & self.cur will be free of results.
+        Returns
+        -------
+        list of rusults from cursor
         """
         try:
             return self.cur.fetchall()
@@ -105,13 +130,7 @@ class Connection(object):
             return []
         
     def commit (self):
-        """
-        commits updates to the database.
-        
-        Pre:
-            connections should be open
-        Post:
-            The database changes are saved in the database
+        """commits updates to the database.
         """
         self.conn.commit()
         

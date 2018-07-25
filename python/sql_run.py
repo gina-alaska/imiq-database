@@ -14,8 +14,6 @@ from datetime import datetime
 
 from pandas import read_csv, DataFrame
 
-from utilitools import posthaste as ph
-
 def main():
     """main utility
     
