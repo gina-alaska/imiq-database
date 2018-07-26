@@ -79,7 +79,13 @@ class CLIte (object):
         if len(types) != 0:
             for flag in types:
                 try:
-                    self.args[flag] = types[flag]( self.args[flag] )
+                    if types[flag] is bool:
+                        if self.args[flag].lower() in ['t','true']:
+                            self.args[flag] = True
+                        else:
+                            self.args[flag] = False
+                    else:
+                        self.args[flag] = types[flag]( self.args[flag] )
                 except ValueError:
                     msg = 'Type of argument ' + flag + \
                         ' must be ' + str(types[flag]) + '.'

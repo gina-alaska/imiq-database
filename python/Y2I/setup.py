@@ -18,7 +18,7 @@ config = {
     'version': y2i.__version__,
     'install_requires': ['psycopg2','pandas',],
     'packages': ['y2i'],
-    'scripts': [],
+    'scripts': ['bin/y2i'],
     'name': 'y2i'
 }
 

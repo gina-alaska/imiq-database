@@ -122,7 +122,7 @@ class PostHaste (object):
         rows = [r.strip().replace(')','').replace('(','') for r in \
                                     select.split('select')[1].split(',')]
         
-        print rows
+        #~ print rows
         if len(rows) != 1 and '*' in rows:
             return 'UNPARSEABLE', []
         elif len(rows) == 1 and '*' in rows:

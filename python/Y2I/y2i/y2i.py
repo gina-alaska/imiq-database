@@ -13,6 +13,7 @@ change log:
 """
 from pandas import read_csv,concat,DataFrame,to_datetime
 from utilitools import posthaste as ph
+from utilitools import clite
 import yaml
 import os
 import sys
@@ -107,7 +108,12 @@ class Y2I (object):
         
         self.table = DataFrame([])
         self.tab = '    '
-
+        
+        try:
+            self.new_data_only = self.config['only_add_new_data']
+        except KeyError:
+            self.new_data_only = True
+        print self.new_data_only, type(self.new_data_only)
             
     def validate_config (self):
         """TODO: This should validate the config file """
@@ -173,7 +179,7 @@ class Y2I (object):
         else: 
             self.length = self.config['length']['constant']
 
-    def create_table (self):
+    def create_table (self, login=None):
         """create the table for the database as a dataframe. Sets table.
         """
         ## set up rows for table
@@ -190,7 +196,8 @@ class Y2I (object):
             if col['source'] == "imiq":
                 ## Source is on imiq, so get info from database
                 # TODO: add statement for choosing functions.
-                self.imiq_login = col['imiq_login']
+                #~ self.imiq_login = col['imiq_login']
+                self.imiq_login = login
                 ## TODO implment function feature
                 siteid = get_datastreamid(col['sitecode'],
                                           col['variablecode'],
@@ -287,15 +294,13 @@ class Y2I (object):
             warnings.filterwarnings("default")
         
     
-    def to_string (self, new_only = True):
+    def to_string (self, echo = False):
         """
         Convert table to string insert statment.
         
         Parameters
         ----------
-        new_only: bool
-            only generate insert scripts for timestamps that is not currently 
-        in imiq for the datastream
+        echo: bool
         
         Returns
         -------
@@ -310,15 +315,28 @@ class Y2I (object):
         init_str = string 
         #~ print table[:10]
         #~ col= self.config
-        dsid = self.table['DatastreamID'].values[0]
-        timestamps_present = \
-            get_current_datastream_timestamps(dsid,self.imiq_login)
+        dates_present_in_db = True
+        if self.new_data_only:
+            try:
+                dsid = self.table['DatastreamID'].values[0]
+                timestamps_present = \
+                    to_datetime(
+                        get_current_datastream_timestamps(dsid,self.imiq_login)
+                    )
+            except KeyError:
+                dates_present_in_db = False
+                
+        #~ print timestamps_present
         for row in table:
-            if new_only:
+            #~ print row
+            if self.new_data_only and  dates_present_in_db:
                 #~ if not(row[1] > ld):
                     #~ continue
-                if row[1] in  to_datetime(ld):
+                if row[1] in  timestamps_present:
                     continue
+            if echo:
+                print 'Adding row to sql:'
+                print '   ', row
                 
             
             row = str(row)
@@ -337,7 +355,8 @@ class Y2I (object):
             return ''
         
         if row.find('NaT') != -1:
-            print "An invalid time was located.'\
+            if echo:
+                print "    An invalid time was located.'\
                     ' Please search on 'Nat' to locate"
             
         if 'sql comment' in self.config.keys():
@@ -349,25 +368,27 @@ class Y2I (object):
         # replace null values
         return string.replace("'None'","NULL").replace("'NULL'","NULL")
 
-    def save_sql (self):
+    def save_sql (self, echo = False):
         """Saves sql file as out file described in config
         """
+
         try:
             mode = self.config['mode']
         except KeyError:
             mode = 'w'
-        s = self.to_string()
+        s = self.to_string(echo)
         if s == '':
-            print "no new data not writing"
+            if echo:
+                print "No new data not writing to sql."
             return
         with open(self.config['name'], mode) as sql:
             sql.write(s+'\n')
             
-    def generate_sql (self):
+    def generate_sql (self, login=None, echo = False):
         """Create the table and generate the sql file
         """
-        self.create_table()
-        self.save_sql()
+        self.create_table(login)
+        self.save_sql(echo)
         
 def get_datastreamid(sitecode, varcode, creds):
     """Get datastreamid from imiq
@@ -427,7 +448,7 @@ def test():
     converter = Y2I('example.yaml')
     converter.generate_sql()
     
-def utility (script):
+def main (script, login, echo):
     """Function called by commandline utility to create insert scripts
     
     Parameters
@@ -441,38 +462,66 @@ def utility (script):
         with open(setup, 'r') as s:
             setup = yaml.load(s)
         for i in range(len(setup['arguments'])):
-            try:
-                print setup['arguments'][i]['name']
-            except KeyError:
-                print "No Name"
+            if echo:
+                try:
+                    print setup['arguments'][i]['name']
+                except KeyError:
+                    print "No Name"
             try:
             #~ print  setup['arguments'][i]['value_column']
                 converter = Y2I(setup['template'], setup['arguments'][i])
             #~ print converter.config
             
-                converter.generate_sql()
+                converter.generate_sql(login, echo)
             except RuntimeError as e:
-                print e
-                print " -- no sql generated"
+                if echo:
+                    print e
+                    print " -- no sql generated"
                 continue
     except KeyError as e:
-        print e
+        if echo:
+            print 'Standalone Config Used'
         ## config is plain config type 
         converter = Y2I(script)
-        converter.generate_sql()
+        converter.generate_sql(login, echo)
     #~ print "\n\n"
     
-def main ():
-    """main utility function.
+#~ def  ():
+    #~ """ Function doc """
     
-    python y2i.py <config.yaml>
+
     
-    config.yaml may be a yaml config file or a yaml describing a template file
-    """
-    #~ print sys.argv[1:]
-    utility(sys.argv[1])
+UTILITY_HELP_STR = """
+converts csv files to sql insert scripts
+
+Use
+---
     
-if __name__ == "__main__":
-    main()
+    
+Flags
+-----
+
+--echo: bool
+    if true the utility will print messages to prompt
+
+"""
+ 
+def utility ():
+    """ Function doc """
+    try:
+        arguments = clite.CLIte(
+            ['--config',],
+            ['--echo','--login'],
+            types = {'--config':str, '--echo':bool, '--login':str}
+        )
+    except (clite.CLIteHelpRequestedError, clite.CLIteMandatoryError):
+        print UTILITY_HELP_STR
+        return
+     
+    echo = arguments['--echo'] if (not arguments['--echo'] is None) else False
+    login = arguments['--login'] if (not arguments['--login'] is None) else None        
+    main(arguments['--config'], login, echo)
+    
     
         
+
