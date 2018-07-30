@@ -1,3 +1,4 @@
 ## [2.0.0] - 2018-07-24
 -- Moves old 'version 1' stuff to archive
 -- Adds utility 'version 1.0.0' for data-puller
+-- Adds a new utility version of y2i
