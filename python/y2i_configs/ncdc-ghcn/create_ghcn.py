@@ -15,8 +15,11 @@ sc_list_file = sys.argv[1]
 ## template file, use __GHCN_datavalues_args_template.yaml
 template_file = sys.argv[2]
 
+## working dir #path to where files are
+working_dir = sys.argv[3]
+
 ## directory to write to
-config_dir = sys.argv[3]
+config_dir = sys.argv[4]
 
 
 with open(sc_list_file, 'r') as scl:
@@ -28,7 +31,9 @@ for site in sc_list:
     with open(template_file, 'r') as arg_temp:
         for i in range(6):
             arg_temp.readline()
-        text = arg_temp.read().replace("<SITECODE>", site)
+        text = arg_temp.read().replace("<SITECODE>", site).replace(
+            "<root_path>", working_dir
+        )
 
     comment = "#Y2I argument file for GHCN site " + site + "\n"
 
