@@ -4,7 +4,9 @@
 ###
 ### this file could not be used on it's own in Y2I the <SITECODE> token
 ### must be replaced with a GHCN type code first.
-template: __GHCN_datavalues_template.yaml
+
+## this path is spesific to the vm the processing is running on
+template: imiq-database/python/y2i_configs/ncdc-ghcn/__GHCN_datavalues_template.yaml
 arguments:
 
 ## "NCDC_GHCN_PRCP"
