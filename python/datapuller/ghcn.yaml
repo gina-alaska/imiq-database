@@ -2,7 +2,7 @@ type: ftp
 url_base: ftp.ncdc.noaa.gov
 cwd: /pub/data/ghcn/daily/all     
 files: 
-CA002100660
+  - CA002100660
   - CA002100697
   - CA002100950
   - CA002202578
