@@ -17,7 +17,7 @@ arguments:
   skip_rows: 0
   value_column: PRCP
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: w
@@ -64,7 +64,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: PRCP_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -107,7 +107,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -152,7 +152,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: SNOW_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -192,7 +192,7 @@ arguments:
   skip_rows: 0
   value_column: SNWD
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -237,7 +237,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: SNWD_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -279,7 +279,7 @@ arguments:
   skip_rows: 0
   value_column: TMAX
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -324,7 +324,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: TMAX_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -367,7 +367,7 @@ arguments:
   skip_rows: 0
   value_column: TMIN
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -412,7 +412,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: TMIN_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -457,7 +457,7 @@ arguments:
   skip_rows: 0
   value_column: AWND
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -502,7 +502,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: AWND_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -548,7 +548,7 @@ arguments:
   skip_rows: 0
   value_column: WESF
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -593,7 +593,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: WESF_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -641,7 +641,7 @@ arguments:
   skip_rows: 0
   value_column: WDFG
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -686,7 +686,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: WDFG_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -726,7 +726,7 @@ arguments:
   skip_rows: 0
   value_column: WSFG
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -771,7 +771,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: WSFG_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -814,7 +814,7 @@ arguments:
   skip_rows: 0
   value_column: WESD
   scaler: .10
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
@@ -859,7 +859,7 @@ arguments:
   dv_type: str
   skip_rows: 0
   value_column: WESD_mflag
-  imiq_login: /var/imiq/inputprocessing/login.yaml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/input/ghcn/USC00503368.sql
   mode: a
