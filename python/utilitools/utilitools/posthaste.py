@@ -246,6 +246,8 @@ def utility():
     except ValueError:
         #no schema defined in script
         dataframe = PH.as_DataFrame()
+    except IndexError:
+        dataframe = 'None'
     
     print dataframe
     
