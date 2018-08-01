@@ -1,7 +1,7 @@
 type: ftp
 url_base: ftp.ncdc.noaa.gov
 cwd: /pub/data/ghcn/daily/all     
-files: .dly
+files:
   - CA002100660.dly
   - CA002100697.dly
   - CA002100950.dly
