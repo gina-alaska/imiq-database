@@ -1,7 +1,7 @@
 #Y2I argument file for GHCN site USC00508615
 
 ## this path is spesific to the vm the processing is running on
-template: imiq-database/python/y2i_configs/ncdc-ghcn/__GHCN_datavalues_template.yaml
+template: imiq-database/python/y2i_configs/ghcn/__GHCN_datavalues_template.yaml
 arguments:
 
 ## "NCDC_GHCN_PRCP"
