@@ -325,7 +325,7 @@ def summary_updater (login, variable, sources):
 def main ():
     """interface to cli
     """
-    from posthaste.clite import CLIte
+    from utilitools.clite import CLIte
     flags = CLIte(['--login','--variable','--sourceids'], ['--email',])
         
     srcids = return_list(flags['--sourceids'], int)
