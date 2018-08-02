@@ -5,7 +5,10 @@ rawser spicer
 
 ISH FILE FOMATS HAVE NO extention
 
-V1.0.0
+V1.1.0 
+
+Changes
+V1.1.0: filter out last 3 months
 """
 from pandas import DataFrame
 from datetime import datetime

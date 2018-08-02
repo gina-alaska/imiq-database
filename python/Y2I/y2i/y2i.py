@@ -354,7 +354,7 @@ class Y2I (object):
         if string == init_str:
             return ''
         
-        if row.find('NaT') != -1:
+        if str(row).find('NaT') != -1:
             if echo:
                 print "    An invalid time was located.'\
                     ' Please search on 'Nat' to locate"
