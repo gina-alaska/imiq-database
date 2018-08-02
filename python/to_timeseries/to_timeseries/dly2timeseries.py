@@ -9,7 +9,7 @@ see GHCN_readme.txt for original file foramth info
 V1.0.0
 """
 from pandas import DataFrame
-from datetime import date
+from datetime import date, timedelta
 import os
 
 
@@ -148,6 +148,18 @@ def convert (in_file, out_file = None):
     if out_file is None:
         pth, f = os.path.split(in_file)
         out_file = os.path.join(pth,f.split('.')[0] + '.csv')
+    
+    
+    ## filter out data for last 3 months
+    last =  data['date'].max()
+    year = last.year
+    month = last.month - 2
+    day = 1
+    year = year if month > 0 else year - 1
+    month = month if month > 0 else month + 12 
+    data = data[ data['date'] <  date(year,month,day) ] 
+    
+    
     data[cols].to_csv(out_file,index=False)
     
     
