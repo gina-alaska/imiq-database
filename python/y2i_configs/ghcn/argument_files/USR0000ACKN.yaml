@@ -19,7 +19,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: w
   
   ts: date
@@ -66,7 +66,7 @@ arguments:
   value_column: PRCP_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -109,7 +109,7 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -154,7 +154,7 @@ arguments:
   value_column: SNOW_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -194,7 +194,7 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -239,7 +239,7 @@ arguments:
   value_column: SNWD_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -281,7 +281,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -326,7 +326,7 @@ arguments:
   value_column: TMAX_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -369,7 +369,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -414,7 +414,7 @@ arguments:
   value_column: TMIN_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -459,7 +459,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -504,7 +504,7 @@ arguments:
   value_column: AWND_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -550,7 +550,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -595,7 +595,7 @@ arguments:
   value_column: WESF_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -643,7 +643,7 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -688,7 +688,7 @@ arguments:
   value_column: WDFG_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -728,7 +728,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -773,7 +773,7 @@ arguments:
   value_column: WSFG_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -816,7 +816,7 @@ arguments:
   scaler: .10
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date
@@ -861,7 +861,7 @@ arguments:
   value_column: WESD_mflag
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/input/ghcn/USR0000ACKN.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ghcn/USR0000ACKN.sql
   mode: a
   
   ts: date

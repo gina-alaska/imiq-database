@@ -24,7 +24,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: w
   
   ts: date
@@ -71,7 +71,7 @@ arguments:
   value_column: PRCP_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -114,7 +114,7 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -159,7 +159,7 @@ arguments:
   value_column: SNOW_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -199,7 +199,7 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -244,7 +244,7 @@ arguments:
   value_column: SNWD_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -286,7 +286,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -331,7 +331,7 @@ arguments:
   value_column: TMAX_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -374,7 +374,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -419,7 +419,7 @@ arguments:
   value_column: TMIN_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -464,7 +464,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -509,7 +509,7 @@ arguments:
   value_column: AWND_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -555,7 +555,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -600,7 +600,7 @@ arguments:
   value_column: WESF_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -648,7 +648,7 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -693,7 +693,7 @@ arguments:
   value_column: WDFG_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -733,7 +733,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -778,7 +778,7 @@ arguments:
   value_column: WSFG_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -821,7 +821,7 @@ arguments:
   scaler: .10
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
@@ -866,7 +866,7 @@ arguments:
   value_column: WESD_mflag
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/input/ghcn/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ghcn/<SITECODE>.sql
   mode: a
   
   ts: date
