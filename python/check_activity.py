@@ -2,7 +2,7 @@
 """
 checks activity on imiq database
 """
-from utiltools.posthaste import PostHaste
+from utilitools.posthaste import PostHaste
 import yaml
 import os, sys
 
