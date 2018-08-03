@@ -2,7 +2,7 @@
 setup script
 """
 
-from setuptools import setup,find_packages()
+from setuptools import setup,find_packages
 
 
 import to_timeseries as mod
