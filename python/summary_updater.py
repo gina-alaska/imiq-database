@@ -318,6 +318,8 @@ def summary_updater (login, variable, sources):
     update.update_all('daily')
     update.refresh('daily+')
     
+    update.refresh_summary_tables(['metrics'])
+    
     update.log.append("Total runtime: " + str(datetime.now() - start))
     print update.log[-1]
                 
