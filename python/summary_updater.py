@@ -22,7 +22,7 @@ from importlib import import_module
 #~ import psycopg2
 
 from utilitools.posthaste import PostHaste
-from  utilitools.courrier import send_alert
+#~ from  utilitools.courrier import courrier
 from check_activity import load_login
 
 
