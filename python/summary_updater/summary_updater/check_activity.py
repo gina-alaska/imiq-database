@@ -23,8 +23,31 @@ def load_login (fname):
     return login['host'], login['database'], login['user'], login['password']
     
 
+def main ():
+    """a utility for checking activity on imiq
+    
+    Usage
+    -----
+    run-sql <login info file>
+    """
+    try:
+        login = sys.argv[1]
+        host, db, user, pswd = load_login(login)
+    except IndexError:
+        login = '--help'
+    except IOError:
+        print "Login file not found"
+        return
+   
+    if login == '--help':
+        print main.__doc__
+        return
+    
+    print check_activity(host, db, user, pswd)
+
+    
+
 # run util
 if __name__ == "__main__":
-    login = sys.argv[1]
-    host, db, user, pswd = load_login(login)
-    print check_activity(host, db, user, pswd)
+    main()
+    

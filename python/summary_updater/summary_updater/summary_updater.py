@@ -317,21 +317,46 @@ def summary_updater (login, variable, sources):
     
     update.update_all('daily')
     update.refresh('daily+')
-    
-    update.refresh_summary_tables(['metrics'])
-    
+        
     update.log.append("Total runtime: " + str(datetime.now() - start))
     print update.log[-1]
                 
 
 def main ():
-    """interface to cli
+    """Utility to refresh imiq summaries
+    
+    Will update all listed summary varibles for all sources provided
+    
+    Usage
+    -----
+    summary-updater --login=<login info file> 
+        --variable=<comma sepperated of variables>
+        --sourceids=<comma sepperated of sourceids>
+        
+    Variables supported:
+        airtemp
+        precip
+        snowdepth
+        swe
+        windspeed
+    
+    Common Sources:
+        GHCN = 210
     """
     from utilitools.clite import CLIte
-    flags = CLIte(['--login','--variable','--sourceids'], ['--email',])
+    from utilitools.clite import CLIteHelpRequestedError, CLIteMandatoryError
+    
+    try:
+        flags = CLIte(['--login','--variable','--sourceids'], ['--email',])
+    except (CLIteHelpRequestedError, CLIteMandatoryError): 
+        print main.__doc__
+        return
         
     srcids = return_list(flags['--sourceids'], int)
-    summary_updater(flags['--login'], flags['--variable'], srcids)
+    variables = return_list(flags['--variable'], int)
+    
+    for variable in variables:
+        summary_updater(flags['--login'], variable , srcids)
         
     
     ## TODO: add back email feature

@@ -14,12 +14,26 @@ from datetime import datetime
 
 from pandas import read_csv, DataFrame
 
+def update_mat_views():
+    s.sql = "REFRESH MATERIALIZED VIEW tables.datavaluesaggregate;"
+    print s.sql 
+    s.run_async()
+    s.sql = "REFRESH MATERIALIZED VIEW tables.boundarycatalog;"
+    print s.sql 
+    s.run_async()
+    s.sql = "REFRESH MATERIALIZED VIEW tables.seriescatalog;"
+    print s.sql 
+    s.run_async()
+    s.sql = "REFRESH MATERIALIZED VIEW tables.metrics;"
+    print s.sql 
+    s.run_async()
+
 def main():
-    """main utility
+    """a utility for running a sql script or directory of sql scripts
     
     Usage
     -----
-    python sql_run.py --login=<login info file> --target=<file or direcrory>
+    run-sql --login=<login info file> --target=<file or direcrory>
     
     optional flags:
         --datavalues=<True|False>: A value of True will force a refresh of 
@@ -32,7 +46,13 @@ def main():
     """
     ## set up cli and get required values
     from utilitools.clite import CLIte
-    flags = CLIte(['--login','--target'],['--datavalues','--log'])
+    from utilitools.clite import CLIteHelpRequestedError, CLIteMandatoryError
+    
+    try:
+        flags = CLIte(['--login','--target'],['--datavalues','--log'])
+    except (CLIteHelpRequestedError, CLIteMandatoryError): 
+        print main.__doc__
+        return
     
     login = flags['--login']
     target = flags['--target']
@@ -84,18 +104,5 @@ def main():
         update_to_datavalues = False
         
     if update_to_datavalues:
-        s.sql = "REFRESH MATERIALIZED VIEW tables.datavaluesaggregate;"
-        print s.sql 
-        s.run_async()
-        s.sql = "REFRESH MATERIALIZED VIEW tables.boundarycatalog;"
-        print s.sql 
-        s.run_async()
-        s.sql = "REFRESH MATERIALIZED VIEW tables.seriescatalog;"
-        print s.sql 
-        s.run_async()
-        s.sql = "REFRESH MATERIALIZED VIEW tables.metrics;"
-        print s.sql 
-        s.run_async()
-
-
-main()
+        update_mat_views()
+        
