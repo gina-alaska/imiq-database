@@ -13,6 +13,7 @@ import sys
 from datetime import datetime
 
 from pandas import read_csv, DataFrame
+from utilitools import posthaste as ph
 
 def update_mat_views(login):
     s = ph.PostHaste(*ph.load_login(login), dry_run=False)
