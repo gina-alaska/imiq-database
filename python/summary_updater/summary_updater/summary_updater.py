@@ -77,7 +77,7 @@ class UpdateSummary (object):
         -------
         the module with the snippets
         """
-        return import_module("summary_updater_snippets."+self.var)
+        return import_module("summary_updater.summary_updater_snippets."+self.var)
               
     def count_source (self, sourceid, time_frame):
         """count a sources datavalues for a time frame
