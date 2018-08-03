@@ -21,8 +21,8 @@ from importlib import import_module
 
 #~ import psycopg2
 
-from posthaste import PostHaste
-from posthaste.email_alert import send_alert
+from utilitools.posthaste import PostHaste
+from  utilitools.courrier import send_alert
 from check_activity import load_login
 
 
