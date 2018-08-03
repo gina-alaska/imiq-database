@@ -9,9 +9,9 @@ import os, sys
 
 def check_activity (host, db, user, pswd):
     """ execute the check activity script"""
-    sql = os.path.join('sql', 'check_activity.sql')
+    #~ sql = os.path.join('sql', 'check_activity.sql')
     activity = PostHaste(host,db,user,pswd)
-    activity.open(sql)
+    activity.sql = 'SELECT * FROM pg_stat_activity'
     activity.run()
     return activity.as_DataFrame()
 
