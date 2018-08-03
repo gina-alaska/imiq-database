@@ -353,7 +353,7 @@ def main ():
         return
         
     srcids = return_list(flags['--sourceids'], int)
-    variables = return_list(flags['--variable'], int)
+    variables = return_list(flags['--variable'], str)
     
     for variable in variables:
         summary_updater(flags['--login'], variable , srcids)
