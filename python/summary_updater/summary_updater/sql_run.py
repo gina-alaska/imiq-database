@@ -14,7 +14,8 @@ from datetime import datetime
 
 from pandas import read_csv, DataFrame
 
-def update_mat_views():
+def update_mat_views(login):
+    s = ph.PostHaste(*ph.load_login(login), dry_run=False)
     s.sql = "REFRESH MATERIALIZED VIEW tables.datavaluesaggregate;"
     print s.sql 
     s.run_async()
@@ -104,5 +105,5 @@ def main():
         update_to_datavalues = False
         
     if update_to_datavalues:
-        update_mat_views()
+        update_mat_views(login)
         
