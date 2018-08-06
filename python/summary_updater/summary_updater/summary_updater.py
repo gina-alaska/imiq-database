@@ -39,6 +39,10 @@ map_to_canon_name = {
     'swe':'swe',
     'windspeed': 'windspeed',
     'wind speed': 'windspeed',
+    'winddirection': 'winddir',
+    'winddir': 'winddir',
+    'wind direction': 'windsdir',
+    'wind dir': 'windsdir',
 }
 
 class SummaryError(Exception):
