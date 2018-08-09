@@ -18,7 +18,7 @@
 set -e 
 
 ## echo lines run
-#~ set -x 
+set -x 
 
 ## Variables
 
@@ -51,18 +51,32 @@ TEMP_PROD_BACKUP="imiq_production_backup_$DATE"
 ### Replaces <sourcs> and <dest>
 MOVE_TO_BACKUP="${MOVE_DB_SQL/<source>/$PROD}"
 MOVE_TO_BACKUP="${MOVE_TO_BACKUP/<dest>/$TEMP_PROD_BACKUP}"
+
+## Terminate active connections before renames
+TERM_CON="SELECT pg_terminate_backend(pid) FROM <table> WHERE datname = '<db>';"
+TERM_CON="${TERM_CON/<table>/pg_stat_activity}"
+
+TEMR_PROD="${TERM_CON/<db>/$PROD}"
+psql postgres -c "$TEMR_PROD"
+
 psql postgres -c  "$MOVE_TO_BACKUP"
 
 ## Move staging to production
 STAGING_TO_PROD="${MOVE_DB_SQL/<source>/$STAGING}"
 STAGING_TO_PROD="${STAGING_TO_PROD/<dest>/$PROD}"
+
+
+TEMR_STAGING="${TERM_CON/<db>/$STAGING}"
+psql postgres -c "$TEMR_STAGING"
+
 psql postgres -c  "$STAGING_TO_PROD"
 
 ## Drop temp 'backup' production. New production shold be in place at this point
 dropdb $TEMP_PROD_BACKUP
 
 ## Restore staging
-pg_restore -d $PROD -j $N_JOBS $PATH_TO_BACKUPS$STAGING-$DATE
+createdb $STAGING
+pg_restore -d $STAGING -j $N_JOBS $PATH_TO_BACKUPS$STAGING-$DATE
 
 ## Ensure postgres owner ship
 psql postgres -c 'ALTER DATABASE $PROD OWNER TO postgres'
