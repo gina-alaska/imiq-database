@@ -15,7 +15,8 @@ sc_list_file = sys.argv[1]
 ## template file, use __GHCN_datavalues_args_template.yaml
 template_file = sys.argv[2]
 
-## working dir #path to where files are going to be
+## working dir #path to where files are going to be, the imiq home dir 
+## on imiqdb
 working_dir = sys.argv[3]
 
 ## directory to write to
