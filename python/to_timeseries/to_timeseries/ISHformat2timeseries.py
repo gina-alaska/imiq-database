@@ -5,10 +5,9 @@ rawser spicer
 
 ISH FILE FOMATS HAVE NO extention
 
-V1.1.0 
+V1.0.0 
 
 Changes
-V1.1.0: filter out last 3 months
 """
 from pandas import DataFrame
 from datetime import datetime
@@ -132,24 +131,24 @@ def val_to_type (value, factor = 1, typ = float):
     """
     convert valuest to a type or returrn their missing value
     """
-    print value, factor ,typ
+    #~ print value, factor ,typ
     for i in value:
-        print i
+        #~ print i
         if i in '+-':
             # don't test sign
             continue
         if i != '9':
-            print typ(value)/factor
+            #~ print typ(value)/factor
             return typ(value)/factor
-    print value
+    #~ print value
     return value  
 
 def convert (in_file, out_file = None):
     """
-    convert the .dly file (GHCH data file) to a time series like .csv file
+    convert the ISD(ISH) to a time series like .csv file
     
     inputs:
-        in_file: path to input .dly file
+        in_file: path to input text file
     """
     
     # set up data
@@ -234,5 +233,5 @@ def convert (in_file, out_file = None):
     
         
     
-convert('702000-26617-1996')
+#~ convert('702000-26617-1996')
         

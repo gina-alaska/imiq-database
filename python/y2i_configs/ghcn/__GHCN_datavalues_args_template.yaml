@@ -6,7 +6,7 @@
 ### must be replaced with a GHCN type code first.
 
 ## this path is spesific to the vm the processing is running on
-template: imiq-database/python/y2i_configs/ghcn/__GHCN_datavalues_template.yaml
+template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/ghcn/__GHCN_datavalues_template.yaml
 arguments:
 
 ## "NCDC_GHCN_PRCP"

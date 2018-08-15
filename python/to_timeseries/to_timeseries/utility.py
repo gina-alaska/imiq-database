@@ -7,6 +7,7 @@ Utility for the data_puller
 
 """
 import dly2timeseries
+import ISHformat2timeseries
 import yaml
 
 from utilitools import clite
@@ -38,6 +39,8 @@ def main (in_format, in_dir, out_dir, echo = False):
 
     if in_format == '.dly':
         converter = dly2timeseries
+    if in_format == '.ISDTXT':
+        converter = ISHformat2timeseries
     else:
         return False
         

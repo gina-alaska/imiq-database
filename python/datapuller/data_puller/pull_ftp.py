@@ -14,6 +14,9 @@ TODO
 """
 from ftplib import FTP, error_perm
 import os
+from datetime import datetime, timedelta
+from StringIO import StringIO
+import gzip
 
 class PullFTPConfigError(Exception):
     """Custom exception to be raised when config is invalid
@@ -34,9 +37,11 @@ class PullFTP ( object ):
             files: a list of files to pull
     """
     
-    def __init__ (self, config):
+    def __init__ (self, 
+            config, 
+            cfg_required = set(['files', 'url_base', 'cwd'])
+        ):
         """ Class initialiser """
-        cfg_required = set(['files', 'url_base', 'cwd'])
         if not set(config.keys())  >=  cfg_required:
             raise PullFTPConfigError, "Config did not contain keys " + \
                 str(cfg_required)
@@ -67,11 +72,63 @@ class PullFTP ( object ):
                 print "fetching: ", f
                 
             try: 
+                r = StringIO()
+                #~ self.ftp.retrbinary(
+                    #~ 'RETR ' + f,
+                    #~ open(os.path.join(directory,f), 'wb').write
+                #~ ) 
                 self.ftp.retrbinary(
                     'RETR ' + f,
-                    open(os.path.join(directory,f), 'wb').write
+                    r.write
                 ) 
+                #~ print r.getvalue()
+                with open(os.path.join(directory,f), 'wb') as f:
+                    f.write(r.getvalue())
+                
             except error_perm as e: 
                 if echo:
                     print e
                 pass
+                
+class PullISDFTP (PullFTP):
+    """"""
+    
+    def __init__ (self, config):
+        """ Class initialiser """
+        cfg_required = set(['start_year', 'url_base', 'cwd', 'stations' ])
+        config['files'] = []
+        super(PullISDFTP,self).__init__(config, cfg_required)
+        del config['files']
+        
+        current_year = (datetime.now() - timedelta(weeks = 12)).year
+        if config['start_year'] == 'current':
+            start_year = current_year
+        else:
+            start_year = config['start_year']
+        self.years = range(start_year, current_year+1)
+        for year in self.years:
+            for station in config['stations']:
+                self.files.append(
+                    str(year) + '/' + station +'-' + str(year) + '.gz'
+                )
+        
+        
+        
+    def pull_data (self, directory, echo = False):
+        """ """
+        for year in self.years:
+            os.mkdir(os.path.join(directory,str(year)))
+        super(PullISDFTP,self).pull_data(directory, echo)
+        for fn in self.files:
+            f = os.path.join(directory,fn)
+            if os.path.exists(f):
+                os.rename(f, os.path.join(directory, os.path.split(f)[1]))
+        for year in self.years:
+            os.rmdir(os.path.join(directory,str(year)))
+        
+        #~ f = gzip.open('file.txt.gz', 'rb')
+        #~ file_content = f.read()
+        #~ f.close()
+        #~ for year in self.years:
+            #~ os.rmdir(os.path.join(directory,str(year)))
+    
