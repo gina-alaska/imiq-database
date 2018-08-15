@@ -43,7 +43,7 @@ STAGING='imiq_staging'
 MOVE_DB_SQL="ALTER DATABASE <source> RENAME TO <dest>"
 
 ## create backup of imiq_staging
-pg_dump -d $STAGING -j $N_JOBS -f $PATH_TO_BACKUPS$STAGING-$DATE -F d 
+pg_dump -d $STAGING -j $N_JOBS -f $PATH_TO_BACKUPS/$STAGING-$DATE -F d 
 
 ## 	Move production temp 'backup' of production, will be dropped 
 ## at end. This step is probably not necassary.
