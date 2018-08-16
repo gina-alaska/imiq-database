@@ -39,7 +39,7 @@ def main (in_format, in_dir, out_dir, echo = False):
 
     if in_format == '.dly':
         converter = dly2timeseries
-    if in_format == '.ISDTXT':
+    if in_format == '.isdtxt':
         converter = ISHformat2timeseries
     else:
         return False

@@ -17,6 +17,8 @@ import os
 from datetime import datetime, timedelta
 from StringIO import StringIO
 import gzip
+import glob
+import shutil
 
 class PullFTPConfigError(Exception):
     """Custom exception to be raised when config is invalid
@@ -106,8 +108,9 @@ class PullISDFTP (PullFTP):
         else:
             start_year = config['start_year']
         self.years = range(start_year, current_year+1)
+        self.stations = config['stations']
         for year in self.years:
-            for station in config['stations']:
+            for station in self.stations:
                 self.files.append(
                     str(year) + '/' + station +'-' + str(year) + '.gz'
                 )
@@ -126,9 +129,14 @@ class PullISDFTP (PullFTP):
         for year in self.years:
             os.rmdir(os.path.join(directory,str(year)))
         
-        #~ f = gzip.open('file.txt.gz', 'rb')
-        #~ file_content = f.read()
-        #~ f.close()
-        #~ for year in self.years:
-            #~ os.rmdir(os.path.join(directory,str(year)))
+        for station in self.stations:
+            #~ print os.path.join('./'+directory, station+'*.gz')
+            files = glob.glob(os.path.join(directory, station+'*.gz'))
+            #~ print files
+            for fn in files:
+                with gzip.open( fn, 'rb') as f_in:
+                    with open(os.path.join(directory, station+'.isdtxt'), 'ab') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                os.remove(fn)
+            
     
