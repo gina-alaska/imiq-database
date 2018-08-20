@@ -42,6 +42,7 @@ def main (in_format, in_dir, out_dir, echo = False):
     if in_format == '.isdtxt':
         converter = ISHformat2timeseries
     else:
+        print 'format not found'
         return False
         
     
