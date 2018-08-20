@@ -69,6 +69,10 @@ Flags
 
 --echo: bool
     if true the utility will print messages to prompt
+--in-dir
+--out-dir
+--format: str
+    .dly, or .isdtxt
 
 """
  

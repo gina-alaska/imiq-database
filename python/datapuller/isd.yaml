@@ -1,8 +1,0 @@
-type: ftp
-url_base: ftp.ncdc.noaa.gov
-cwd: /pub/data/noaa
-start_year: 2012 # start year or 'current'
-stations:
-  - 700631-99999
-  - 700632-26645
-  - 700632-99999

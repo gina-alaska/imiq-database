@@ -74,18 +74,22 @@ class PullFTP ( object ):
                 print "fetching: ", f
                 
             try: 
-                r = StringIO()
-                #~ self.ftp.retrbinary(
-                    #~ 'RETR ' + f,
-                    #~ open(os.path.join(directory,f), 'wb').write
-                #~ ) 
-                self.ftp.retrbinary(
-                    'RETR ' + f,
-                    r.write
-                ) 
-                #~ print r.getvalue()
-                with open(os.path.join(directory,f), 'wb') as f:
-                    f.write(r.getvalue())
+                
+                for i in range(5):
+                    try:
+                        r = StringIO()
+                        self.ftp.retrbinary(
+                            'RETR ' + f,
+                            r.write
+                        ) 
+                        with open(os.path.join(directory,f), 'wb') as f:
+                            f.write(r.getvalue())
+                        break
+                    except error_perm as e: 
+                        raise error_perm, e
+                    except StandardError:
+                        pass
+               
                 
             except error_perm as e: 
                 if echo:

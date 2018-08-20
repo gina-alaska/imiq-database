@@ -43,6 +43,8 @@ def main (config, out_dir, echo = False):
     try:
         if config['type'] == 'ftp':
             puller = pull_ftp.PullFTP(config)
+        elif config['type'] == 'ish-ftp':
+            puller = pull_ftp.PullISDFTP(config)
         elif config['type'] == 'webservice':  
             print "Websevices need to be written" 
             #~ puller = pull_webservice.PullWS(config)

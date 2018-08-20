@@ -1,0 +1,72 @@
+#Y2I argument file for ISH site 711600-99999
+schema: tables
+table: datavalues
+length: 
+    of_file: <data_file>
+columns:
+    - 
+        name: DataValue
+        source: <dv_source>
+        value: <value_column> # Average Air Temperature (F)
+        dtype: <dv_type>
+        scaler: <scaler>
+    - 
+        name: LocalDateTime
+        source: <data_file>
+        value: <ts>
+        dtype: datetime
+        format: <date_format> #“%d/%m/%Y %H:%M”
+    - 
+        name: UTCOffset
+        source: None
+        value: <TZ>
+        dtype: int
+    -   
+        name: qualifierid
+        source: <data_file>
+        value: <QID> # 117 or 118(w too warm for snow) for ghcn  # set to 'null' for a blank feild
+        dtype: str
+        #~ replace:
+            #~ W: 118
+            #~ w: 118
+            #~ default: 117
+    -
+        name: DatastreamID
+        #~ source: None
+        #~ value: 12345
+        function: get_datastreamid
+        source: imiq
+        function: get_datastreamid
+        sitecode: <sitecode>
+        variablecode: <variablecode>
+        imiq_login: <imiq_login>
+        dtype: int
+    -
+        name: offsettypeid
+        source: None
+        value: <offset_type_id>  # set to 'null' for a blank feild
+        dtype: int
+    -
+        name: offsetvalue 
+        source: None
+        value: <offset_value> # set to 'null' for a blank feild
+        dtype: float
+    -
+        name: CensorCode 
+        source: None
+        value: <CC> # nc
+        dtype: char
+    -
+        name: CategoryID
+        source: None
+        value: Null
+        dtype: int
+        
+special conditions:
+    <conditions>
+           
+infiles:
+    <data_file>:
+        skiprows: <skip_rows>
+        columns: <in_cols>
+        skipnan: <skip_nan>

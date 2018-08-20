@@ -1,0 +1,782 @@
+### this file is a template for an argument file, argument files contain a
+### list of values that can be subsituted into the Y2I config file, in this case
+### __GHCN_datavalues_template.yaml. 
+###
+### this file could not be used on it's own in Y2I the <SITECODE> token
+### must be replaced with a GHCN type code first.
+
+## this path is spesific to the vm the processing is running on
+#~ template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/isd/__ISD_datavalues_template.yaml
+template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/ish/__ISH_datavalues_template.yaml
+arguments:
+
+### NOTE RADIATION VALUES HAVE NOT BEEN INCLUDED HERE BECAUSE THEY E
+### WERE NOT IN THE CURRENT ACTIVE DATA SOURCES AS OF 2018-08
+
+## 1 "NCDC_ISH_PRCP"
+- name: ISH precip
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_Precip
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,PRECIPTATION-MM,PRECIPTATION-MM_QC_FLAG]
+  skip_nan: PRECIPTATION-MM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: PRECIPTATION-MM
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: w
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : PRECIPTATION-MM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+                
+## 2 "NCDC_ISH_PRCP_Condition Code"
+- name: ISH precip Condition Code
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_PrecipConditionCode
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,PRECIPTATION-MM,PRECIPTATION-MM_CONDITION,PRECIPTATION-MM_QC_FLAG]
+  skip_nan: PRECIPTATION-MM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: PRECIPTATION-MM_CONDITION
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : PRECIPTATION-MM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+               {condition: {DataValue: '1'},{DataValue : NULL, categoryid: 9}},
+               {condition: {DataValue: '2'},{DataValue : NULL, categoryid: 44}},
+               {condition: {DataValue: '3'},{DataValue : NULL, categoryid: 45}},
+               {condition: {DataValue: '4'},{DataValue : NULL, categoryid: 46}},
+               {condition: {DataValue: '5'},{DataValue : NULL, categoryid: 47}},
+               {condition: {DataValue: '6'},{DataValue : NULL, categoryid: 48}},
+               {condition: {DataValue: '7'},{DataValue : NULL, categoryid: 49}},
+               {condition: {DataValue: '8'},{DataValue : NULL, categoryid: 50}},
+               {condition: {DataValue: 'E'},{DataValue : NULL, categoryid: 51}},
+               {condition: {DataValue: 'I'},{DataValue : NULL, categoryid: 52}},
+               {condition: {DataValue: 'J'},{DataValue : NULL, categoryid: 53}},
+
+                ]
+
+
+## 3 "NCDC_ISH_CAVOKcode"
+- name: ISH CAVOK code
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_CAVOKcode
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,CEILING-M,CEILING_CAVOK,CEILING_QC]
+  skip_nan: CEILING-M
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: CEILING_CAVOK
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : CEILING_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+               {condition: {DataValue: 'Y'},{DataValue : NULL, categoryid: 43}},
+               {condition: {DataValue: 'N'},{DataValue : NULL, categoryid: 8}},
+
+                ]
+## 4 "NCDC_ISH_Ceiling"
+- name: ISH Ceiling Height
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_Ceiling
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,CEILING-M,CEILING_QC]
+  skip_nan: CEILING-M
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: CEILING-M
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : CEILING_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+## 5 "NCDC_ISH_CeilingDetermination'
+- name: NCDC_ISH_CeilingDetermination
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_CeilingDetermination
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,CEILING-M,CEILING_DETEMINATION,CEILING_QC]
+  skip_nan: CEILING-M
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: CEILING_DETEMINATION
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : CEILING_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+               {condition: {DataValue: 'A'},{DataValue : NULL, categoryid: 7}},
+               {condition: {DataValue: 'B'},{DataValue : NULL, categoryid: 33}},
+               {condition: {DataValue: 'C'},{DataValue : NULL, categoryid: 34}},
+               {condition: {DataValue: 'D'},{DataValue : NULL, categoryid: 35}},
+               {condition: {DataValue: 'E'},{DataValue : NULL, categoryid: 36}},
+               {condition: {DataValue: 'M'},{DataValue : NULL, categoryid: 37}},
+               {condition: {DataValue: 'P'},{DataValue : NULL, categoryid: 38}},
+               {condition: {DataValue: 'R'},{DataValue : NULL, categoryid: 39}},
+               {condition: {DataValue: 'S'},{DataValue : NULL, categoryid: 40}},
+               {condition: {DataValue: 'U'},{DataValue : NULL, categoryid: 41}},
+               {condition: {DataValue: 'W'},{DataValue : NULL, categoryid: 42}},
+
+                ]
+
+# 6 'NCDC_ISH_SeaLevelPressure'
+- name: NCDC_ISH_SeaLevelPressure
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_SeaLevelPressure
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,SEA_LEVEL_PRESSURE-HPA,SEA_LEVEL_QC]
+  skip_nan: SEA_LEVEL_PRESSURE-HPA
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: SEA_LEVEL_PRESSURE-HPA
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : SEA_LEVEL_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 7 'NCDC_ISH_SnowDepthConditionCode'
+- name: NCDC_ISH_SnowDepthConditionCode
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_SnowDepthConditionCode
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,SNOW_DEPTH-CM,SNOW_DEPTH-CM_CONDITION,SNOW_DEPTH-CM_QC_FLAG]
+  skip_nan: SNOW_DEPTH-CM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: SNOW_DEPTH-CM_CONDITION
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : SNOW_DEPTH-CM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+                   
+               {condition: {DataValue: '1'},{DataValue : NULL, categoryid: 10}},
+               {condition: {DataValue: '2'},{DataValue : NULL, categoryid: 59}},
+               {condition: {DataValue: '3'},{DataValue : NULL, categoryid: 60}},
+               {condition: {DataValue: '4'},{DataValue : NULL, categoryid: 61}},
+               {condition: {DataValue: '5'},{DataValue : NULL, categoryid: 62}},
+               {condition: {DataValue: '6'},{DataValue : NULL, categoryid: 64}},
+               {condition: {DataValue: 'E'},{DataValue : NULL, categoryid: 65}},
+               {condition: {DataValue: '9'},{DataValue : NULL, categoryid: 66}},
+
+                ]
+# 8 'NCDC_ISH_SnowDepth'
+- name: NCDC_ISH_SnowDepth
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_SnowDepth
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,SNOW_DEPTH-CM,SNOW_DEPTH-CM,SNOW_DEPTH-CM_QC_FLAG]
+  skip_nan: SNOW_DEPTH-CM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: SNOW_DEPTH-CM
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : SNOW_DEPTH-CM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 9 'NCDC_ISH_SWEConditionCode'
+- name: NCDC_ISH_SWEConditionCode
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_SWEConditionCode
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM_CONDITION,SNOW_WATER_EQUIVALENT-MM_QC_FLAG]
+  skip_nan: SNOW_WATER_EQUIVALENT-MM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: SNOW_WATER_EQUIVALENT-MM_CONDITION
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : SNOW_WATER_EQUIVALENT-MM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+               
+               {condition: {DataValue: '1'},{DataValue : NULL, categoryid: 67}},
+               {condition: {DataValue: '2'},{DataValue : NULL, categoryid: 68}},
+               {condition: {DataValue: '9'},{DataValue : NULL, categoryid: 69}},
+
+               
+                ]
+# 10 'NCDC_ISH_SWE'
+- name: NCDC_ISH_SWE
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_SWE
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM_QC_FLAG]
+  skip_nan: SNOW_WATER_EQUIVALENT-MM
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: SNOW_WATER_EQUIVALENT-MM
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : SNOW_WATER_EQUIVALENT-MM_QC_FLAG
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 11 'NCDC_ISH_AirTemp'
+- name: NCDC_ISH_AirTemp
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_AirTemp
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,AIR_TEMP-C,AIR_TEMP_QC]
+  skip_nan: AIR_TEMP-C
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: AIR_TEMP-C
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : AIR_TEMP_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 12 'NCDC_ISH_DEWPOINT_TEMP'
+- name: NCDC_ISH_DEWPOINT_TEMP
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_DEWPOINT_TEMP
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,DEW_POINT-C,DEW_POINT_QC]
+  skip_nan: DEW_POINT-C
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: DEW_POINT-C
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : DEW_POINT_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 13 'NCDC_ISH_WindDirection_TypeCode'
+- name: NCDC_ISH_WindDirection_TypeCode
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_WindDirection_TypeCode
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,WIND_DIR-DEGFROMNORTH,WIND_DIR_QC,WIND_DIR_TYPE]
+  skip_nan: WIND_DIR-DEGFROMNORTH
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: WIND_DIR_TYPE
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : WIND_DIR_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+               
+               {condition: {DataValue: 'A'},{DataValue : NULL, categoryid: 6}},
+               {condition: {DataValue: 'B'},{DataValue : NULL, categoryid: 25}},
+               {condition: {DataValue: 'C'},{DataValue : NULL, categoryid: 26}},
+               {condition: {DataValue: 'H'},{DataValue : NULL, categoryid: 27}},
+               {condition: {DataValue: 'N'},{DataValue : NULL, categoryid: 28}},
+               {condition: {DataValue: 'Q'},{DataValue : NULL, categoryid: 29}},
+               {condition: {DataValue: 'R'},{DataValue : NULL, categoryid: 30}},
+               {condition: {DataValue: 'T'},{DataValue : NULL, categoryid: 31}},
+               {condition: {DataValue: 'V'},{DataValue : NULL, categoryid: 32}},
+                ]
+# 14 'NCDC_ISH_WindDirection'
+- name: NCDC_ISH_WindDirection
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_WindDirection
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,WIND_DIR-DEGFROMNORTH,WIND_DIR_QC]
+  skip_nan: WIND_DIR-DEGFROMNORTH
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: WIND_DIR-DEGFROMNORTH
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : WIND_DIR_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
+# 15 'NCDC_ISH_WindSpeed'
+- name: NCDC_ISH_WindSpeed
+  sitecode: <SITECODE>
+  variablecode: NCDC_ISH_WindSpeed
+  
+  data_file: <root_path>/csv-data/ish/<SITECODE>.csv
+  in_cols: [TIMESTAMP,WIND_SPEED-METERSPERSECOND,WIND_SPEED_QC]
+  skip_nan: WIND_SPEED-METERSPERSECOND
+  dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
+  dv_type: float
+  skip_rows: 0
+  value_column: WIND_SPEED-METERSPERSECOND
+  scaler: 1
+  imiq_login: <root_path>/.login.yaml
+  
+  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  mode: a
+  
+  ts: TIMESTAMP
+  date_format: "'%Y-%m-%d %H:%M:%S'"
+  TZ : 0
+  
+  offset_type_id: null
+  offset_value: null
+  
+  CC : nc
+  QID : WIND_SPEED_QC
+
+  conditions: [{condition: {DataValue: -9999},result: {DataValue : NULL, qualifierid: 139}},
+               {condition: {qualifierid: 'nan'},result: { qualifierid: 139}},
+               {condition: {qualifierid: '0.0'},result: {qualifierid: 18}},
+               {condition: {qualifierid: '1.0'},result: {qualifierid: 19}},
+               {condition: {qualifierid: '2.0'},result: {qualifierid: 20}},
+               {condition: {qualifierid: '4.0'},result: {qualifierid: 22}},
+               {condition: {qualifierid: '5.0'},result: {qualifierid: 23}},
+               {condition: {qualifierid: '6.0'},result: {qualifierid: 24}},
+               {condition: {qualifierid: '7.0'},result: {qualifierid: 25}},
+               {condition: {qualifierid: '9.0'},result: {qualifierid: 26}},
+               {condition: {qualifierid: 'C.0'},result: {qualifierid: 27}},
+               {condition: {qualifierid: '3.0'},result: {qualifierid: 73}},
+               {condition: {qualifierid: 'A'},result: {qualifierid: 140}},
+               {condition: {qualifierid: 'I'},result: {qualifierid: 141}},
+               {condition: {qualifierid: 'M'},result: {qualifierid: 142}},
+               {condition: {qualifierid: 'P'},result: {qualifierid: 143}},
+               {condition: {qualifierid: 'R'},result: {qualifierid: 144}},
+               {condition: {qualifierid: 'U'},result: {qualifierid: 145}},
+                ]
