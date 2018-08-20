@@ -36,13 +36,13 @@ def main (in_format, in_dir, out_dir, echo = False):
         True, if utility is succesull
     """
     in_format = '.' + in_format if in_format[0] != '.' else in_format
-
+    
     if in_format == '.dly':
         converter = dly2timeseries
     if in_format == '.isdtxt':
         converter = ISHformat2timeseries
     else:
-        print 'format not found'
+        print in_format, 'format not found'
         return False
         
     
