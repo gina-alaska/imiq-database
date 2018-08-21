@@ -113,7 +113,7 @@ class Y2I (object):
             self.new_data_only = self.config['only_add_new_data']
         except KeyError:
             self.new_data_only = True
-        print self.new_data_only, type(self.new_data_only)
+        #~ print self.new_data_only, type(self.new_data_only)
             
     def validate_config (self):
         """TODO: This should validate the config file """
@@ -246,6 +246,15 @@ class Y2I (object):
                     values = self.data[col['source']][col['value']]
                     
                     ## Xonvert ot type
+                    
+                    if dt.lower() == 'str':
+                        def c(x):
+                            try:
+                                return str(int(x))
+                            except ValueError:
+                                return x
+                        values = values.map(c)
+                        
                     values = values.astype(dt)
                     ## Cpply scalers
                     try:
@@ -479,6 +488,7 @@ def main (script, login, echo):
                     print " -- no sql generated"
                 continue
     except KeyError as e:
+        #~ print e
         if echo:
             print 'Standalone Config Used'
         ## config is plain config type 
