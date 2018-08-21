@@ -7,7 +7,7 @@
 
 ## this path is spesific to the vm the processing is running on
 #~ template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/isd/__ISD_datavalues_template.yaml
-template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/ish/__ISH_datavalues_template.yaml
+template: y2i_configs/ish/__ISH_datavalues_template.yaml
 arguments:
 
 ### NOTE RADIATION VALUES HAVE NOT BEEN INCLUDED HERE BECAUSE THEY E
@@ -26,7 +26,7 @@ arguments:
   skip_rows: 0
   value_column: PRECIPTATION-MM
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: w
@@ -74,7 +74,7 @@ arguments:
   skip_rows: 0
   value_column: PRECIPTATION-MM_CONDITION
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -136,7 +136,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING_CAVOK
   scaler: 1
-  imiq_login: <root_path>/imiq.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -187,7 +187,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING-M
   scaler: 1
-  imiq_login: <root_path>/imiq.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -234,7 +234,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING_DETEMINATION
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -295,7 +295,7 @@ arguments:
   skip_rows: 0
   value_column: SEA_LEVEL_PRESSURE-HPA
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -342,7 +342,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_DEPTH-CM_CONDITION
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -400,7 +400,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_DEPTH-CM
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -447,7 +447,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM_CONDITION
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -501,7 +501,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -548,7 +548,7 @@ arguments:
   skip_rows: 0
   value_column: AIR_TEMP-C
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -595,7 +595,7 @@ arguments:
   skip_rows: 0
   value_column: DEW_POINT-C
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -638,11 +638,11 @@ arguments:
   in_cols: [TIMESTAMP,WIND_DIR-DEGFROMNORTH,WIND_DIR_QC,WIND_DIR_TYPE]
   skip_nan: WIND_DIR-DEGFROMNORTH
   dv_source: <root_path>/csv-data/ish/<SITECODE>.csv
-  dv_type: float
+  dv_type: str
   skip_rows: 0
   value_column: WIND_DIR_TYPE
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -699,7 +699,7 @@ arguments:
   skip_rows: 0
   value_column: WIND_DIR-DEGFROMNORTH
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
@@ -746,7 +746,7 @@ arguments:
   skip_rows: 0
   value_column: WIND_SPEED-METERSPERSECOND
   scaler: 1
-  imiq_login: <root_path>/.login.yaml
+  imiq_login: <root_path>/.login.yml
   
   out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
   mode: a
