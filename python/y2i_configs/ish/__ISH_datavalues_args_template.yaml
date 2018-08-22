@@ -7,7 +7,7 @@
 
 ## this path is spesific to the vm the processing is running on
 #~ template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/isd/__ISD_datavalues_template.yaml
-template: y2i_configs/ish/__ISH_datavalues_template.yaml
+template: /var/imiq/inputprocessing/imiq-database/python/y2i_configs/ish/__ISH_datavalues_template.yaml
 arguments:
 
 ### NOTE RADIATION VALUES HAVE NOT BEEN INCLUDED HERE BECAUSE THEY E
