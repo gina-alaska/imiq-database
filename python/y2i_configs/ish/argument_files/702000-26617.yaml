@@ -13,17 +13,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_Precip
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,PRECIPTATION-MM,PRECIPTATION-MM_QC_FLAG]
   skip_nan: PRECIPTATION-MM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: PRECIPTATION-MM
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: w
   
   ts: TIMESTAMP
@@ -61,17 +61,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_PrecipConditionCode
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,PRECIPTATION-MM,PRECIPTATION-MM_CONDITION,PRECIPTATION-MM_QC_FLAG]
   skip_nan: PRECIPTATION-MM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: PRECIPTATION-MM_CONDITION
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -124,17 +124,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_CAVOKcode
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,CEILING-M,CEILING_CAVOK,CEILING_QC]
   skip_nan: CEILING-M
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: CEILING_CAVOK
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -178,17 +178,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_Ceiling
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,CEILING-M,CEILING_QC]
   skip_nan: CEILING-M
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: CEILING-M
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -225,17 +225,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_CeilingDetermination
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,CEILING-M,CEILING_DETEMINATION,CEILING_QC]
   skip_nan: CEILING-M
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: CEILING_DETEMINATION
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -288,17 +288,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_SeaLevelPressure
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,SEA_LEVEL_PRESSURE-HPA,SEA_LEVEL_QC]
   skip_nan: SEA_LEVEL_PRESSURE-HPA
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: SEA_LEVEL_PRESSURE-HPA
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -335,17 +335,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_SnowDepthConditionCode
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,SNOW_DEPTH-CM,SNOW_DEPTH-CM_CONDITION,SNOW_DEPTH-CM_QC_FLAG]
   skip_nan: SNOW_DEPTH-CM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: SNOW_DEPTH-CM_CONDITION
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -393,17 +393,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_SnowDepth
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,SNOW_DEPTH-CM,SNOW_DEPTH-CM,SNOW_DEPTH-CM_QC_FLAG]
   skip_nan: SNOW_DEPTH-CM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: SNOW_DEPTH-CM
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -440,17 +440,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_SWEConditionCode
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM_CONDITION,SNOW_WATER_EQUIVALENT-MM_QC_FLAG]
   skip_nan: SNOW_WATER_EQUIVALENT-MM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM_CONDITION
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -494,17 +494,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_SWE
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM,SNOW_WATER_EQUIVALENT-MM_QC_FLAG]
   skip_nan: SNOW_WATER_EQUIVALENT-MM
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -541,17 +541,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_AirTemp
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,AIR_TEMP-C,AIR_TEMP_QC]
   skip_nan: AIR_TEMP-C
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: AIR_TEMP-C
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -588,17 +588,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_DEWPOINT_TEMP
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,DEW_POINT-C,DEW_POINT_QC]
   skip_nan: DEW_POINT-C
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: DEW_POINT-C
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -635,17 +635,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_WindDirection_TypeCode
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,WIND_DIR-DEGFROMNORTH,WIND_DIR_QC,WIND_DIR_TYPE]
   skip_nan: WIND_DIR-DEGFROMNORTH
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: str
   skip_rows: 0
   value_column: WIND_DIR_TYPE
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -693,17 +693,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_WindDirection
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,WIND_DIR-DEGFROMNORTH,WIND_DIR_QC]
   skip_nan: WIND_DIR-DEGFROMNORTH
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: WIND_DIR-DEGFROMNORTH
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
@@ -740,17 +740,17 @@ arguments:
   sitecode: 702000-26617
   variablecode: NCDC_ISH_WindSpeed
   
-  data_file: .//csv-data/ish/702000-26617.csv
+  data_file: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   in_cols: [TIMESTAMP,WIND_SPEED-METERSPERSECOND,WIND_SPEED_QC]
   skip_nan: WIND_SPEED-METERSPERSECOND
-  dv_source: .//csv-data/ish/702000-26617.csv
+  dv_source: /var/imiq/inputprocessing/csv-data/ish/702000-26617.csv
   dv_type: float
   skip_rows: 0
   value_column: WIND_SPEED-METERSPERSECOND
   scaler: 1
-  imiq_login: .//.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yml
   
-  out_file: .//sql/insert/ish/702000-26617.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702000-26617.sql
   mode: a
   
   ts: TIMESTAMP
