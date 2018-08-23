@@ -82,6 +82,11 @@ class PullFTP ( object ):
                             'RETR ' + f,
                             r.write
                         ) 
+                        #~ print len(r.getvalue())
+                        if len(r.getvalue()) == 0:
+                            if echo: 
+                                print "file not found: ", f
+                            break
                         with open(os.path.join(directory,f), 'wb') as f:
                             f.write(r.getvalue())
                         break
