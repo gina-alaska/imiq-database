@@ -21,7 +21,7 @@ arguments:
   skip_rows: 0
   value_column: PRECIPTATION-MM
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: w
@@ -69,7 +69,7 @@ arguments:
   skip_rows: 0
   value_column: PRECIPTATION-MM_CONDITION
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -132,7 +132,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING_CAVOK
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -186,7 +186,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING-M
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -233,7 +233,7 @@ arguments:
   skip_rows: 0
   value_column: CEILING_DETEMINATION
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -296,7 +296,7 @@ arguments:
   skip_rows: 0
   value_column: SEA_LEVEL_PRESSURE-HPA
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -343,7 +343,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_DEPTH-CM_CONDITION
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -401,7 +401,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_DEPTH-CM
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -448,7 +448,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM_CONDITION
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -502,7 +502,7 @@ arguments:
   skip_rows: 0
   value_column: SNOW_WATER_EQUIVALENT-MM
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -549,7 +549,7 @@ arguments:
   skip_rows: 0
   value_column: AIR_TEMP-C
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -596,7 +596,7 @@ arguments:
   skip_rows: 0
   value_column: DEW_POINT-C
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -643,7 +643,7 @@ arguments:
   skip_rows: 0
   value_column: WIND_DIR_TYPE
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -701,7 +701,7 @@ arguments:
   skip_rows: 0
   value_column: WIND_DIR-DEGFROMNORTH
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
@@ -748,7 +748,7 @@ arguments:
   skip_rows: 0
   value_column: WIND_SPEED-METERSPERSECOND
   scaler: 1
-  imiq_login: /var/imiq/inputprocessing/.login.yml
+  imiq_login: /var/imiq/inputprocessing/.login.yaml
   
   out_file: /var/imiq/inputprocessing/sql/insert/ish/701730-26535.sql
   mode: a
