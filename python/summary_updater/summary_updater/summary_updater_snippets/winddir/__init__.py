@@ -7,3 +7,4 @@ summary_tables = [
 ]
 
 import daily
+import hourly
