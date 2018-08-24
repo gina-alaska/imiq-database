@@ -31,6 +31,9 @@ variables parsed here are name (imiq varid):
   - PRECIP_CONDTION (369)
   - SWE_CONDTION (373)
     
+V1.0.1 
+- will remove all but the first value for dupilcated timestamp
+
 V1.0.0 
 
 Changes
@@ -269,6 +272,8 @@ def convert (in_file, out_file = None):
     if out_file is None:
         pth, f = os.path.split(in_file)
         out_file = os.path.join(pth,f.split('.')[0] + '.csv')
+    
+    data = data.drop_duplicates( subset = ['TIMESTAMP'], keep = 'first') 
     data[cols].to_csv(out_file,index=False)
     
     
