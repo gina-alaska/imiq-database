@@ -245,7 +245,13 @@ class UpdateSummary (object):
             " for source " + str(sourceid))
         print self.log[-1]
         
-        init = self.count_source (sourceid, time_frame)
+        try:
+            init = self.count_source (sourceid, time_frame)
+        except KeyError:
+            self.log.append('    No Summariey code for this timeframe.')
+            print self.log[-1]
+            raise KeyError
+        
         self.delete_source(sourceid, time_frame)
         self.add_source(sourceid, time_frame)
         post = self.count_source (sourceid, time_frame)
@@ -265,7 +271,10 @@ class UpdateSummary (object):
         self.log.append("Updating all " + time_frame)
         print self.log[-1]
         for source in self.sources:
-            self.update_source(source, time_frame)
+            try:
+                self.update_source(source, time_frame)
+            except KeyError:
+                pass
             
         
         

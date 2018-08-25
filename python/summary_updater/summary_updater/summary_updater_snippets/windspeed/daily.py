@@ -3,11 +3,13 @@ table_name = "daily_windspeeddatavalues"
 
 ## sources avaiable
 sources = [
+    209, #GHCN
     210, #GHCN
 ]
 
 source_tokens = {
-    210: {"__VARIABLEID__": 743,}#GHCN
+    209: {"__VARIABLEID__": 335,},  #ISH
+    210: {"__VARIABLEID__": 743,}   #GHCN
 }
 
 insert_sql = \
@@ -51,6 +53,35 @@ using_localdatetime = [
 ]
 
 
+## Averging UTC vaues for each imt stamp
+## -- for:
+## --   NCDC ISH: VariableID = 335, SourceID = 209
+using_utc_avg = [
+    """
+    SELECT 
+        date_trunc('day',dv.datetimeutc) as utcdatetime,
+        avg(dv.datavalue) as datavalue,
+        siteid,
+        OffsetValue, 
+        OffsetTypeID,
+        NOW() as insertdate,
+        OriginalVariableid
+    FROM tables.odmdatavalues_metric AS dv 
+    WHERE 
+        SiteID in (
+            select siteid from tables.datastreams where 
+            variableid = __VARIABLEID__
+        )
+        and OriginalVariableid = __VARIABLEID__
+    GROUP BY 
+        siteid, 
+        date_trunc('day',dv.datetimeutc), 
+        OffsetValue, 
+        OffsetTypeID,
+        OriginalVariableid
+    """,
+    ["__VARIABLEID__: the variable id for the source"]
+]
 
 
 
@@ -60,6 +91,7 @@ source_to_snippet = {
     # sourceid :
     #  snippet to use(which is [sql snippet, 
     #                           a list describing tokens to be replaced])
+    209: using_utc_avg,
     210: using_localdatetime,
 
 }

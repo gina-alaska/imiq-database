@@ -1,17 +1,17 @@
 ## Name of table this file is accoiated with
-table_name = "daily_windspeeddatavalues"
+table_name = "hourly_windspeeddatavalues"
 
 ## sources avaiable
 sources = [
-    210, #GHCN
+    209, #ISH
 ]
 
 source_tokens = {
-    210: {"__VARIABLEID__": 743,}#GHCN
+    209: {"__VARIABLEID__": 335,}  #ISH
 }
 
 insert_sql = \
-"""INSERT INTO tables.daily_windspeeddatavalues(
+"""INSERT INTO tables.hourly_windspeeddatavalues(
     datavalue, utcdatetime, siteid, originalvariableid,
     offsetValue, offsetTypeID , insertdate)
 select
@@ -26,10 +26,10 @@ from
     ( __SNIPPET__ ) as datavalues;
 """
 
-## Taking the only windspeed recorded in the day (USING local day as UTC day)
+## Averging UTC vaues for each imt stamp
 ## -- for:
-## --   NCDC GHCN: VariableID = 743, SourceID = 210
-using_localdatetime = [
+## --   NCDC ISH: VariableID = 335, SourceID = 209
+using_utc_avg = [
     """
     SELECT 
         date_trunc('hour',dv.datetimeutc) as utcdatetime,
@@ -66,6 +66,6 @@ source_to_snippet = {
     # sourceid :
     #  snippet to use(which is [sql snippet, 
     #                           a list describing tokens to be replaced])
-    210: using_localdatetime,
+    209: using_utc_avg,
 
 }

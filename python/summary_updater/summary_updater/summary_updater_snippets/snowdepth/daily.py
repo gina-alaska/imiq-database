@@ -3,10 +3,12 @@ table_name = "daily_snowdepthdatavalues"
 
 ## sources avaiable
 sources = [
+    209, #ISH
     210, #GHCN
 ]
 
 source_tokens = {
+    209: {"__VARIABLEID__": 370, },#ISH
     210: {"__VARIABLEID__": 402,}#GHCN
 }
 
@@ -46,7 +48,27 @@ using_localdatetime_convert_mm_to_m = [
 ]
 
 
-
+## (Averging daily utc values)
+## -- for:
+## --   NCDC ISD/ISH: variableid = 370, SourceID = 209
+using_utc_daily_avg_cm_to_m = [
+    """
+    SELECT 
+        AVG(datavalue)/100 as datavalue,
+        date_trunc('day', dv.datetimeutc) as utcdatetime,
+        siteid,
+        originalvariableid,
+        NOW() as insertdate
+    FROM tables.odmdatavalues_metric as dv
+    WHERE SiteID in (
+            select siteid from tables.datastreams where 
+            variableid = __VARIABLEID__) 
+        and OriginalVariableid = __VARIABLEID__
+    GROUP BY siteid, date_trunc('day', dv.datetimeutc), originalvariableid
+    ORDER BY siteid, UTCDateTime
+    """,
+    ["__VARIABLEID__: the variable id for the source",]
+]
 
 
 ## needs to be at end of snippets
@@ -55,6 +77,7 @@ source_to_snippet = {
     # sourceid :
     #  snippet to use(which is [sql snippet, 
     #                           a list describing tokens to be replaced])
+    209: using_utc_daily_avg_cm_to_m,
     210: using_localdatetime_convert_mm_to_m,
 
 }

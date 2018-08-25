@@ -3,13 +3,17 @@ table_name = "daily_airtempdatavalues"
 
 ## sources avaiable
 sources = [
+    209, #ISH
     210, #GHCN
 ]
 
 source_tokens = {
-    210: {"__VARIABLEID__": 404, # **
+    209: {"__VARIABLEID__": 218,}, #ISH
+    210: {
+        "__VARIABLEID__": 404, # **
           "__MAXID__": 404,
-          "__MINID__":403}#GHCN
+          "__MINID__":403
+    }#GHCN
 }
 # ** all sources need at least this for looking up values in the 
 # datavalues table
@@ -52,7 +56,27 @@ using_localdatetime_avg_max_min_vars = [
      "__MINID__: the variable id for min airtemp the source"]
 ]
 
-
+## (Averging daily utc values)
+## -- for:
+## --   NCDC ISD/ISH: variableid = 218, SourceID = 209
+using_utc_daily_avg = [
+    """
+    SELECT 
+        AVG(datavalue) as datavalue,
+        date_trunc('day', dv.datetimeutc) as utcdatetime,
+        siteid,
+        originalvariableid,
+        NOW() as insertdate
+    FROM tables.odmdatavalues_metric as dv
+    WHERE SiteID in (
+            select siteid from tables.datastreams where 
+            variableid = __VARIABLEID__) 
+        and OriginalVariableid = __VARIABLEID__
+    GROUP BY siteid, date_trunc('day', dv.datetimeutc), originalvariableid
+    ORDER BY siteid, UTCDateTime
+    """,
+    ["__VARIABLEID__: the variable id for the source",]
+]
 
 
 
@@ -63,5 +87,6 @@ source_to_snippet = {
     #  snippet to use(which is [sql snippet, 
     #                           a list describing tokens to be replaced])
     210: using_localdatetime_avg_max_min_vars,
+    209: using_utc_daily_avg,
 
 }
