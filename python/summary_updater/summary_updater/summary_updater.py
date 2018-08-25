@@ -142,7 +142,7 @@ class UpdateSummary (object):
         """
         summary_tables = self.snippets.summary_tables
         if time_frame == "hourly":
-            self.refresh_summary_tables(summary_tables[0]) 
+            self.refresh_summary_tables(summary_tables[:1]) 
         elif time_frame == "daily+":
             self.refresh_summary_tables(summary_tables[1:]) 
         elif time_frame == "all":
