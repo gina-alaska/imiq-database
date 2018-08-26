@@ -1,7 +1,7 @@
 type: ish-ftp
 url_base: ftp.ncdc.noaa.gov
 cwd: /pub/data/noaa
-start_year: 2013 # start year or 'current'
+start_year: current # start year or 'current'
 stations:
   - 719575-99999
   - 701718-26551
