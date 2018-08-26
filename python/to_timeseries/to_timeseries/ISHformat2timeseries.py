@@ -272,6 +272,17 @@ def convert (in_file, out_file = None):
     if out_file is None:
         pth, f = os.path.split(in_file)
         out_file = os.path.join(pth,f.split('.')[0] + '.csv')
+        
+    #~ print data.iloc[-10:]
+    last =  data['TIMESTAMP'].max()
+    year = last.year
+    month = last.month - 2
+    day = 1
+    year = year if month > 0 else year - 1
+    month = month if month > 0 else month + 12 
+    data = data[ data['TIMESTAMP'] <  datetime(year,month,day) ] 
+    
+    #~ print data.iloc[-10:]
     
     data = data.drop_duplicates( subset = ['TIMESTAMP'], keep = 'first') 
     data[cols].to_csv(out_file,index=False)
