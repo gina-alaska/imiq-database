@@ -28,7 +28,7 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-precip.sql
   mode: w
   
   ts: TIMESTAMP
@@ -76,8 +76,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-precip-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -139,8 +139,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-cavok.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -193,8 +193,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-ceiling-height.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -240,8 +240,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-ceiling-determination.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -303,8 +303,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-sea-level-pressure.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -350,8 +350,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-snow-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -408,8 +408,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-snow.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -455,8 +455,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-swe-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -509,8 +509,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-swe.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -556,8 +556,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-air-temp.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -603,8 +603,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-dew-point.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -650,8 +650,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-wind-dir-type.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -708,8 +708,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/<SITECODE>-wind-dir.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -755,8 +755,8 @@ arguments:
   scaler: 1
   imiq_login: <root_path>/.login.yaml
   
-  out_file: <root_path>/sql/insert/ish/<SITECODE>.sql
-  mode: a
+  out_file: <root_path>/sql/insert/ish/wind-speed.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"

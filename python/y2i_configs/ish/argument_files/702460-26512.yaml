@@ -23,7 +23,7 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-precip.sql
   mode: w
   
   ts: TIMESTAMP
@@ -71,8 +71,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-precip-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -134,8 +134,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-cavok.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -188,8 +188,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-ceiling-height.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -235,8 +235,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-ceiling-determination.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -298,8 +298,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-sea-level-pressure.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -345,8 +345,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-snow-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -403,8 +403,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-snow.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -450,8 +450,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-swe-condition.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -504,8 +504,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-swe.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -551,8 +551,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-air-temp.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -598,8 +598,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-dew-point.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -645,8 +645,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-wind-dir-type.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -703,8 +703,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512-wind-dir.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
@@ -750,8 +750,8 @@ arguments:
   scaler: 1
   imiq_login: /var/imiq/inputprocessing/.login.yaml
   
-  out_file: /var/imiq/inputprocessing/sql/insert/ish/702460-26512.sql
-  mode: a
+  out_file: /var/imiq/inputprocessing/sql/insert/ish/wind-speed.sql
+  mode: w
   
   ts: TIMESTAMP
   date_format: "'%Y-%m-%d %H:%M:%S'"
